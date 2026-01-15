@@ -119,7 +119,7 @@ if ($AuthorMode eq "active") {
 push @Scripts,"JQueryReady";
 
 if      ($mode eq "add" || $mode eq "clone") {
-  DocDBHeader("$Project Document Addition",   "Document Addition",    -scripts => \@Scripts, -jqueryelements => \ @JQueryElements);
+  DocDBHeader("$Project Document Addition",   "Add A New Document",    -scripts => \@Scripts, -jqueryelements => \ @JQueryElements);
 } elsif ($mode eq "reserve") {
   DocDBHeader("$Project Document Reservation","Document Reservation", -scripts => \@Scripts, -jqueryelements => \ @JQueryElements);
 } elsif ($mode eq "update" || $mode eq "updatedb") {
@@ -341,9 +341,11 @@ if ($Overdate eq "Yes") {
 print $query -> hidden(-name => 'special',-default => '');
 print "</div>\n";
 
+print "<div class=\"w3-content w3-padding\">\n";
+print "<div id=\"AddTableContainer\" class=\"w3-card w3-border w3-border-gray w3-white\">\n";
 WarnPage(@WarnStack);
 
-print "<table class=\"CenteredTable HighPaddedTable\">\n";
+print "<table class=\"w3-table\">\n";
 
 print "<tr>\n";
 print "<td colspan=\"4\">\n";
@@ -625,7 +627,8 @@ if      ($mode eq "add") {
 }
 print "</td></tr>\n";
 print "</table>\n";
-
+print "</div><!-- Closing div id AddTableContainer -->\n";
+print "</div><!-- Closing div w3-content w3-padding -->\n";
 print $query -> end_multipart_form;
 
 DocDBFooter($DBWebMasterEmail,$DBWebMasterName);

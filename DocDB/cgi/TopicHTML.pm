@@ -138,7 +138,7 @@ sub TopicLink ($) {
       $Link .= $Separator;
     }
   }
-  $Link .= "<a href=\"$URL\" title=\"$Tooltip\">$Text</a>";
+  $Link .= "<a href=\"$URL\" title=\"$Tooltip\" class=\"w3-text-teal\">$Text</a>";
 
   return $Link;
 }

@@ -91,7 +91,7 @@ sub RevisionNoteBox {
     $JSInsert =~ s/\&#x22;/\\\&#x27;/g;  # Double quote with single quote
     $JSInsert =~ s/\"/\\\'/g; # FIXME: See if there is a way to insert double quotes
                               #        Bad HTML/JS interaction, I think. Try breaking string at $JSInsert
-    $ExtraText = "<a href=\"#RevisionNote\" onclick=\"InsertRevisionNote('$JSInsert');\">(Insert notes from previous version)</a>";
+    $ExtraText = "<a href=\"#RevisionNote\" onclick=\"InsertRevisionNote('$JSInsert');\" class=\"w3-text-teal\">(Insert notes from previous version)</a>";
   }
 
   my $ElementTitle = &FormElementTitle(-helplink  => "revisionnote",
@@ -194,7 +194,7 @@ sub PrintRevisionInfo {
 
   ### Left Column
 
-  print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-light-gray w3-border w3-border-black\">\n";
+  print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
   print "<div class=\"w3-bar-block\">\n";
 
   print "<div id=\"BasicDocInfo\" class=\"w3-bar-item\">\n";
@@ -347,7 +347,7 @@ sub PrintReferenceInfo ($;$) {
       }
       my ($ReferenceLink,$ReferenceText) = &ReferenceLink($ReferenceID);
       if ($ReferenceLink) {
-        print "<a href=\"$ReferenceLink\">";
+        print "<a href=\"$ReferenceLink\" class=\"w3-text-teal\">";
       }
       if ($ReferenceText) {
         print "$ReferenceText";
@@ -486,7 +486,7 @@ sub OtherVersionLinks {
     my @GroupIDs     = GetRevisionSecurityGroups($DocRevID);
     unless (@GroupIDs) {
       my $PublicURL = $Preferences{Security}{Instances}{Public}.'/ShowDocument?docid='.$DocumentID;
-      $HTML .= '<br/><a href="'.$PublicURL.'">Public Version</a>'."\n";
+      $HTML .= '<br/><a href="'.$PublicURL.'" class="w3-text-teal">Public Version</a>'."\n";
     }
   }
 

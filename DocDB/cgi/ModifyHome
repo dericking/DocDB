@@ -61,19 +61,19 @@ EndPage(@ErrorStack);
 
 DocDBHomeHeader();
 
-print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-light-gray w3-border w3-border-black\">\n";
+print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
 print "<div class=\"w3-bar-block\">\n";
-print "<div class=\"w3-bar-item\"><strong><a href=\"$MainPage\">Main Menu</a></strong></div>\n";
-print "<div class=\"w3-bar-item\"><strong><a href=\"$DocDBInstructions\">Instructions</a></strong></div>\n";
+print "<div class=\"w3-bar-item\"><strong><a href=\"$MainPage\" class=\"w3-text-teal\">Main Menu</a></strong></div>\n";
+print "<div class=\"w3-bar-item\"><strong><a href=\"$DocDBInstructions\" class=\"w3-text-teal\">Instructions</a></strong></div>\n";
 if ($PersonalAccountLink) {
   print "<div class=\"w3-bar-item\"><strong>$PersonalAccountLink</strong></div>\n";
 }
-print "<div class=\"w3-bar-item\"><strong><a href=\"#customcreate\">Customized<br/>Create/Modify</a></strong></div>\n";
-print "<div class=\"w3-bar-item\"><strong><a href=\"#addform\">Customized<br/>Add Files</a></strong></div>\n";
+print "<div class=\"w3-bar-item\"><strong><a href=\"#customcreate\" class=\"w3-text-teal\">Customized<br/>Create/Modify</a></strong></div>\n";
+print "<div class=\"w3-bar-item\"><strong><a href=\"#addform\" class=\"w3-text-teal\">Customized<br/>Add Files</a></strong></div>\n";
 foreach my $Text (@{ $ProjectMessages{Homepage}{LeftColumn} }) {
   print "<div class=\"w3-bar-item\"><strong>$Text</strong></div>\n";
 }
-print "<div class=\"w3-bar-item\"><strong><a href=\"$DocDBHome\">About DocDB</a></strong></div>\n";
+print "<div class=\"w3-bar-item\"><strong><a href=\"$DocDBHome\" class=\"w3-text-teal\">About DocDB</a></strong></div>\n";
 print "</div><!-- Closing div w3-bar-block -->\n";
 
 print "</div><!-- Closing div id LeftColumn3Col -->\n";
@@ -208,7 +208,7 @@ if (CanCreateMeeting()) {
   print "\n</div>\n",$query -> end_form,"\n\n";
   print "</li>\n";
 
-  print "<li>Modify an  <a href=\"$ListAllMeetings?mode=modify\">existing
+  print "<li>Modify an  <a href=\"$ListAllMeetings?mode=modify\" class=\"w3-text-teal\">existing
              event</a> (choose event on next page)</li>\n";
 
   print "</ul>\n";
@@ -216,9 +216,9 @@ if (CanCreateMeeting()) {
 
 print "<p><strong>Database maintenance:</strong></p>\n";
 print "<ul>\n";
-print "<li>Add an <a href=\"$AuthorAddForm\">author</a></li>\n";
+print "<li>Add an <a href=\"$AuthorAddForm\" class=\"w3-text-teal\">author</a></li>\n";
 if (CanAdminister()) {
-  print "<li>Perform other <a href=\"$AdministerHome\">administration tasks</a></li>\n";
+  print "<li>Perform other <a href=\"$AdministerHome\" class=\"w3-text-teal\">administration tasks</a></li>\n";
 }
 print "</ul>\n";
 

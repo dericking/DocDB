@@ -1,4 +1,11 @@
-.HomepageMainChoice {
-  height: 2.5em;
+/* DocDBDocumentDatabase.css - W3CSS overrides for DocumentDatabase page */
+
+/* HomepageMainChoice styling - using W3CSS padding instead of height */
+#HomepageAdminChoice,
+#HomepageCreateChoice,
+#HomepageSearchChoice,
+#HomepageShowChoice,
+#HomepageLastModifiedChoice,
+#HomepageCalendarChoice {
   white-space: nowrap;
 }  

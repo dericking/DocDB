@@ -77,27 +77,27 @@ DocDBHomeHeader();
 
 ### Left Column
 
-print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-light-gray w3-border w3-border-black\">\n";
+print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
 print "<div id=\"LeftBarBlock\" class=\"w3-bar-block\">\n";
-print "<div id=\"LeftBarInstructionsLink\" class=\"w3-bar-item\"><strong><a href=\"$DocDBInstructions\">Instructions</a></strong></div><!-- Closing div id LeftBarInstructionsLink -->\n";
+print "<div id=\"LeftBarInstructionsLink\" class=\"w3-bar-item\"><strong><a href=\"$DocDBInstructions\" class=\"w3-text-teal\">Instructions</a></strong></div><!-- Closing div id LeftBarInstructionsLink -->\n";
 if (!$Public or $UserValidation eq "FNALSSO") {  # Public set if not in any groups. Should be able to apply if not in groups
   if ($PersonalAccountLink) {
     print "<div id=\"LeftBarPersonalAccountLink\" class=\"w3-bar-item\"><strong>$PersonalAccountLink</strong></div><!-- Closing div id LeftBarPersonalAccountLink -->\n";
   }
-  print "<div id=\"LeftBarPreferencesLink\" class=\"w3-bar-item\"><strong><a href=\"$SelectPrefs\">Preferences</a></strong></div><!-- Closing div id LeftBarPreferencesLink -->\n";
+  print "<div id=\"LeftBarPreferencesLink\" class=\"w3-bar-item\"><strong><a href=\"$SelectPrefs\" class=\"w3-text-teal\">Preferences</a></strong></div><!-- Closing div id LeftBarPreferencesLink -->\n";
   if ($UserValidation eq "FNALSSO") {
-    print "<div id=\"LeftBarApplyToGroupsLink\" class=\"w3-bar-item\"><strong><a href=\"$CertificateApplyForm\">Apply to Groups</a></strong></div><!-- Closing div id LeftBarApplyToGroupsLink -->\n";
+    print "<div id=\"LeftBarApplyToGroupsLink\" class=\"w3-bar-item\"><strong><a href=\"$CertificateApplyForm\" class=\"w3-text-teal\">Apply to Groups</a></strong></div><!-- Closing div id LeftBarApplyToGroupsLink -->\n";
   }
   if ($UserValidation eq "certificate" || $UserValidation eq "shibboleth" || $UserValidation eq "FNALSSO") {
     print "<div id=\"LeftBarGroupLimitLink\" class=\"w3-bar-item\"><strong>",&GroupLimitLink(),"</strong></div><!-- Closing div id LeftBarGroupLimitLink -->\n";
   }
 }
-print "<div id=\"LeftBarStatisticsLink\" class=\"w3-bar-item\"><strong><a href=\"$Statistics\">DocDB Statistics</a></strong></div><!-- Closing div id LeftBarStatisticsLink -->\n";
+print "<div id=\"LeftBarStatisticsLink\" class=\"w3-bar-item\"><strong><a href=\"$Statistics\" class=\"w3-text-teal\">DocDB Statistics</a></strong></div><!-- Closing div id LeftBarStatisticsLink -->\n";
 
 foreach my $Text (@{ $ProjectMessages{Homepage}{LeftColumn} }) {
   print "<div id=\"LeftBarProjectMessage\" class=\"w3-bar-item\"><strong>$Text</strong></div><!-- Closing div id LeftBarProjectMessage -->\n";
 }
-print "<div id=\"LeftBarAboutDocDBLink\" class=\"w3-bar-item\"><strong><a href=\"$DocDBHome\">About DocDB</a></strong></div><!-- Closing div id LeftBarAboutDocDBLink -->\n";
+print "<div id=\"LeftBarAboutDocDBLink\" class=\"w3-bar-item\"><strong><a href=\"$DocDBHome\" class=\"w3-text-teal\">About DocDB</a></strong></div><!-- Closing div id LeftBarAboutDocDBLink -->\n";
 print "</div><!-- Closing div id LeftBarBlock -->\n";
 
 print "</div><!-- Closing div id LeftColumn3Col -->\n";
@@ -107,34 +107,36 @@ print "</div><!-- Closing div id LeftColumn3Col -->\n";
 print "<div id=\"MainColumn3Col\" class=\"w3-threequarter\">\n";
 
 if (CanAdminister()) {
-  print "<div id=\"HomepageAdminChoice\" class=\"w3-padding\"><strong><a href=\"$AdministerHome\">Administer DocDB</a></strong></div><!-- Closing div id HomepageAdminChoice -->\n";
+  print "<div id=\"HomepageAdminChoice\" class=\"w3-padding\"><strong><a href=\"$AdministerHome\" class=\"w3-text-teal\">Administer DocDB</a></strong></div><!-- Closing div id HomepageAdminChoice -->\n";
 }
 if (CanCreate()) {
-  print "<div id=\"HomepageCreateChoice\" class=\"w3-padding\"><strong><a href=\"$ModifyHome\">Create or change documents or other information</a></strong></div><!-- Closing div id HomepageCreateChoice -->\n";
+  print "<div id=\"HomepageCreateChoice\" class=\"w3-panel w3-margin-left w3-paper w3-round w3-padding w3-border w3-border-gray\"><strong><a href=\"$ModifyHome\" class=\"w3-text-teal\">Create or change documents or other information</a></strong></div><!-- Closing div id HomepageCreateChoice -->\n";
 }
+
+print "<div id=\"SearchAndShow\" class=\"w3-panel w3-margin-left w3-paper w3-round w3-padding w3-border w3-border-gray\">\n";
 
 my @ExternalDocDBIDs = GetAllExternalDocDBs();
 my $SearchDiv  = $query -> start_form('POST',$Search);
    $SearchDiv .= "<div id=\"SearchFormContainer\" class=\"w3-bar\">\n";
-   $SearchDiv .= $query -> submit (-value => "Search", -class => "w3-bar-item w3-button w3-blue w3-border w3-border-black w3-round");
+   $SearchDiv .= $query -> submit (-value => "Search", -class => "w3-bar-item w3-button w3-teal w3-border w3-border-black w3-round", -style => "width:100px;");
    $SearchDiv .= "<span class=\"w3-bar-item\"><strong>for</strong></span>";
    $SearchDiv .= "<span class=\"w3-bar-item\" style=\"padding:0!important;\">";
    $SearchDiv .= $query -> textfield(-name => "simpletext", -size => 40, -maxlength => 300, -class => "w3-input w3-border");
    $SearchDiv .= "</span>";
    $SearchDiv .= $query -> hidden(-name => "simple", -default => '1');
-   $SearchDiv .= "<span class=\"w3-bar-item\"><strong>(<a href=\"$SearchForm#Advanced\">Advanced</a>";
+   $SearchDiv .= "<span class=\"w3-bar-item\"><strong>(<a href=\"$SearchForm#Advanced\" class=\"w3-text-teal\">Advanced</a>";
 if (@ExternalDocDBIDs) {
-   $SearchDiv .= " or <a href=\"$XSearch\">Cross Search</a>";
+   $SearchDiv .= " or <a href=\"$XSearch\" class=\"w3-text-teal\">Cross Search</a>";
 }
    $SearchDiv .= ")</strong></span>";
    $SearchDiv .= "\n</div><!-- Closing div id SearchFormContainer -->\n";
    $SearchDiv .= $query -> end_form;
 
-print "<div id=\"HomepageSearchChoice\" class=\"w3-padding\">$SearchDiv</div><!-- Closing div id HomepageSearchChoice -->\n";
+print "<div id=\"HomepageSearchChoice\">$SearchDiv</div><!-- Closing div id HomepageSearchChoice -->\n";
 
 my $ShowForm  = $query -> start_form('POST',$ShowDocument);
    $ShowForm .= "<div id=\"ShowFormContainer\" class=\"w3-bar\">\n";
-   $ShowForm .= $query -> submit (-value => "Show", -class => "w3-bar-item w3-button w3-blue w3-border w3-border-black w3-round");
+   $ShowForm .= $query -> submit (-value => "Show", -class => "w3-bar-item w3-button w3-teal w3-border w3-border-black w3-round", -style => "width:100px;");
    $ShowForm .= "<span class=\"w3-bar-item\"><strong>$ShortProject-doc-#</strong></span>";
    $ShowForm .= "<span class=\"w3-bar-item\" style=\"padding:0!important;\">";
    $ShowForm .= $query -> textfield(-name => "docid", -size => 6, -maxlength => 6, -class => "w3-input w3-border");
@@ -146,15 +148,15 @@ my $ShowForm  = $query -> start_form('POST',$ShowDocument);
    $ShowForm .= "\n</div><!-- Closing div id ShowFormContainer -->\n";
    $ShowForm .= $query -> end_form;
 
-print "<div id=\"HomepageShowChoice\" class=\"w3-padding\">$ShowForm</div><!-- Closing div id HomepageShowChoice -->\n";
+print "<div id=\"HomepageShowChoice\" class=\"w3-margin-top\">$ShowForm</div><!-- Closing div id HomepageShowChoice -->\n";
 
 # Last modified pulldown
 
 if ($Preferences{Components}{LastModifiedHome}) {
-  print "<div id=\"HomepageLastModifiedChoice\" class=\"w3-padding\">\n";
+  print "<div id=\"HomepageLastModifiedChoice\" class=\"w3-margin-top\">\n";
   print $query -> start_form('POST',$ListBy);
   print "<div id=\"LastModifiedFormContainer\" class=\"w3-bar\">\n";
-  print $query -> submit (-value => "Show", -class => "w3-bar-item w3-button w3-blue w3-border w3-border-black w3-round");
+  print $query -> submit (-value => "Show", -class => "w3-bar-item w3-button w3-teal w3-border w3-border-black w3-round", -style => "width:100px;");
   print "<span class=\"w3-bar-item\"><strong> documents modified in the last </strong></span>";
   print "<span class=\"w3-bar-item\" style=\"padding:0!important;\">";
   DaysPulldown($LastDays);
@@ -165,9 +167,11 @@ if ($Preferences{Components}{LastModifiedHome}) {
   print "</div><!-- Closing div id HomepageLastModifiedChoice -->\n";
 }
 
+print "</div><!-- Closing div id SearchAndShow -->\n";
+
 if ($Preferences{Components}{Calendar}) {
-  print "<div id=\"HomepageCalendarChoice\" class=\"w3-padding\">\n";
-  print "<strong><a href=\"$ShowCalendar\">Calendar</a> of events or <a href=\"$ShowCalendar?todayonly=1\">today's</a> events</strong>";
+  print "<div id=\"HomepageCalendarChoice\" class=\"w3-panel w3-margin-left w3-paper w3-round w3-padding w3-border w3-border-gray\">\n";
+  print "<strong><a href=\"$ShowCalendar\" class=\"w3-text-teal\">Calendar</a> of events or <a href=\"$ShowCalendar?todayonly=1\" class=\"w3-text-teal\">today's</a> events</strong>";
   print "</div><!-- Closing div id HomepageCalendarChoice -->\n";
 }
 
@@ -177,23 +181,23 @@ my @FirstColumn  = ();
 my @OtherColumns = ();
 my @Spanners     = ();
 
-push @FirstColumn,"<a href=\"$ListAuthors\">Authors</a>";
-push @FirstColumn,"<a href=\"$ListTopics\">Topics</a>";
-push @FirstColumn,"<a href=\"$ListGroups\">Groups</a>";
-push @FirstColumn,"<a href=\"$ListKeywords\">Keywords</a>";
+push @FirstColumn,"<a href=\"$ListAuthors\" class=\"w3-text-teal\">Authors</a>";
+push @FirstColumn,"<a href=\"$ListTopics\" class=\"w3-text-teal\">Topics</a>";
+push @FirstColumn,"<a href=\"$ListGroups\" class=\"w3-text-teal\">Groups</a>";
+push @FirstColumn,"<a href=\"$ListKeywords\" class=\"w3-text-teal\">Keywords</a>";
 unless ($Public && !$PublicAccess{MeetingList}) {
-  push @FirstColumn,"<a href=\"$ListAllMeetings\">Events</a>";
+  push @FirstColumn,"<a href=\"$ListAllMeetings\" class=\"w3-text-teal\">Events</a>";
 }
-if ($UserValidation eq "certificate" || $UserValidation eq "shibboleth" || $UserValidation eq "FNALSSO" ||
-    (!$Public && $Preferences{Options}{DynamicFullList}{Private}) ||
-    ( $Public && $Preferences{Options}{DynamicFullList}{Public})) {
-  push @FirstColumn,"<a href=\"$ListBy?alldocs=1\">All documents</a>";
-} else {
-  push @FirstColumn,"<a href=\"$web_root/Static/Lists/$remote_user/FullList.html\">All documents</a>";
-}
+# if ($UserValidation eq "certificate" || $UserValidation eq "shibboleth" || $UserValidation eq "FNALSSO" ||
+#     (!$Public && $Preferences{Options}{DynamicFullList}{Private}) ||
+#     ( $Public && $Preferences{Options}{DynamicFullList}{Public})) {
+#   push @FirstColumn,"<a href=\"$ListBy?alldocs=1\" class=\"w3-text-teal\">All documents</a>";
+# } else {
+#   push @FirstColumn,"<a href=\"$web_root/Static/Lists/$remote_user/FullList.html\" class=\"w3-text-teal\">All documents</a>";
+# }
 
 if ($UseSignoffs && (!$Public || $PublicAccess{MeetingList})) {
-  push @OtherColumns,"<a href=\"$ListManagedDocuments\">Managed documents</a>";
+  push @OtherColumns,"<a href=\"$ListManagedDocuments\" class=\"w3-text-teal\">Managed documents</a>";
 }
 
 push @OtherColumns,@{ $ProjectMessages{Homepage}{DocumentLists} };
@@ -201,11 +205,10 @@ push @Spanners,@MultiColumnDocumentLists;
 
 # Print bulleted list for lists of documents
 
-print "<div id=\"DocListMethodsHeader\" class=\"w3-padding\">\n";
+print "<div id=\"DocListMethodsHeader\" class=\"w3-panel w3-margin-left w3-paper w3-round w3-padding w3-border w3-border-gray\">\n";
 print "<strong>List:</strong>\n";
-print "</div><!-- Closing div id DocListMethodsHeader -->\n";
 
-print "<ul id=\"DocListMethods\" class=\"w3-ul w3-padding\">\n";
+print "<ul id=\"DocListMethods\" class=\"w3-ul\">\n";
 
 foreach my $Item (@FirstColumn) {
   print "<li>&loz;&nbsp;",$Item,"</li>\n";
@@ -220,6 +223,7 @@ foreach my $Spanner (@Spanners) {
 }
 
 print "</ul>\n";
+print "</div><!-- Closing div id DocListMethodsHeader -->\n";
 
 # Fill arrays with stuff that goes in main, bold table
 
@@ -260,7 +264,7 @@ print "</ul>\n";
   }
 
   my %FieldList = PrepareFieldList(-default => "Default");
-  print "<div id=\"DocumentTableContainer\" class=\"w3-container\">\n";
+  print "<div id=\"DocumentTableContainer\" class=\"w3-container w3-margin-bottom\">\n";
   my $NumberOfDocuments = DocumentTable(-fieldlist => \%FieldList, -docids  => \@DocumentIDs,
                                         -sortby    => $SortBy,     -reverse => $Reverse,
                                         -maxdocs   => $HomeMaxDocs);

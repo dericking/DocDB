@@ -156,7 +156,7 @@ if ($Days) {
 
   my %Hash = GetEventHashByTopic($TopicID);
   if (%Hash) {
-    $Message .= '<br/>(List <a href="'.$ListEventsBy.'?topicid='.$TopicID.'">events</a> on '.SmartHTML({-text=>$Topics{$TopicID}{Long}}).')';
+    $Message .= '<br/>(List <a href="'.$ListEventsBy.'?topicid='.$TopicID.'" class="w3-text-teal">events</a> on '.SmartHTML({-text=>$Topics{$TopicID}{Long}}).')';
   }
 } elsif ($AuthorID) {
 
@@ -189,7 +189,7 @@ if ($Days) {
 
   my %Hash = GetEventHashByModerator($AuthorID);
   if (%Hash) {
-    $Message .= '<br/>(List <a href="'.$ListEventsBy.'?authorid='.$AuthorID.'">events</a> moderated by '.$Link.')';
+    $Message .= '<br/>(List <a href="'.$ListEventsBy.'?authorid='.$AuthorID.'" class="w3-text-teal">events</a> moderated by '.$Link.')';
   }
   @DocumentIDs = GetAuthorDocuments($AuthorID, $OldDocs);
 } elsif ($EventID) {

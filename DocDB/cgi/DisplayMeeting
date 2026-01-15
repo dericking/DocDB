@@ -154,7 +154,7 @@ print "<div id=\"EventInfo\" class=\"w3-container w3-row\">\n";
 
 ### Left Column
 
-print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-light-gray w3-border w3-border-black\">\n";
+print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
 print "<div class=\"w3-bar-block\">\n";
 PrintEventLeftSidebar({ -sessionid   => $SessionID,          -eventid => $EventID,
                         -separatorid => $SessionSeparatorID, -displaymode => $DisplayMode,

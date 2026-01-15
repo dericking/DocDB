@@ -41,17 +41,8 @@ sub ProjectHeader {
 # your  convenience, but you should not print the <title> here since DocDB
 # already takes  care of that.
 
-# Here is a link to a style sheet.
-
-#   print "<link rel=\"stylesheet\" href=\"/includes/style.css\" type=\"text/css\">\n";
-
-  print "<style>\n";
-  print "html, body { height: 100%; }\n";
-  print "body { min-height: 100vh; display: flex; flex-direction: column; margin: 0; }\n";
-  print "\n";
-  print "/* make the last direct child of body (your footer) stick to the bottom */\n";
-  print "body > :last-child { margin-top: auto; }\n";
-  print "</style>\n";
+# Include Font Awesome 6
+  print '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />',"\n";
 }
 
 sub ProjectBodyStart {
@@ -70,7 +61,7 @@ sub ProjectBodyStart {
      &DocDBNavBar();
   }
   print "<div id=\"SectionTitle\" class=\"w3-container\">\n";
-  print "<h1 class=\"w3-center\">$PageTitle</h1>\n";
+  print "<h2 class=\"w3-center\">$PageTitle</h2>\n";
   print "</div><!-- Closing div id SectionTitle -->\n";
 }
 
@@ -79,30 +70,8 @@ sub ProjectFooter {
 
   my ($WebMasterEmail,$WebMasterName) = @_;
 
-# This routine is reponsible for whatever you want to put as a footer on the
-# page. 
-#
-# Parameters are supplied for the name and e-mail address of the person
-# responsible for the pages. We would appreciate it if you keep the link to 
-# the DocDB home page present.
+# Footer removed - credit given in About DocDB dropdown
 
-# You probably want to include some version of this:
-
-  print "<div id=\"PageFooter\" class=\"w3-container w3-border-top w3-border-black w3-light-gray w3-center w3-small\">\n";
-  print "<p>\n";
-  print "<a href=\"$DocDBHome\">DocDB</a> ";
-  print "Version $DocDBVersion, contact \n";
-  print "<a href=\"mailto:$WebMasterEmail\">$WebMasterName</a>\n";
-  
-# This prints benchmark info for pages that have it  
-  
-  if ($EndTime && $StartTime) {
-    my $TimeDiff = timediff($EndTime,$StartTime);
-    print "<br/><strong>Execution time: </strong>",timestr($TimeDiff),"\n";
-  }
-  print "</p>\n";
-  print "</div><!-- Closing div id PageFooter -->\n";
-  
 # Do not print the </body> and </html> tags, DocDB does that now.
 }
 
@@ -118,33 +87,33 @@ sub DocDBNavBar {
 
   require "Security.pm";
 
-  print "<div id=\"TopNavBar\" class=\"w3-bar w3-border w3-light-gray\">\n";
+  print "<div id=\"TopNavBar\" class=\"w3-bar w3-border-bottom w3-border-gray w3-paper\">\n";
   print "<div id=\"NavBarTitle\" class=\"w3-bar-item\"><strong>$Project Document Database</strong></div><!-- Closing div id NavBarTitle -->\n";
   if ($ExtraDesc && $ExtraURL) {
     print "<a href=\"$ExtraURL\" class=\"w3-bar-item w3-button\">$ExtraDesc</a>\n";
   } 
-  print "<a href=\"$MainPage\" class=\"w3-bar-item w3-button\">DocDB Home</a>\n";
+  print "<a href=\"$MainPage\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-home w3-text-teal\"></i>&nbsp; DocDB Home</a>\n";
   if (&CanAdminister()) {
     print "<a href=\"$AdministerHome\" class=\"w3-bar-item w3-button\">Administer</a>\n";
   }
   if (&CanCreate()) {
-    print "<a href=\"$DocumentAddForm?mode=add\" class=\"w3-bar-item w3-button\">New</a>\n";
+    print "<a href=\"$DocumentAddForm?mode=add\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-circle-plus w3-text-teal\"></i>&nbsp; New</a>\n";
   }
-  print "<a href=\"$SearchForm\" class=\"w3-bar-item w3-button\">Search</a>\n";
-  print "<a href=\"$ListBy?days=$LastDays\" class=\"w3-bar-item w3-button\">Last $LastDays Days</a>\n";
-  print "<a href=\"$ListAuthors\" class=\"w3-bar-item w3-button\">List Authors</a>\n";
-  print "<a href=\"$ListTopics\" class=\"w3-bar-item w3-button\">List Topics</a>\n";
-  print "<a href=\"$ListAllMeetings\" class=\"w3-bar-item w3-button\">List Events</a>\n";
+  print "<a href=\"$SearchForm\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-magnifying-glass w3-text-teal\"></i>&nbsp; Search</a>\n";
+  print "<a href=\"$ListBy?days=$LastDays\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-clock w3-text-teal\"></i>&nbsp; Last $LastDays Days</a>\n";
   print "<div class=\"w3-dropdown-hover\">\n";
-  print "<button class=\"w3-button w3-bar-item\">About</button>\n";
-  print "<div class=\"w3-dropdown-content w3-bar-block\">\n";
-  print "<a href=\"$DocDBHome\" class=\"w3-bar-item w3-button\">About DocDB</a>\n";
-  unless ($Public) {
-    print "<a href=\"$DocDBInstructions\" class=\"w3-bar-item w3-button\">Help</a>\n";
-  }
-  if (defined $Statistics) {
-    print "<a href=\"$Statistics\" class=\"w3-bar-item w3-button\">Statistics</a>\n";
-  }
+  print "<button class=\"w3-button\"><i class=\"fa-solid fa-rectangle-list w3-text-teal\"></i>&nbsp; List DocDB <i class=\"fa-solid fa-caret-down w3-text-teal\"></i></button>\n";
+  print "<div class=\"w3-dropdown-content w3-bar-block w3-border w3-border-gray w3-card-4\">\n";
+  print "<a href=\"$ListAuthors\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-users w3-text-teal\"></i>&nbsp; Authors</a>\n";
+  print "<a href=\"$ListTopics\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-clipboard-list w3-text-teal\"></i>&nbsp; Topics</a>\n";
+  print "<a href=\"$ListAllMeetings\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-calendar-days w3-text-teal\"></i>&nbsp; Events</a>\n";
+  print "</div><!-- Closing div w3-dropdown-content -->\n";
+  print "</div><!-- Closing div w3-dropdown-hover -->\n";
+  print "<div class=\"w3-dropdown-hover\">\n";
+  print "<button class=\"w3-button\"><i class=\"fa-solid fa-circle-info w3-text-teal\"></i>&nbsp; About DocDB <i class=\"fa-solid fa-caret-down w3-text-teal\"></i></button>\n";
+  print "<div class=\"w3-dropdown-content w3-bar-block w3-border w3-border-gray w3-card-4\">\n";
+  print "<a href=\"https://github.com/dericking/DocDB\" class=\"w3-bar-item w3-button\">MOLLER DocDB</a>\n";
+  print "<a href=\"https://github.com/ericvaandering/DocDB\" class=\"w3-bar-item w3-button\">Original DocDB</a>\n";
   print "</div><!-- Closing div w3-dropdown-content -->\n";
   print "</div><!-- Closing div w3-dropdown-hover -->\n";
   print "</div><!-- Closing div id TopNavBar -->\n";

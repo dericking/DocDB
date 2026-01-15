@@ -177,15 +177,15 @@ sub FileLink ($) {
 
   if ($Format eq "short") {
     if ($Description) {
-      return "<a href=\"$URL\" title=\"$ShortName\">$Description</a>";
+      return "<a href=\"$URL\" title=\"$ShortName\" class=\"w3-text-teal\">$Description</a>";
     } else {
-      return "<a href=\"$URL\" title=\"$ShortName\">$PrintedName</a>";
+      return "<a href=\"$URL\" title=\"$ShortName\" class=\"w3-text-teal\">$PrintedName</a>";
     }
   } else {
     if ($Description) {
-      return "<a href=\"$URL\" title=\"$ShortName\">$Description</a> ($PrintedName, $FileSize)";
+      return "<a href=\"$URL\" title=\"$ShortName\" class=\"w3-text-teal\">$Description</a> ($PrintedName, $FileSize)";
     } else {
-      return "<a href=\"$URL\" title=\"$ShortName\">$PrintedName</a> ($FileSize)";
+      return "<a href=\"$URL\" title=\"$ShortName\" class=\"w3-text-teal\">$PrintedName</a> ($FileSize)";
     }
   }
 }
@@ -201,7 +201,7 @@ sub ArchiveLink {
   my $link  = "Get all files as \n";
   @LinkParts = ();
   foreach my $Type (@Types) {
-    push @LinkParts,"<a href=\"$RetrieveArchive?docid=$DocumentID\&amp;version=$Version\&amp;type=$Type\">$Type</a>";
+    push @LinkParts,"<a href=\"$RetrieveArchive?docid=$DocumentID\&amp;version=$Version\&amp;type=$Type\" class=\"w3-text-teal\">$Type</a>";
   }
   $link .= join ', ',@LinkParts;
   $link .= ".";

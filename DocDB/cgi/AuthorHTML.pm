@@ -167,9 +167,9 @@ sub AuthorLink ($;%) {
 
   my $Link;
   if ($OldDocs) {
-    $Link = "<a href=\"$Script?authorid=$AuthorID&amp;old=1\" title=\"$InstitutionName\">";
+    $Link = "<a href=\"$Script?authorid=$AuthorID&amp;old=1\" title=\"$InstitutionName\" class=\"w3-text-teal\">";
   } else {
-    $Link = "<a href=\"$Script?authorid=$AuthorID\" title=\"$InstitutionName\">";
+    $Link = "<a href=\"$Script?authorid=$AuthorID\" title=\"$InstitutionName\" class=\"w3-text-teal\">";
   }
 
   if ($Format eq "full") {
@@ -230,7 +230,7 @@ sub AuthorsTable {
   if ($UseAnchors ) {
     print "<tr><th colspan=\"$NCols\">\n";
     foreach my $Letter (A..Z) {
-      print "<a href=\"#$Letter\">$Letter</a>\n";
+      print "<a href=\"#$Letter\" class=\"w3-text-teal\">$Letter</a>\n";
     }
     print "</th></tr>\n";
   }

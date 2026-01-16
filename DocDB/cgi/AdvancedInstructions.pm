@@ -25,7 +25,7 @@
 
 sub AdvancedInstructionsSidebar {
   print <<TOC;
-  <h2>Contents</h2>
+  <h3 class="w3-margin-left">Contents</h3>
   <ul>
    <li><a href="#final">Linking to DocDB routines</a>
    <ul>
@@ -46,10 +46,10 @@ TOC
 sub AdvancedInstructionsBody {
   print <<HTML;
   <a name="final"></a>
-  <h1>Notes for Advanced Users</h1>
+  <h3>Notes for Advanced Users</h1>
 
   <a name="refer"></a>
-  <h2>Referring to Your Document and Files</h2>
+  <h3>Referring to Your Document and Files</h2>
 
   <p>To refer to your document use the syntax <strong>$ShortProject-doc-XXXX</strong> where XXXX is the document
   number (1 to 6 digits). You can also use the form <strong>$ShortProject-doc-XXXX-vXX</strong> to refer to
@@ -88,7 +88,7 @@ sub AdvancedInstructionsBody {
   also be publicly accessible for this to work.</p>
 
   <a name="group"></a>
-  <h2>Referring to Groups of Documents</h2>
+  <h3>Referring to Groups of Documents</h2>
 
   <p>Any simple search can be embedded into a URL for reference from a web page.
   The most useful searches are by author, topic, keyword, or events.</p>
@@ -180,13 +180,13 @@ sub AdvancedInstructionsBody {
   </ul>
 
   <a name="xml"></a>
-  <h1>XML Interface</h1>
+  <h3>XML Interface</h1>
 
   <p>An XML interface for retrieving information from and submiting information to DocDB is
      partially complete. It is not fully complete, but it may satisfy the most common needs.</p>
 
   <a name="xmldown"></a>
-  <h2>XML Downloads</h2>
+  <h3>XML Downloads</h2>
 
   <p>Any link to <tt>Search</tt> or <tt>ShowDocument</tt> described above will generate XML
      output if <tt>&amp;outformat=xml</tt> is added to the parameter list. <tt>Search</tt> returns
@@ -201,7 +201,7 @@ sub AdvancedInstructionsBody {
      the developers.</p>
 
   <a name="xmlup"></a>
-  <h2>XML Uploads</h2>
+  <h3>XML Uploads</h2>
 
   <p>Since version 8.4 DocDB has supported uploads of XML data describing documents. This is
      done with the <a href="$XMLUpload">XMLUpload</a> script. The XML output of ShowDocument
@@ -260,7 +260,7 @@ sub AdvancedInstructionsBody {
      This could be added but was not needed at the moment.</p>
 
   <a name="program"></a>
-  <h1>Programatic Interface</h1>
+  <h3>Programatic Interface</h1>
 
   <p>It is also possible (and not too difficult) to write Perl programs to insert documents into
      DocDB. Examples of how to do this may be in <tt>scripts/examples</tt> in the DocDB

@@ -25,7 +25,7 @@
 
 sub AdminInstructionsSidebar {
   print <<TOC;
-  <h2>Contents</h2>
+  <h3 class="w3-margin-left">Contents</h3>
   <ul>
    <li><a href="#basic">Basic Administration</a></li>
    <li><a href="#special">Specific Cases</a>
@@ -41,7 +41,7 @@ sub AdminInstructionsBody {
   print <<HTML;
 
   <a name="basic"></a>
-  <h1>Admintering DocDB</h1>
+  <h3>Admintering DocDB</h1>
 
   <p>DocDB comes with a full complement of administration pages which modify
   the underlying lists of meta-data.  Since these pages are used by very few
@@ -82,10 +82,10 @@ sub AdminInstructionsBody {
   </ol>
 
   <a name="specific"></a>
-  <h1>Specific Cases</h1>
+  <h3>Specific Cases</h1>
 
   <a name="groups"></a>
-  <h2>Administering groups</h2>
+  <h3>Administering groups</h2>
 
   <p>Groups are at the heart of the access control in DocDB and they are a
      little difficult to understand.</p>
@@ -106,7 +106,7 @@ sub AdminInstructionsBody {
      sensitive.</p>
 
   <a name="personal"></a>
-  <h2>Personal accounts</h2>
+  <h3>Personal accounts</h2>
 
   <p>These are settings for users in DocDB. While you can see what their
      settings are  (e.g. which documents they are watching) you can only change

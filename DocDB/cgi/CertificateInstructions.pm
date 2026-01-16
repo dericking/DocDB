@@ -30,7 +30,7 @@
 
 sub CertificateInstructionsSidebar {
   print <<TOC;
-  <h2>Contents</h2>
+  <h3 class="w3-margin-left">Contents</h3>
   <ul>
    <li><a href="$DocDBInstructions?set=cert">Introduction</a></li>
 TOC
@@ -69,7 +69,7 @@ TOC
 sub CertificateInstructionsBody {
   print <<HTML;
   <a name="intro"/>
-  <h1>Introduction</h1>
+  <h3>Introduction</h3>
 
   <p>
   You can use certificates provided by various certification authorities (CAs)
@@ -125,7 +125,7 @@ HTML
 sub DOECertificateInstructionsBody {
   print <<HTML;
 <a name="doe"/>
-<h1>Get a DOEgrid Certificate</h1>
+<h3>Get a DOEgrid Certificate</h3>
 <p>
 DOEgrid certificates are good for 1 year.
 </p>
@@ -209,13 +209,13 @@ sub KCACertificateInstructionsBody {
   print <<HTML;
  
 <a name="kca"/>
-<h1>Get a KCA (Kerberos) Certificate </h1>
+<h3>Get a KCA (Kerberos) Certificate </h3>
 <p>
 Use the instructions appropriate to your machine to get and use a KCA certificate.
 </p>
 
  <a name="win"/>
-<h2>Get a KCA (Kerberos) Certificate for Windows</h2>
+<h3>Get a KCA (Kerberos) Certificate for Windows</h3>
 <p>
 The KCA certificate will be good for one week, but if you create a 
 desktop shortcut (as specified below), then you will only need to open 
@@ -272,7 +272,7 @@ the shortcut and type in your Kerberos password.
 </ol>
 
  <a name="linux"/>
-<h2>Get a KCA (Kerberos) Certificate for Linux</h2>
+<h3>Get a KCA (Kerberos) Certificate for Linux</h3>
 <ol>
 <li> GetCert method:
   <ul>
@@ -336,7 +336,7 @@ the shortcut and type in your Kerberos password.
 </ol>
 
  <a name="mac"/>
-<h2>Get a KCA (Kerberos) Certificate for MAC</h2>
+<h3>Get a KCA (Kerberos) Certificate for MAC</h3>
 <ol>
 <li>  First make sure that you have both <b>kx509</b> and <b>kxlist</b>.
       If these are not already on your machine, you can find
@@ -393,7 +393,7 @@ sub RegisterCertificateInstructionsBody {
   print <<HTML;
 
 <a name="register"/>
-<h1>Register your certificate with DocDB</h1>
+<h3>Register your certificate with DocDB</h3>
 <p>
 You must register your certificate with the $ShortProject document database 
 before you will have full access. 
@@ -433,7 +433,7 @@ sub ImportCertificateInstructionsBody {
   print <<HTML;
 
 <a name="import"/>
-<h1>Importing and Exporting certificates</h1>
+<h3>Importing and Exporting certificates</h3>
 <ol>
 <li> Naming conventions vary by certificate provider.  
      We will refer to all certificates as <b>mycert.p12</b>.</li>
@@ -561,7 +561,7 @@ sub ProtectCertificateInstructionsBody {
     print <<HTML;
 
   <a name="protect"/>
-  <h1>Protect your certificate</h1>
+  <h3>Protect your certificate</h3>
 
   <p>
   If you export your DOEgrid certificate to a PKCS#12 file, it contains your private key.  
@@ -620,7 +620,7 @@ sub MiscCertificateInstructionsBody {
   print <<HTML;
 
   <a name="issues"/>
-  <h1>Known issues with certificates</h1>
+  <h3>Known issues with certificates</h3>
   <ol>
   <li> If you wish to use more than one type of certificate 
 HTML
@@ -673,7 +673,7 @@ HTML
   if ($Preferences{Security}{Certificates}{DOEGrids}) {
     print <<HTML;
     <a name="same"/>
-    <h2>Same Machine Explanation</h2>
+    <h3>Same Machine Explanation</h3>
     <p>
     When you apply for a DOEgrid certificate, your web brower sends along a public
     key.  This key is used to match up with the private key that is kept on your

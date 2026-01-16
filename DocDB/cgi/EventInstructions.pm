@@ -28,7 +28,7 @@
 
 sub EventInstructionsSidebar {
   print <<TOC;
-  <h2>Contents</h2>
+  <h3 class="w3-margin-left">Contents</h3>
   <ul>
    <li><a href="#intro">Introduction</a></li>
    <li><a href="#calendar">Calendar</a>
@@ -69,7 +69,7 @@ TOC
 sub EventInstructionsBody {
   print <<HTML;
 <a name="intro"></a>
-<h1>Introduction</h1>
+<h3>Introduction</h3>
 
 <p>
 The event organizer and calendar system provides the ability to set up events
@@ -89,7 +89,7 @@ event, but when changes collide or appear to collide, only the first is taken.
 </p>
 
 <a name="calendar"></a>
-<h1>Using the Calendar</h1>
+<h3>Using the Calendar</h3>
 
 <p>
 DocDB supplies a calendar which shows upcoming and past events.
@@ -99,7 +99,7 @@ will likely see is the month view.
 </p>
 
 <a name="day"></a>
-<h2>Daily view</h2>
+<h3>Daily view</h3>
 
 <p>The daily view shows a detailed list of a day's events. Events with no
 sessions are shown first, followed by the various sessions taking place on that
@@ -110,7 +110,7 @@ You can also click on the dates at the top of the page to view the next or
 previous days, or to switch to the monthly or yearly views.</p>
 
 <a name="month"></a>
-<h2>Monthly view</h2>
+<h3>Monthly view</h3>
 
 <p>The monthly view shows a whole month and an abbreviated list of the
 events on each day. Start times  for events that have them are shown. If you
@@ -125,7 +125,7 @@ view.</p>
 shown.</p>
 
 <a name="year"></a>
-<h2>Yearly view</h2>
+<h3>Yearly view</h3>
 
 <p>The yearly view shows the calendar for a whole year. The linked dates are
 days with events; click on a link to see the daily view for that day. Click on
@@ -136,14 +136,14 @@ on the years at the top of the page to view the next or previous year.</p>
 shown.</p>
 
 <a name="upcoming"></a>
-<h2>Upcoming events</h2>
+<h3>Upcoming events</h3>
 
 <p>This view shows events scheduled for the next 60 days. The view is similar
 to the day view in that titles, locations, and URLs are all shown. Click on the
 links to view the agendas.</p>
 
 <a name="create"></a>
-<h1>Creating a New Event</h1>
+<h3>Creating a New Event</h3>
 
 <p>DocDB is capable of scheduling three kinds of events. Events with no sessions
 (perhaps a conference someone from the group is attending), events with just one
@@ -161,7 +161,7 @@ for <a href="#talks">Managing Talks in Sessions</a>. For meetings with multiple
 sessions, follow all these instructions.</p>
 
 <a name="eventinfo"></a>
-<h2>Entering event information</h2>
+<h3>Entering event information</h3>
 
 <p>A list of the groups of events are shown; you must select one. You must also
 provide a title, or short description,  and start and end dates for the event.
@@ -183,7 +183,7 @@ rely on their own security, not this setting.</p>
 <p>The same form is used for modifying event information.</p>
 
 <a name="sessions"></a>
-<h2>Creating Sessions</h2>
+<h3>Creating Sessions</h3>
 
 <p>On the same form used for creating or modifying an event, the moderator is
 able to set up one or more sessions in the event. If there are not enough spaces
@@ -209,7 +209,7 @@ also be entered.</p>
 associated with the sessions.</p>
 
 <a name="talks"></a>
-<h1>Adding and Modifying Talks in a Session</h1>
+<h3>Adding and Modifying Talks in a Session</h3>
 
 <p>To create or modify slots for talks in a session, either click on the "Modify
 Session" button on the "Display Session" page or the "Modify Session Agenda"
@@ -224,14 +224,14 @@ session.</p>
 about each talk or break. The fields are described below.</p>
 
 <a name="basicinfo"></a>
-<h2>Entering basic talk information</h2>
+<h3>Entering basic talk information</h3>
 
 <p>For each talk, at least a suggested title and time (length) should be entered.
 A note on each talk can also be entered, but these are only visible when
 clicking on the "Note" link in the event or session displays.</p>
 
 <a name="order"></a>
-<h2>Ordering the talks</h2>
+<h3>Ordering the talks</h3>
 
 <p>On the far left is the document order within the session. To reorder talks
 within the session, just input new numbers and press "Submit." Decimal numbers
@@ -239,7 +239,7 @@ are allowed, so entering "1.5" will place that talk between the talks currently
 numbered "1" and "2."</p>
 
 <a name="confirm"></a>
-<h2>Specifying, deleting, and confirming documents</h2>
+<h3>Specifying, deleting, and confirming documents</h3>
 
 <p>On the form there are places to enter the document number of a talk if the
 moderator already knows it, to confirm a suggestion by the DocDB, and to delete
@@ -260,7 +260,7 @@ to update rather than create new documents.</p>
 checked, or DocDB will guess its own numbers instead.</p>
 
 <a name="hints"></a>
-<h2>Giving hints about the talks</h2>
+<h3>Giving hints about the talks</h3>
 
 <p>Finally, the moderator may enter the suggested authors and topics for the talks
 to be given. This has two purposes. First, before documents are entered into
@@ -269,7 +269,7 @@ Secondly, this assists DocDB in finding the correct matches as described below.
 </p>
 
 <a name="modify"></a>
-<h1>Modifying an Event</h1>
+<h3>Modifying an Event</h3>
 
 <p>From the <a href="$ModifyHome">Create or Change</a> page, follow the link to
 modify an existing event. Then select the event you wish to modify. You will see
@@ -279,7 +279,7 @@ sessions.</p>
 HTML
 
   if ($Preferences{Components}{iCal}) {
-   print "<a name=\"ical\"></a><h1>Exporting events to iCal</h1>\n";
+   print "<a name=\"ical\"></a><h3>Exporting events to iCal</h3>\n";
 
    print "<p>Wherever you see the iCal icon <img src=\"$ImgURLPath/ical_small.png\" alt=\"iCal icon\" />,
    you can click and get a list of events suitable to import into many calendar programs. (The iCal format
@@ -297,7 +297,7 @@ HTML
 
 
 <a name="matching"></a>
-<h1>How DocDB Matches Agenda Entries with Documents</h1>
+<h3>How DocDB Matches Agenda Entries with Documents</h3>
 
 <p>In addition to the moderator associating or reserving talks as described
 above, there are two other ways documents are matched with agenda entries. The
@@ -312,7 +312,7 @@ entry, so confirming documents and letting it guess again may find correct
 matches.</p>
 
 <a name="userentry"></a>
-<h2>User selects the talk</h2>
+<h3>User selects the talk</h3>
 
 <p>When a user presses the button at the top of a session or event display that
 says "Upload a document," they will see a document entry form with one small
@@ -322,7 +322,7 @@ from this list, it is entered into the agenda as a confirmed talk, just as if
 the moderator had followed the instructions below.</p>
 
 <a name="hinting"></a>
-<h2>DocDB selects based on hints</h2>
+<h3>DocDB selects based on hints</h3>
 
 <p>For entries without a confirmed document, the DocDB will try to figure out
 which agenda entry matches which document. To do this, the DocDB constructs a
@@ -357,7 +357,7 @@ consideration, which may change which assignments DocDB makes.</p>
 looking at the DocDB code. </p>
 
 <a name="confirm2"></a>
-<h2>Moderator corrects and/or confirms</h2>
+<h3>Moderator corrects and/or confirms</h3>
 
 <p>As explained above, the final step in the process is for the moderator to
 either confirm DocDB's correct guesses or  manually enter the correct document

@@ -37,12 +37,6 @@ GetAuthors();
 print $query -> header( -charset => $HTTP_ENCODING );
 DocDBHeader("List of Authors");
 
-print "<h3>All Existing Authors";
-unless ($Public) {
-  print " (<a href=\"$AuthorAddForm\" class=\"w3-text-teal\">Add</a> a new author)";
-}
-print "</h3>\n";
-
 AuthorsTable();
 
 DocDBFooter($DBWebMasterEmail,$DBWebMasterName);

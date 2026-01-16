@@ -226,15 +226,15 @@ sub AuthorsTable {
 
   if (scalar(@AuthorIDs) % $NCols) {++$NPerCol;}
 
-  print "<table class=\"CenteredTable MedPaddedTable\">\n";
   if ($UseAnchors ) {
-    print "<tr><th colspan=\"$NCols\">\n";
+    print "<div class=\"w3-center w3-padding w3-margin-bottom\">\n";
     foreach my $Letter (A..Z) {
-      print "<a href=\"#$Letter\" class=\"w3-text-teal\">$Letter</a>\n";
+      print "<a href=\"#$Letter\" class=\"w3-text-teal w3-large\"><strong>$Letter</strong></a>\n";
     }
-    print "</th></tr>\n";
+    print "</div><!-- Closing div w3-center w3-padding w3-margin-bottom -->\n";
   }
-
+  print "<div class=\"w3-container w3-margin\">\n";
+  print "<table class=\"w3-table w3-bordered no-row-lines\" style=\"margin-left: auto; margin-right: auto;\">\n";
   print "<tr>\n";
 
   my $NThisCol       = 0;
@@ -253,7 +253,7 @@ sub AuthorsTable {
       if ($CloseLastColumn) {
         print "</ul></td>\n";
       }
-      print "<td>\n";
+      print "<td class=\"w3-padding\">\n";
       $StartNewColumn = 0;
       $NThisCol = 0;
       $FirstPass = 1;
@@ -269,7 +269,7 @@ sub AuthorsTable {
       $FirstPass = 0;
       if ($UseAnchors) {
         print "<a name=\"$FirstLetter\" />\n";
-        print "<strong>$FirstLetter</strong>\n";
+        print "<strong class=\"w3-large\">$FirstLetter</strong>\n";
       }
       print "<ul>\n";
     }
@@ -290,6 +290,7 @@ sub AuthorsTable {
   }
   print "</ul></td></tr>";
   print "</table>\n";
+  print "</div><!-- Closing div w3-container w3-margin -->\n";
 }
 
 

@@ -97,7 +97,13 @@ sub DocDBNavBar {
     print "<a href=\"$AdministerHome\" class=\"w3-bar-item w3-button\">Administer</a>\n";
   }
   if (&CanCreate()) {
-    print "<a href=\"$DocumentAddForm?mode=add\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-circle-plus w3-text-teal\"></i>&nbsp; New</a>\n";
+    print "<div class=\"w3-dropdown-hover\">\n";
+    print "<button class=\"w3-button\"><i class=\"fa-solid fa-circle-plus w3-text-teal\"></i>&nbsp; Add <i class=\"fa-solid fa-caret-down w3-text-teal\"></i></button>\n";
+    print "<div class=\"w3-dropdown-content w3-bar-block w3-border w3-border-gray w3-card-4\">\n";
+    print "<a href=\"$DocumentAddForm?mode=add\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-file-circle-plus w3-text-teal\"></i>&nbsp; Add Document</a>\n";
+    print "<a href=\"$AuthorAddForm\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-user-plus w3-text-teal\"></i>&nbsp; Add Author</a>\n";
+    print "</div><!-- Closing div w3-dropdown-content -->\n";
+    print "</div><!-- Closing div w3-dropdown-hover -->\n";
   }
   print "<a href=\"$SearchForm\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-magnifying-glass w3-text-teal\"></i>&nbsp; Search</a>\n";
   print "<a href=\"$ListBy?days=$LastDays\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-clock w3-text-teal\"></i>&nbsp; Recent</a>\n";

@@ -193,7 +193,7 @@ sub PubInfoBox {
   print $ElementTitle,"\n";
   my $SafeDefault = SmartHTML({-text => $PubInfoDefault},);
   print $query -> textarea (-name => 'pubinfo', -default => $SafeDefault,
-                            -columns => 60, -rows => 1);
+                            -columns => 60, -rows => 1, -class => "w3-input w3-border");
 };
 
 sub InstitutionSelect (;%) { # Scrolling selectable list for institutions
@@ -375,7 +375,7 @@ sub TextField (%) {
                                       );
   print $ElementTitle,"\n";
   print $query -> textfield (-name => $Name, -default   => $Default,
-                             -size => $Size, -maxlength => $MaxLength, %Options,);
+                             -size => $Size, -maxlength => $MaxLength, -class => "w3-input w3-border w3-round", %Options,);
 }
 
 sub TextArea (%) {
@@ -401,7 +401,7 @@ sub TextArea (%) {
                                        -required  => $Required );
   print $ElementTitle,"\n";
   print $query -> textarea (-name    => $Name,    -default   => SmartHTML({-text=>$Default}),
-                            -columns => $Columns, -rows      => $Rows);
+                            -columns => $Columns, -rows      => $Rows, -class => "w3-input w3-border");
 }
 
 sub FormElementTitle (%) {

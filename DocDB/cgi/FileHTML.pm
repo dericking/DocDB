@@ -302,14 +302,30 @@ sub FileUploadBox (%) {
 
   my $BoxTitle = FormElementTitle(-helplink => $HelpLink, -helptext => $HelpText,
                                   -required => $Required, %Options);
-  print '<tr><td colspan="2">';
-  print $BoxTitle;
-  print "</td></tr>\n";
+  
+  if ($Type eq "file" && !$DescOnly) {
+    # Print title before file upload divs
+    print '<div>';
+    print $BoxTitle;
+    print "</div>\n";
+    
+    if ($AllowCopy) {
+      print '<div>';
+      print '&nbsp;<label><input type="checkbox" name="checkall" class="w3-check" style="accent-color: teal;" onclick="checkUncheckAll(this,\'copyfile\');" /> ';
+      print 'Copy all files from previous version (at least one file must be added or updated)</label>';
+      print "</div>\n";
+    }
+  } else {
+    # Keep table structure for HTTP uploads and DescOnly
+    print '<tr><td colspan="2">';
+    print $BoxTitle;
+    print "</td></tr>\n";
 
-  if ($AllowCopy && !$DescOnly) {
-    print '<tr><td>&nbsp;</td><td colspan="2">';
-    print '<input type="checkbox" name="checkall" onclick="checkUncheckAll(this,\'copyfile\');" /> ';
-    print 'Copy all files from previous version (at least one file must be added or updated)</td></tr>'."\n";
+    if ($AllowCopy && !$DescOnly) {
+      print '<tr><td>&nbsp;</td><td colspan="2">';
+      print '&nbsp;<label><input type="checkbox" name="checkall" class="w3-check" style="accent-color: teal;" onclick="checkUncheckAll(this,\'copyfile\');" /> ';
+      print 'Copy all files from previous version (at least one file must be added or updated)</label></td></tr>'."\n";
+    }
   }
 
   for (my $i = 1; $i <= $MaxFiles; ++$i) {
@@ -340,59 +356,96 @@ sub FileUploadBox (%) {
       print "</td>\n";
       print "</tr>\n";
     } else {
-      print "<tr><th>\n";
-      print $FileHelp;
-      print "</th>\n";
-
-      print "<td>\n";
-      my %Options = ();
-      if ($ElementName eq $ReqName && !$AllowCopy && !$DescOnly) {
-        $Options{-class} = "required";
-      }
       if ($Type eq "file") {
-        print "<span id=\"$DivName\">\n";
-        print $query -> filefield(-name      => $ElementName, -size => $FileSize,
-                                  -maxlength => $FileMaxSize, %Options);
-        print "</span>\n";
-        print "<input class=\"SystemButton\" type=\"button\" value=\"Clear\" onclick=\"clearFileInputField('$DivName')\"  />\n";
-      } elsif ($Type eq "http") {
-        print $query -> textfield(-name      => $URLName,     -size => $FileSize,
-                                  -maxlength => $FileMaxSize, %Options);
-      }
-      print "</td>\n";
-      print "</tr>\n";
-
-      if ($Type eq "http") {
+        print '<div id="fileUploadOption" class="w3-panel w3-border w3-round w3-paper w3-padding w3-margin-bottom">'."\n";
+        print '  <div class=""><b>File selection: </b></div>'."\n";
+        print '  <div class="w3-cell-row">'."\n";
+        print '    <div class="w3-cell w3-rest w3-cell-middle">'."\n";
+        print "      <span id=\"$DivName\">\n";
+        my %Options = ();
+        if ($ElementName eq $ReqName && !$AllowCopy && !$DescOnly) {
+          $Options{-class} = "required";
+        }
+        print $query -> filefield(-name => $ElementName, -size => $FileSize,
+                                  -maxlength => $FileMaxSize, -class => "w3-input", 
+                                  -style => "border:0!important; margin:0!important; padding:0!important;", %Options);
+        print "      </span>\n";
+        print '    </div>'."\n";
+        print '    <div class="w3-cell w3-right">'."\n";
+        print "      <input class=\"w3-button w3-border w3-teal w3-round\" type=\"button\" value=\"Clear\" onclick=\"clearFileInputField('$DivName')\" />\n";
+        print '    </div>'."\n";
+        print '  </div>'."\n";
+        print "\n";
+        print '  <div class="w3-margin-bottom" style="margin-top:4px!important; margin-bottom:8px!important;"><b>File Description:</b></div>'."\n";
+        print '  <div class="w3-cell-row">'."\n";
+        print '    <div class="w3-cell w3-rest w3-cell-middle">'."\n";
+        print $query -> textfield(-name => $DescName, -size => 60,
+                                  -maxlength => 128, -default => $DefaultDesc,
+                                  -class => "w3-input w3-round w3-border", -placeholder => "Description");
+        print "\n";
+        print '    </div>'."\n";
+        print '    <div class="w3-cell w3-right">'."\n";
+        print '      <label>'."\n";
+        if ($i == 1) {
+          print "        <input type=\"checkbox\" name=\"$MainName\" class=\"w3-check\" style=\"accent-color: teal;\" checked=\"checked\" value=\"1\">&nbsp;&nbsp;Is Main File\n";
+        } else {
+          print "        <input type=\"checkbox\" name=\"$MainName\" class=\"w3-check\" style=\"accent-color: teal;\" value=\"1\">&nbsp;&nbsp;Is Main File\n";
+        }
+        print '      </label>'."\n";
+        print '    </div>'."\n";
+        print '  </div>'."\n";
+        print '</div>'."\n";
+      } else {
         print "<tr><th>\n";
-        print $NewNameHelp;
+        print $FileHelp;
         print "</th>\n";
 
         print "<td>\n";
-        print $query -> textfield(-name      => $NewName, -size => $FileSize,
-                                  -maxlength => $FileMaxSize);
+        my %Options = ();
+        if ($ElementName eq $ReqName && !$AllowCopy && !$DescOnly) {
+          $Options{-class} = "required";
+        }
+        if ($Type eq "http") {
+          my %HTTPOptions = %Options;
+          $HTTPOptions{'-class'} = ($HTTPOptions{'-class'} ? $HTTPOptions{'-class'}." " : "")."w3-input w3-border w3-round";
+          print $query -> textfield(-name      => $URLName,     -size => $FileSize,
+                                    -maxlength => $FileMaxSize, %HTTPOptions);
+        }
         print "</td>\n";
         print "</tr>\n";
+
+        if ($Type eq "http") {
+          print "<tr><th>\n";
+          print $NewNameHelp;
+          print "</th>\n";
+
+          print "<td>\n";
+          print $query -> textfield(-name      => $NewName, -size => $FileSize,
+                                    -maxlength => $FileMaxSize, -class => "w3-input w3-border w3-round");
+          print "</td>\n";
+          print "</tr>\n";
+        }
+        print "<tr><th>\n";
+        print $DescriptionHelp;
+        print "</th>\n";
+        print "<td>\n";
+        print $query -> textfield (-name      => $DescName, -size    => 60,
+                                   -maxlength => 128,       -default => $DefaultDesc, -class => "w3-input w3-border w3-round");
+
+        if ($i == 1) {
+          print '&nbsp;<label><input type="checkbox" name="'.$MainName.'" class="w3-check" style="accent-color: teal;" checked="checked" value="1"></label>';
+        } else {
+          print '&nbsp;<label><input type="checkbox" name="'.$MainName.'" class="w3-check" style="accent-color: teal;" value="1"></label>';
+        }
+
+        print $MainHelp;
+        print "</td></tr>\n";
       }
     }
-    print "<tr><th>\n";
-    print $DescriptionHelp;
-    print "</th>\n";
-    print "<td>\n";
-    print $query -> textfield (-name      => $DescName, -size    => 60,
-                               -maxlength => 128,       -default => $DefaultDesc);
-
-    if ($DocFiles{$FileID}{ROOT} || !$FileID) {
-      print $query -> checkbox(-name => $MainName, -checked => 'checked', -label => '');
-    } else {
-      print $query -> checkbox(-name => $MainName, -label => '');
-    }
-
-    print $MainHelp;
-    print "</td></tr>\n";
     if ($FileID && $AllowCopy && !$DescOnly) {
       print "<tr><td>&nbsp;</td><td colspan=\"2\" class=\"FileCopyRow\">\n";
       print $query -> hidden(-name => $FileIDName, -value => $FileID);
-      print $query -> checkbox(-name => $CopyName, -label => '');
+      print '&nbsp;<label><input type="checkbox" name="'.$CopyName.'" class="w3-check" style="accent-color: teal;" value="1"></label>';
       print "Copy <tt>$DocFiles{$FileID}{NAME}</tt> from previous version:";
       print "</td></tr>\n";
     }
@@ -400,7 +453,7 @@ sub FileUploadBox (%) {
   }
   if ($AllowCopy && $NOrigFiles) {
     print '<tr><td colspan="2">';
-    print $query -> checkbox(-name => 'LessFiles', -label => '');
+    print '<label><input type="checkbox" name="LessFiles" class="w3-check" style="accent-color: teal;" value="1"></label>';
     print FormElementTitle(-helplink => "LessFiles", -helptext => "New version has fewer files",
                            -nocolon  => $TRUE,       -nobold   => $TRUE);;
     print "</td></tr>\n";
@@ -408,7 +461,7 @@ sub FileUploadBox (%) {
   if ($Type eq "http") {
     print "<tr><th>User:</th>\n";
     print "<td>\n";
-    print $query -> textfield (-name => 'http_user', -size => 20, -maxlength => 40);
+    print $query -> textfield (-name => 'http_user', -size => 20, -maxlength => 40, -class => "w3-input w3-border w3-round");
     print "<b>&nbsp;&nbsp;&nbsp;&nbsp;Password:</b>\n";
     print $query -> password_field (-name => 'http_pass', -size => 20, -maxlength => 40);
     print "</td></tr>\n";
@@ -437,10 +490,10 @@ sub ArchiveUploadBox (%)  {
                             -maxlength => 250, %Options);
 
   print "<tr><th>Main file in archive:</th><td>\n";
-  print $query -> textfield (-name => 'mainfile', -size => 70, -maxlength => 128);
+  print $query -> textfield (-name => 'mainfile', -size => 70, -maxlength => 128, -class => "w3-input w3-border w3-round");
 
   print "<tr><th>Description of file:</th><td>\n";
-  print $query -> textfield (-name => 'filedesc', -size => 70, -maxlength => 128);
+  print $query -> textfield (-name => 'filedesc', -size => 70, -maxlength => 128, -class => "w3-input w3-border w3-round");
   print "</td></tr></table>\n";
 };
 

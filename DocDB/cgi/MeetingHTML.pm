@@ -46,7 +46,7 @@ sub LocationBox (;%) {
                                        -required  => $Required );
   print $ElementTitle,"\n";
   print $query -> textfield (-name => 'location', -default => $Default,
-                             -size => 40, -maxlength => 64, $Booleans);
+                             -size => 40, -maxlength => 64, -class => "w3-input w3-border w3-round", $Booleans);
   print "</div>\n";
 };
 
@@ -70,7 +70,7 @@ sub EventURLBox (;%) {
                                        -required  => $Required );
   print $ElementTitle,"\n";
   print $query -> textfield (-name => 'url', -default => $Default,
-                             -size => 40, -maxlength => 240, $Booleans);
+                             -size => 40, -maxlength => 240, -class => "w3-input w3-border w3-round", $Booleans);
   print "</div>\n";
 };
 
@@ -98,9 +98,9 @@ sub ConferenceShowAllTalks {
   require "FormElements.pm";
   print &FormElementTitle(-helplink  => "meetshowall", -helptext  => "Show All Talks?", -nobreak => $TRUE, -nocolon => $TRUE);
   if ($MeetingDefaultShowAllTalks) {
-    print $query -> checkbox(-name => "meetshowall", -value => 1, -label => 'Yes', -checked => 'Yes');
+    print '<label><input type="checkbox" name="meetshowall" class="w3-check" style="accent-color: teal;" value="1" checked="checked"> Yes</label>';
   } else {
-    print $query -> checkbox(-name => "meetshowall", -value => 1, -label => 'Yes');
+    print '<label><input type="checkbox" name="meetshowall" class="w3-check" style="accent-color: teal;" value="1"> Yes</label>';
   }
 }
 
@@ -256,9 +256,9 @@ sub SessionEntryForm (%) {
       print "</div><div>\n";
       print FormElementTitle(-helplink  => "meetshowall", -helptext  => "Show All Talks?", -nobreak => $TRUE, -nocolon => $TRUE);
       if ($SessionDefaultShowAllTalks) {
-        print $query -> checkbox(-name => "sessionshowall", -value => $MeetingOrderID, -label => '', -checked => 'Yes');
+        print '<label><input type="checkbox" name="sessionshowall" class="w3-check" style="accent-color: teal;" value="'.$MeetingOrderID.'" checked="checked"></label>';
       } else {
-        print $query -> checkbox(-name => "sessionshowall", -value => $MeetingOrderID, -label => '');
+        print '<label><input type="checkbox" name="sessionshowall" class="w3-check" style="accent-color: teal;" value="'.$MeetingOrderID.'"></label>';
       }
     }
     print "</div></td>\n";
@@ -272,7 +272,7 @@ sub SessionEntryForm (%) {
 sub SessionOrder {
   $query -> param('sessionorder',$SessionDefaultOrder);
   print $query -> textfield (-name => 'sessionorder', -value => $SessionDefaultOrder,
-                             -size => 4, -maxlength => 5);
+                             -size => 4, -maxlength => 5, -class => "w3-input w3-border w3-round");
 }
 
 sub SessionSeparator ($) {
@@ -284,15 +284,14 @@ sub SessionSeparator ($) {
   } elsif ($SessionSeparatorDefault eq "No") {
     print "\n";
   } else {
-    print $query -> checkbox(-name => "sessionseparator", -value => "$MeetingOrderID", -label => 'Break');
+    print '<label><input type="checkbox" name="sessionseparator" class="w3-check" style="accent-color: teal;" value="'.$MeetingOrderID.'"> Break</label>';
   }
 }
 
 sub SessionDelete ($) {
   my ($MeetingOrderID) = @_;
   if ($SessionSeparatorDefault eq "Yes" || $SessionSeparatorDefault eq "No") {
-    print $query -> checkbox(-name => "sessiondelete", -value =>
-    "$MeetingOrderID", -label => 'Delete');
+    print '<label><input type="checkbox" name="sessiondelete" class="w3-check" style="accent-color: teal;" value="'.$MeetingOrderID.'"> Delete</label>';
   } else {
     print "&nbsp;\n";
   }
@@ -311,7 +310,7 @@ sub SessionModifyLink ($) {
 sub SessionTitle ($) {
   $query -> param('sessiontitle',$SessionDefaultTitle);
   print $query -> textfield (-name => 'sessiontitle', -size => 40, -maxlength => 128,
-                             -default => $SessionDefaultTitle);
+                             -default => $SessionDefaultTitle, -class => "w3-input w3-border w3-round");
 }
 
 sub SessionDescription {

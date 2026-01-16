@@ -92,9 +92,9 @@ if (CanAdminister()) { # Delete Form
   print "\n",$query -> start_form('POST',$DeleteConfirm),"<div>\n";
   print $query -> submit (-class => "Action", -value => "Delete");
   print " document # ";
-  print $query -> textfield(-name => "docid", -size => 6, -maxlength => 6);
+  print $query -> textfield(-name => "docid", -size => 6, -maxlength => 6, -class => "w3-input w3-border w3-round");
   print " -v";
-  print $query -> textfield(-name => "version", -size => 4, -maxlength => 4);
+  print $query -> textfield(-name => "version", -size => 4, -maxlength => 4, -class => "w3-input w3-border w3-round");
   print "\n</div>\n",$query -> end_form,"\n\n";
   print "</li>";
   print "</ul>\n";

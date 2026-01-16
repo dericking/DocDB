@@ -261,7 +261,7 @@ sub TopicListWithChildren { # Recursive routine
       $HTML .= FormElementTitle(-helplink  => $HelpLink, -helptext  => $HelpText ,
                                 -required  => $Required,
                                 -errormsg  => 'You must choose at least one topic.');
-      $HTML .= '<input id="topic_dummy" class="hidden required" type="checkbox" value="dummy" name="topics" />'."\n";
+      $HTML .= '<input id="topic_dummy" type="hidden" value="dummy" name="topics" />'."\n";
     }
   } else {
     $Class = "$Depth-deep";
@@ -305,11 +305,13 @@ sub TopicListWithChildren { # Recursive routine
           $TopicName = '['.$TopicName.']';
           $Booleans .= "-disabled";
         }
+        my $DisabledAttr = ($Booleans =~ /-disabled/) ? ' disabled' : '';
         if (defined IndexOf($TopicID,@DefaultTopicIDs)) {
-          $HTML.= $query -> checkbox(-name => "topics", -value => $TopicID, -label => $TopicName, -checked => 'checked', $Booleans);
+          $HTML.= '<label><input type="checkbox" name="topics" class="w3-check" style="accent-color: teal;" value="'.$TopicID.'" checked="checked"'.$DisabledAttr.'> '.$TopicName.'</label>';
         } else {
-          $HTML.= $query -> checkbox(-name => "topics", -value => $TopicID, -label => $TopicName, $Booleans);
+          $HTML.= '<label><input type="checkbox" name="topics" class="w3-check" style="accent-color: teal;" value="'.$TopicID.'"'.$DisabledAttr.'> '.$TopicName.'</label>';
         }
+        # Note: TreeChooser.js will insert a <span class="bullet"> before the label for expand/collapse functionality
       } else {
         $HTML .= TopicLink( {-topicid => $TopicID} );
       }

@@ -345,28 +345,28 @@ print "<div class=\"w3-content w3-padding\">\n";
 print "<div id=\"AddTableContainer\" class=\"w3-card w3-border w3-border-gray w3-white\">\n";
 WarnPage(@WarnStack);
 
-print "<table class=\"w3-table\">\n";
+print "<table class=\"w3-table w3-bordered no-row-lines\">\n";
 
 print "<tr>\n";
-print "<td colspan=\"4\">\n";
+print "<td colspan=\"4\" class=\"w3-padding\">\n";
 if ($mode eq "add") {
-  print "<h4>You are adding a new document to DocDB. ";
+  print "<h5>You are adding a new document to DocDB. ";
 } elsif ($mode eq "reserve") {
-  print "<h4>You are reserving a new document document number in
+  print "<h5>You are reserving a new document document number in
              DocDB. ";
 } elsif ($mode eq "update") {
   $documentName = &FullDocumentID($DocumentID);
-  print "<h4>You are updating $documentName. ";
+  print "<h5>You are updating $documentName. ";
 } elsif ($mode eq "updatedb") {
   $documentName = &FullDocumentID($DocumentID,$Version);
-  print "<h4>You are updating the metadata for $documentName. ";
+  print "<h5>You are updating the metadata for $documentName. ";
 }
 
 print "Required fields are marked with an asterisk (*). ";
 if ($Quick) {
-  print "<a href=\"Javascript:unhideQuick();\">(Show all fields)</a>\n";
+  print "<a href=\"Javascript:unhideQuick();\" class=\"w3-text-teal\">(Show all fields)</a>\n";
 }
-print "</h4>\n";
+print "</h5>\n";
 
 print "</td>\n";
 print "</tr>\n";
@@ -375,30 +375,30 @@ print "</tr>\n";
 
 if (@OpenSessionTalkIDs) {
   print "<tr>\n";
-  print "<td colspan=\"4\">\n"; SessionTalkPulldown(@OpenSessionTalkIDs);    print "</td>\n";
+  print "<td colspan=\"4\" class=\"w3-padding\">\n"; SessionTalkPulldown(@OpenSessionTalkIDs);    print "</td>\n";
   print "</tr>\n";
 }
 
 print "<tr>\n";
-print "<td colspan=\"4\">\n";
+print "<td colspan=\"4\" class=\"w3-padding\">\n";
  &TitleBox(-required => $RequiredEntries{Title});
 print "</td>\n";
 print "</tr>\n";
 
 print "<tr>\n";
-print "<td colspan=\"4\">\n";
+print "<td colspan=\"4\" class=\"w3-padding\">\n";
  &AbstractBox(-required => $RequiredEntries{Abstract});
 print "</td>\n";
 print "</tr>\n";
 
 print "<tr>\n";
-print "<td colspan=\"4\">\n";
+print "<td colspan=\"4\" class=\"w3-padding\">\n";
  &KeywordsBox(-required => $RequiredEntries{Keyword});
 print "</td>\n";
 print "</tr>\n";
 
 print "<tr>\n";
-print "<td colspan=\"4\">\n";
+print "<td colspan=\"4\" class=\"w3-padding\">\n";
 if ($mode eq "update") {
   &RevisionNoteBox(-jsinsert => $RevisionNoteDefault,
                    -required => $RequiredEntries{Note});
@@ -414,18 +414,17 @@ print "</tr>\n";
 if ($mode eq "add" || $mode eq "update") {
   my $CopyOption = ($mode eq "update");
 
-  print "<tr><td colspan=\"4\">\n";
+  print "<tr><td colspan=\"4\" class=\"w3-padding\">\n";
   if ($Archive eq "archive") {
     &ArchiveUploadBox(-required => $RequiredEntries{File});
   } else {
     &FileUploadBox(-allowcopy => $CopyOption, -type => $Upload, -docrevid => $DocRevID,
                    -addfiles => 1, -required  => $RequiredEntries{File}, -fileids => \@FileIDs);
   }
-  print "<br/>Make sure you supply a format everyone can view (e.g. PDF) along
-  with source formats.<br/>\n";
+  print "<br/>Confirm you supplied a format that others can view<br/>\n";
   print "</td></tr>";
 } elsif ($mode eq "updatedb" && $Version) { # v0 can't have files
-  print "<tr><td colspan=\"4\">\n";
+  print "<tr><td colspan=\"4\" class=\"w3-padding\">\n";
   &FileUploadBox(-desconly => $TRUE, -docrevid => $DocRevID,
                  -fileids  => \@FileIDs);
   print "</td></tr>";
@@ -434,13 +433,13 @@ if ($mode eq "add" || $mode eq "update") {
 ### Document type and date override (if present)
 
 print "<tr>\n";
-print "<td colspan=\"2\">\n";
+print "<td colspan=\"2\" class=\"w3-padding\">\n";
 &DocTypeButtons(-required => $RequiredEntries{Type},
                 -default  => $DocTypeIDDefault);
 print "</td>\n";
 
 if ($Overdate eq "Yes") {
-  print "<td colspan=\"2\">\n";
+  print "<td colspan=\"2\" class=\"w3-padding\">\n";
   &DateTimePullDown;
   print "</td>\n";
 }
@@ -454,7 +453,7 @@ if ($UserValidation eq "certificate") {
   print "<tr>\n";
 }
 push @DebugStack,"AuthorMode $AuthorMode";
-print "<td>\n";
+print "<td class=\"w3-padding\">\n";
 
 if ($AuthorMode eq "active") {
   print RequesterActiveSearch({-required => $RequiredEntries{Requester}, -helplink => "requester",
@@ -478,38 +477,38 @@ if ($AuthorMode eq "list" || $AuthorMode eq "active") {
 }
 
 if ($AuthorMode eq "active") {
-  $ScrollExtraText = "<a href=\"Javascript:author_method_choose_text(\'text\');\">(Text w/ order)</a>";
-  $TextExtraText   = "<a href=\"Javascript:author_method_choose_text(\'active\');\">(Active search)</a>";
+  $ScrollExtraText = "<a href=\"Javascript:author_method_choose_text(\'text\');\" class=\"w3-text-teal\">(Text w/ order)</a>";
+  $TextExtraText   = "<a href=\"Javascript:author_method_choose_text(\'active\');\" class=\"w3-text-teal\">(Active search)</a>";
 
-  print "<td id=\"AuthorActiveSearch\"$AuthorScrollDisplay>\n";
+  print "<td id=\"AuthorActiveSearch\"$AuthorScrollDisplay class=\"w3-padding\">\n";
   print $query -> hidden(-name => 'authormode', -default => $AuthorMode);
   print AuthorActiveSearch({-required  => $RequiredEntries{Author}, -helplink => "authors",
               -defaultauthorids   => \@AuthorDefaults,
               -extratext => $ScrollExtraText,});
   print "</td>\n";
-  print "<td id=\"AuthorText\"$AuthorTextDisplay>\n";
+  print "<td id=\"AuthorText\"$AuthorTextDisplay class=\"w3-padding\">\n";
   AuthorTextEntry({ -required => $RequiredEntries{Author}, -extratext => $TextExtraText,
                     -default  => \@AuthorDefaults, });
   print "</td>\n";
 
 } else {
-  $ScrollExtraText = "<a href=\"Javascript:author_method_choose(\'text\');\">(Text w/ order)</a>";
-  $TextExtraText   = "<a href=\"Javascript:author_method_choose(\'scroll\');\">(Select from list)</a>";
+  $ScrollExtraText = "<a href=\"Javascript:author_method_choose(\'text\');\" class=\"w3-text-teal\">(Text w/ order)</a>";
+  $TextExtraText   = "<a href=\"Javascript:author_method_choose(\'scroll\');\" class=\"w3-text-teal\">(Select from list)</a>";
 
-  print "<td id=\"AuthorScroll\"$AuthorScrollDisplay>\n";
+  print "<td id=\"AuthorScroll\"$AuthorScrollDisplay class=\"w3-padding\">\n";
   print $query -> hidden(-name => 'authormode', -default => $AuthorMode);
   AuthorScroll(-required  => $RequiredEntries{Author}, -helplink => "authors",
               -default   => \@AuthorDefaults,         -multiple => "true",
               -extratext => $ScrollExtraText,);
   print "</td>\n";
 
-  print "<td id=\"AuthorText\"$AuthorTextDisplay>\n";
+  print "<td id=\"AuthorText\"$AuthorTextDisplay class=\"w3-padding\">\n";
   AuthorTextEntry({ -required => $RequiredEntries{Author}, -extratext => $TextExtraText,
                     -default  => \@AuthorDefaults, });
   print "</td>\n";
 }
 
-print "<td>\n";
+print "<td class=\"w3-padding\">\n";
 my $SecurityText;
 if ($EnhancedSecurity) {
   $SecurityText = "Can View";
@@ -524,7 +523,7 @@ SecurityScroll(-addpublic => 'true',
                -default   => \@SecurityDefaults);
 print "</td>\n";
 if ($EnhancedSecurity) {
-  print "<td>\n";
+  print "<td class=\"w3-padding\">\n";
   SecurityScroll(-name      => 'modify',
                  -helplink  => 'modifygroups',
                  -helptext  => 'Can Modify',
@@ -535,26 +534,26 @@ if ($EnhancedSecurity) {
 print "</tr>\n";
 
 if ($UserValidation eq "certificate") {
-  print '<tr class="ListUsers"><td colspan="2">&nbsp</td>';
-  print '<td colspan="2"><a href="'.$ListGroupUsers.'">List users in groups</a>';
+  print '<tr class="ListUsers"><td colspan="2" class="w3-padding">&nbsp</td>';
+  print '<td colspan="2" class="w3-padding"><a href="'.$ListGroupUsers.'" class="w3-text-teal">List users in groups</a>';
   print "</td></tr>\n";
 }
 
 ### Topics
 
 if ($TopicMode eq "single") {
-  print "<tr><td colspan=\"4\">\n";
+  print "<tr><td colspan=\"4\" class=\"w3-padding\">\n";
   TopicScroll({ -required => $RequiredEntries{Topic}, -size     => 20 ,
                 -default  => \@TopicDefaults,         -multiple => $TRUE,
                 -minlevel => $Preferences{Topics}{MinLevel}{Document}, });
 } elsif ($TopicMode eq "multi") {
-  print "<tr><td colspan=\"4\" id=\"TopicScrollTable\">\n";
+  print "<tr><td colspan=\"4\" id=\"TopicScrollTable\" class=\"w3-padding\">\n";
   TopicScrollTable({ -required => $RequiredEntries{Topic},
                      -default  => \@TopicDefaults,
                      -multiple => $TRUE,
                      -minlevel => $Preferences{Topics}{MinLevel}{Document}, });
 } elsif ($TopicMode eq "tree") {
-  print "<tr><td colspan=\"4\" id=\"TopicTreeSelector\">\n";
+  print "<tr><td colspan=\"4\" id=\"TopicTreeSelector\" class=\"w3-padding\">\n";
   my @RootTopicIDs = sort TopicByAlpha AllRootTopics();
   print TopicListWithChildren({ -topicids        => \@RootTopicIDs,
                                 -defaulttopicids => \@TopicDefaults,
@@ -563,34 +562,35 @@ if ($TopicMode eq "single") {
 print "</td></tr>\n";
 
 if ($Preferences{Options}{SubmitAgree}) {
-  print '<tr><td colspan="4">';
+  print '<tr><td colspan="4" class="w3-padding">';
   print $Preferences{Options}{SubmitAgree};
-  print $query -> checkbox(-name  => 'submitagree', -label => "");
+  print '<label><input type="checkbox" name="submitagree" class="w3-check" style="accent-color: teal;" value="1">';
+  print "</label>\n";
   print "</td></tr>\n";
 }
 
 ### Submit button prior to optional information
 
-print "<tr><td colspan=\"4\" class=\"SubmitCell$QuickClass\">\n";
+print "<tr><td colspan=\"4\" class=\"SubmitCell$QuickClass w3-padding w3-center\">\n";
 if      ($mode eq "add") {
-  print $query -> submit (-value => "Submit document");
+  print $query -> submit (-value => "Submit Document", -class => "w3-button w3-teal w3-border w3-border-black w3-round");
 } elsif ($mode eq "reserve") {
-  print $query -> submit (-value => "Request document ID");
+  print $query -> submit (-value => "Request document ID", -class => "w3-button w3-teal");
 } elsif ($mode eq "update" || $mode eq "updatedb") {
-  print $query -> submit (-value => "Update document");
+  print $query -> submit (-value => "Update document", -class => "w3-button w3-teal");
 }
 print "</td></tr>\n";
 
 ### Events
 
-print "<tr class=\"$QuickClass\"><td colspan=\"4\">\n";
+print "<tr class=\"$QuickClass\"><td colspan=\"4\" class=\"w3-padding\">\n";
  EventSelect( {-required => $FALSE,          -format   => "full",
                -default  => \@EventDefaults, -multiple => $TRUE} );
 print "</td></tr>\n";
 
 ### Cross-references to other documents
 
-print "<tr><td colspan=\"4\">\n";
+print "<tr><td colspan=\"4\" class=\"w3-padding\">\n";
 TextField(-name     => 'xrefs', -size => 40,
           -default  => $XRefDefault,
           -helplink => 'xrefentry', -helptext => 'Related Documents');
@@ -598,32 +598,32 @@ print "</td></tr>\n";
 
 ### References and Publication info
 
-print "<tr class=\"$QuickClass\"><td colspan=\"4\">\n"; ReferenceForm(); print "</td></tr>\n";
-print "<tr class=\"$QuickClass\"><td colspan=\"4\">\n"; PubInfoBox();    print "</td></tr>\n";
+print "<tr class=\"$QuickClass\"><td colspan=\"4\" class=\"w3-padding\">\n"; ReferenceForm(); print "</td></tr>\n";
+print "<tr class=\"$QuickClass\"><td colspan=\"4\" class=\"w3-padding\">\n"; PubInfoBox();    print "</td></tr>\n";
 
 if ($UseSignoffs) { # FIXME: Later may be more complicated control
-  print "<tr class=\"$QuickClass\"><td colspan=\"4\">\n";
+  print "<tr class=\"$QuickClass\"><td colspan=\"4\" class=\"w3-padding\">\n";
   SignoffBox(-default => $SignoffDefault);
   print "</td></tr>\n";
 }
 
 if (($mode eq "updatedb" || $mode eq "update") && $SigStatus ne "Unmanaged" &&
     $SignoffDefault && CanPreserveSigs($mode)) {
-  print '<tr><td colspan="4">';
+  print '<tr><td colspan="4" class="w3-padding">';
   print FormElementTitle(-helplink => "preservesigs",
                          -helptext => "Preserve signatures on this revision?",
                          -nocolon => $TRUE, -nobreak => $TRUE);
-  print $query -> checkbox(-name  => 'preservesigs', -label => "(Check for yes.)");
+  print '<label><input type="checkbox" name="preservesigs" class="w3-check" style="accent-color: teal;" value="1"> (Check for yes.)</label>';
   print "</td></tr>\n";
 }
 
-print "<tr><td colspan=\"4\" class=\"SubmitCell\">\n";
+print "<tr><td colspan=\"4\" class=\"SubmitCell w3-padding w3-center\">\n";
 if      ($mode eq "add") {
-  print $query -> submit (-value => "Submit document");
+  print $query -> submit (-value => "Submit Document", -class => "w3-button w3-teal w3-border w3-border-black w3-round");
 } elsif ($mode eq "reserve") {
-  print $query -> submit (-value => "Request document ID");
+  print $query -> submit (-value => "Request document ID", -class => "w3-button w3-teal");
 } elsif ($mode eq "update" || $mode eq "updatedb") {
-  print $query -> submit (-value => "Update document");
+  print $query -> submit (-value => "Update document", -class => "w3-button w3-teal");
 }
 print "</td></tr>\n";
 print "</table>\n";

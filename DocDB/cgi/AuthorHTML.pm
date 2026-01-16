@@ -317,7 +317,7 @@ sub RequesterActiveSearch {
     $DefaultName = $Authors{$DefaultID}{Formal};
   }
 
-  $HTML .= '<input class="required" name="requester_text" type="text" id="requester" value="'.$DefaultName.'">'.
+  $HTML .= '<input class="required w3-input w3-border w3-round" name="requester_text" type="text" id="requester" value="'.$DefaultName.'">'.
            '<input name="requester" type="hidden" id="requester-id" value="'.$Default.'">'."\n";
   return $HTML;
 }
@@ -344,7 +344,7 @@ sub AuthorActiveSearch {
   $HTML .= '<ul id="authors_id_span"></ul>'."\n";
   $HTML .= '</div>'."\n";
   $HTML .= '<input id="author_dummy" class="hidden required" type="checkbox" value="dummy" name="authors" />'."\n";
-  $HTML .= '<input name="authors_selection_text" type="text" id="authors_selector"><br /> (type to search and<br/>click or press <i>Enter</i>)'."\n";
+  $HTML .= '<input name="authors_selection_text" type="text" id="authors_selector" class="w3-input w3-border w3-round"><br /> (type to search and<br/>click or press <i>Enter</i>)'."\n";
 
   $HTML .= '<script type="text/javascript">
             <!--
@@ -428,7 +428,7 @@ sub AuthorTextEntry ($;@) {
   print FormElementTitle(-helplink => $HelpLink, -helptext  => $HelpText,
                          -required => $Required, -extratext => $ExtraText, );
   print $query -> textarea (-name    => $Name, -default => $AuthorManDefault,
-                            -columns => 25,    -rows    => 8);
+                            -columns => 25,    -rows    => 8, -class => "w3-input w3-border");
 };
 
 sub InstitutionEntryBox (;%) {
@@ -446,13 +446,13 @@ sub InstitutionEntryBox (;%) {
   print "<td>\n";
   print FormElementTitle(-helplink => "instentry", -helptext => "Short Name");
   print $query -> textfield (-name => 'shortdesc',
-                             -size => 30, -maxlength => 40,$Booleans);
+                             -size => 30, -maxlength => 40, -class => "w3-input w3-border w3-round", $Booleans);
   print "</td></tr>\n";
 
   print "<tr><td>\n";
   print FormElementTitle(-helplink => "instentry", -helptext => "Long Name");
   print $query -> textfield (-name => 'longdesc',
-                             -size => 40, -maxlength => 80,$Booleans);
+                             -size => 40, -maxlength => 80, -class => "w3-input w3-border w3-round", $Booleans);
   print "</td>\n";
   print "</tr></table>\n";
 }

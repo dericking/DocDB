@@ -143,7 +143,7 @@ sub TalkEntryForm (@) {
 sub TalkTitle ($) {
   $query -> param('talktitle',$TalkDefaultTitle);
   print $query -> textfield (-name => 'talktitle', -size => 40, -maxlength => 128,
-                             -default => $TalkDefaultTitle);
+                             -default => $TalkDefaultTitle, -class => "w3-input w3-border w3-round");
 }
 
 sub TalkNote {
@@ -155,8 +155,7 @@ sub TalkNote {
 sub TalkDelete ($) {
   my ($SessionOrderID) = @_;
   if ($TalkSeparatorDefault eq "Yes" || $TalkSeparatorDefault eq "No") {
-    print $query -> checkbox(-name  => "talkdelete",
-                             -value => "$SessionOrderID", -label => 'Delete');
+    print '<label><input type="checkbox" name="talkdelete" class="w3-check" style="accent-color: teal;" value="'.$SessionOrderID.'"> Delete</label>';
     print "<br/>\n";
   }
 }
@@ -167,12 +166,10 @@ sub TalkConfirm ($) {
   if ($TalkSeparatorDefault eq "Yes") {
 #    print "&nbsp;\n";
   } elsif ($TalkDefaultConfirmed) {
-    print $query -> checkbox(-name  => "talkconfirm", -checked => 'checked',
-                             -value => "$SessionOrderID", -label => 'Confirm');
+    print '<label><input type="checkbox" name="talkconfirm" class="w3-check" style="accent-color: teal;" value="'.$SessionOrderID.'" checked="checked"> Confirm</label>';
     print "<br/>\n";
   } else {
-    print $query -> checkbox(-name  => "talkconfirm",
-                             -value => "$SessionOrderID", -label => 'Confirm');
+    print '<label><input type="checkbox" name="talkconfirm" class="w3-check" style="accent-color: teal;" value="'.$SessionOrderID.'"> Confirm</label>';
     print "<br/>\n";
   }
 }
@@ -185,8 +182,7 @@ sub TalkReserve ($) {
   } elsif ($TalkDefaultConfirmed) {
 #    print "&nbsp;\n";
   } else {
-    print $query -> checkbox(-name  => "talkreserve",
-                             -value => "$SessionOrderID", -label => 'Reserve');
+    print '<label><input type="checkbox" name="talkreserve" class="w3-check" style="accent-color: teal;" value="'.$SessionOrderID.'"> Reserve</label>';
     print "<br/>\n";
   }
 }
@@ -194,7 +190,7 @@ sub TalkReserve ($) {
 sub TalkOrder {
   $query -> param('talkorder',$TalkDefaultOrder);
   print $query -> textfield (-name => 'talkorder', -value => $TalkDefaultOrder,
-                             -size => 4, -maxlength => 5);
+                             -size => 4, -maxlength => 5, -class => "w3-input w3-border w3-round");
 }
 
 sub TalkSeparator ($) {
@@ -208,7 +204,7 @@ sub TalkSeparator ($) {
 #    print "<br/>\n";
   } else {
     $query -> param('talkseparator', "");
-    print $query -> checkbox(-name => "talkseparator", -value => "$SessionOrderID", -label => 'Break');
+    print '<label><input type="checkbox" name="talkseparator" class="w3-check" style="accent-color: teal;" value="'.$SessionOrderID.'"> Break</label>';
     print "<br/>\n";
   }
 }
@@ -220,7 +216,7 @@ sub TalkDocID {
   } else {
     $query -> param("talkdocid-$SessionOrderID",$TalkDefaultDocID);
     print $query -> textfield (-name => "talkdocid-$SessionOrderID", -value => $TalkDocID,
-                               -size => 6, -maxlength => 7);
+                               -size => 6, -maxlength => 7, -class => "w3-input w3-border w3-round");
   }
 }
 

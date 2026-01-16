@@ -32,15 +32,14 @@ sub TitleBox (%) {
 
   my $HTML = FormElementTitle(-helplink  => "title" ,
                               -helptext  => "Title" ,
-                              -required  => $Required ,
-                              -errormsg  => 'You must specify a document title.'
+                              -required  => $Required
                               );
   $HTML .= $ElementTitle."\n";
   my $SafeDefault = SmartHTML({-text => $TitleDefault},);
 
-  my %FieldParams = (-name => 'title', -default => $SafeDefault, -size => 70, -maxlength => 240);
+  my %FieldParams = (-name => 'title', -default => $SafeDefault, -size => 70, -maxlength => 240, -class => "w3-input w3-border w3-round");
   if ($Required) {
-    $FieldParams{'-class'} = "required";
+    $FieldParams{'-class'} = "w3-input w3-border w3-round required";
   }
   $HTML .=  $query -> textfield(%FieldParams);
   print $HTML;
@@ -59,14 +58,13 @@ sub AbstractBox (%) {
 
   my $ElementTitle = &FormElementTitle(-helplink  => $HelpLink ,
                                        -helptext  => $HelpText ,
-                                       -required  => $Required ,
-                                       -errormsg  => 'You must specify an abstract.');
+                                       -required  => $Required);
   print $ElementTitle,"\n";
   my $SafeDefault = SmartHTML({-text => $AbstractDefault},);
   my %FieldParams = (-name    => $Name, -default => $SafeDefault,
-                     -rows    => $Rows, -columns => $Columns);
+                     -rows    => $Rows, -columns => $Columns, -class => "w3-input w3-border");
   if ($Required) {
-    $FieldParams{'-class'} = "required";
+    $FieldParams{'-class'} = "w3-input w3-border required";
   }
   print $query -> textarea(%FieldParams);
 };
@@ -101,9 +99,9 @@ sub RevisionNoteBox {
   print $ElementTitle,"\n";
   my $SafeDefault = SmartHTML({-text => $Default},);
   my %FieldParams = (-name    => 'revisionnote', -default => $SafeDefault,
-                     -rows    => 2, -columns => 60);
+                     -rows    => 2, -columns => 60, -class => "w3-input w3-border");
   if ($Required) {
-    $FieldParams{'-class'} = "required";
+    $FieldParams{'-class'} = "w3-input w3-border required";
   }
   print $query -> textarea(%FieldParams);
 #   print $query -> textarea (-name => 'revisionnote', -default => $Default,
@@ -129,7 +127,6 @@ sub DocTypeButtons (%) {
                                        -required  => $Required,
                                        -errormsg  => 'You must choose a document type.');
 
-  print "<div class=\"w3-container\">\n";
   print $ElementTitle,"\n";
   my %FieldParams = (-columns => 3,            -name    => "doctype",
                      -values  => \%ShortTypes, -default => $Default);
@@ -137,7 +134,6 @@ sub DocTypeButtons (%) {
     $FieldParams{'-class'} = "required";
   }
   print $query -> radio_group(%FieldParams);
-  print "</div>\n";
 };
 
 sub PrintRevisionInfo {

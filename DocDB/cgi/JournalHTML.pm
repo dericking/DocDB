@@ -66,28 +66,28 @@ sub JournalEntryBox (;%) {
   print "<td>\n";
   print FormElementTitle(-helplink => "journalentry", -helptext => "Full Name");
   print $query -> textfield (-name => 'name',
-                             -size => 40, -maxlength => 128, $Booleans);
+                             -size => 40, -maxlength => 128, -class => "w3-input w3-border w3-round", $Booleans);
   print "</td>\n";
   print "<td>\n";
   print FormElementTitle(-helplink => "journalentry", -helptext => "Publisher");
   print $query -> textfield (-name => 'pub',
-                             -size => 40, -maxlength => 64, $Booleans);
+                             -size => 40, -maxlength => 64, -class => "w3-input w3-border w3-round", $Booleans);
   print "</td></tr>\n";
 
   print "<tr><td>\n";
   print FormElementTitle(-helplink => "journalentry", -helptext => "Abbreviation");
   print $query -> textfield (-name => 'abbr',
-                             -size => 40, -maxlength => 64, $Booleans);
+                             -size => 40, -maxlength => 64, -class => "w3-input w3-border w3-round", $Booleans);
   print "</td>\n";
   print "<td>\n";
   print FormElementTitle(-helplink => "journalentry", -helptext => "URL");
   print $query -> textfield (-name => 'url',
-                             -size => 40, -maxlength => 240, $Booleans);
+                             -size => 40, -maxlength => 240, -class => "w3-input w3-border w3-round", $Booleans);
   print "</td></tr>\n";
   print "<tr><td>\n";
   print FormElementTitle(-helplink => "journalentry", -helptext => "Acronym");
   print $query -> textfield (-name => 'acronym',
-                             -size => 8, -maxlength => 8, $Booleans);
+                             -size => 8, -maxlength => 8, -class => "w3-input w3-border w3-round", $Booleans);
   print "</td></tr>\n";
   print "</table>\n";
 
@@ -146,17 +146,20 @@ sub ReferenceForm {
     print "<td><b>Journal: </b>\n";
     print $query -> popup_menu(-name => "journal", -values => \@JournalIDs,
                                    -labels => \%JournalLabels,
-                                   -default => $JournalDefault);
+                                   -default => $JournalDefault,
+                                   -class => "w3-select w3-border");
     print "</td>";
     print "<td><b>Volume:</b> \n";
     print $query -> textfield (-name => 'volume',
                                -size => 8, -maxlength => 8,
-                               -default => $VolumeDefault);
+                               -default => $VolumeDefault,
+                               -class => "w3-input w3-border w3-round");
     print "</td>";
     print "<td><b>Page:</b> \n";
     print $query -> textfield (-name => 'page',
                                -size => 8, -maxlength => 16,
-                               -default => $PageDefault);
+                               -default => $PageDefault,
+                               -class => "w3-input w3-border w3-round");
     print "</td></tr>\n";
   }
   print "</table>\n";

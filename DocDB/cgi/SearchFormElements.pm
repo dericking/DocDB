@@ -71,7 +71,8 @@ sub TitleSearchBox { # Box and mode selecter for searches on DocumentTitle
   print "<td>\n";
   print $query -> textfield (-name      => 'titlesearch',
                              -size      => 40,
-                             -maxlength => 240);
+                             -maxlength => 240,
+                             -class     => "w3-input w3-border w3-round");
   print "</td>\n";
   print "<td>\n";
   print $query -> popup_menu (-name    => 'titlesearchmode',
@@ -86,7 +87,8 @@ sub AbstractSearchBox { # Field and mode selecter for searches on Abstract
   print "<td>\n";
   print $query -> textfield (-name      => 'abstractsearch',
                              -size      => 40,
-                             -maxlength => 240);
+                             -maxlength => 240,
+                             -class     => "w3-input w3-border w3-round");
   print "</td>\n";
   print "<td>\n";
   print $query -> popup_menu (-name    => 'abstractsearchmode',
@@ -101,7 +103,8 @@ sub KeywordsSearchBox { # Field and mode selecter for searches on Keywords
   print "<td>\n";
   print $query -> textfield (-name      => 'keywordsearch',
                              -size      => 40,
-                             -maxlength => 240);
+                             -maxlength => 240,
+                             -class     => "w3-input w3-border w3-round");
   print "</td>\n";
   print "<td>\n";
   print $query -> popup_menu (-name    => 'keywordsearchmode',
@@ -116,7 +119,8 @@ sub RevisionNoteSearchBox { # Field and mode selecter for searches on Note
   print "<td>\n";
   print $query -> textfield (-name      => 'revisionnotesearch',
                              -size      => 40,
-                             -maxlength => 240);
+                             -maxlength => 240,
+                             -class     => "w3-input w3-border w3-round");
   print "</td>\n";
   print "<td>\n";
   print $query -> popup_menu (-name    => 'revisionnotesearchmode',
@@ -131,7 +135,8 @@ sub PubInfoSearchBox { # Field and mode selecter for searches on PublicationInfo
   print "<td>\n";
   print $query -> textfield (-name      => 'pubinfosearch',
                              -size      => 40,
-                             -maxlength => 240);
+                             -maxlength => 240,
+                             -class     => "w3-input w3-border w3-round");
   print "</td>\n";
   print "<td>\n";
   print $query -> popup_menu (-name    => 'pubinfosearchmode',
@@ -146,7 +151,8 @@ sub FileNameSearchBox { # Field and mode selecter for searches on Files
   print "<td>\n";
   print $query -> textfield (-name      => 'filesearch',
                              -size      => 40,
-                             -maxlength => 240);
+                             -maxlength => 240,
+                             -class     => "w3-input w3-border w3-round");
   print "</td>\n";
   print "<td>\n";
   print $query -> popup_menu (-name    => 'filesearchmode',
@@ -161,7 +167,8 @@ sub DescriptionSearchBox { # Field and mode selecter for searches on Files
   print "<td>\n";
   print $query -> textfield (-name      => 'filedescsearch',
                              -size      => 40,
-                             -maxlength => 240);
+                             -maxlength => 240,
+                             -class     => "w3-input w3-border w3-round");
   print "</td>\n";
   print "<td>\n";
   print $query -> popup_menu (-name    => 'filedescsearchmode',
@@ -176,7 +183,8 @@ sub ContentSearchBox { # Field and mode selecter for searches on Files
   print "<td>\n";
   print $query -> textfield (-name      => 'filecontsearch',
                              -size      => 40,
-                             -maxlength => 240);
+                             -maxlength => 240,
+                             -class     => "w3-input w3-border w3-round");
   print "</td>\n";
   print "<td>\n";
   print $query -> popup_menu (-name    => 'filecontsearchmode',

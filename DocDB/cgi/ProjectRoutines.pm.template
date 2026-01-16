@@ -115,9 +115,16 @@ sub DocDBNavBar {
   print "</div><!-- Closing div w3-dropdown-content -->\n";
   print "</div><!-- Closing div w3-dropdown-hover -->\n";
   print "<a href=\"$SearchForm\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-magnifying-glass w3-text-teal\"></i>&nbsp; Search</a>\n";
+  print "<div class=\"w3-dropdown-hover\">\n";
+  print "<button class=\"w3-button\"><i class=\"fa-solid fa-circle-question w3-text-teal\"></i>&nbsp; Help <i class=\"fa-solid fa-caret-down w3-text-teal\"></i></button>\n";
+  print "<div class=\"w3-dropdown-content w3-bar-block w3-border w3-border-gray w3-card-4\">\n";
+  print "<a href=\"$DocDBInstructions\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-book w3-text-teal\"></i>&nbsp; DocDB Instructions</a>\n";
+  print "<a href=\"$Statistics\" class=\"w3-bar-item w3-button\"><i class=\"fa-solid fa-chart-bar w3-text-teal\"></i>&nbsp; DocDB Statistics</a>\n";
+  print "</div><!-- Closing div w3-dropdown-content -->\n";
+  print "</div><!-- Closing div w3-dropdown-hover -->\n";
   print "<div class=\"w3-dropdown-hover w3-right\">\n";
   print "<button class=\"w3-button\"><i class=\"fa-solid fa-circle-info w3-text-teal\"></i>&nbsp; About <i class=\"fa-solid fa-caret-down w3-text-teal\"></i></button>\n";
-  print "<div class=\"w3-dropdown-content w3-bar-block w3-border w3-border-gray w3-card-4\">\n";
+  print "<div class=\"w3-dropdown-content w3-bar-block w3-border w3-border-gray w3-card-4\" style=\"right:0; left:auto;\">\n";
   print "<a href=\"https://github.com/dericking/DocDB\" class=\"w3-bar-item w3-button\">MOLLER DocDB</a>\n";
   print "<a href=\"https://github.com/ericvaandering/DocDB\" class=\"w3-bar-item w3-button\">Original DocDB</a>\n";
   print "</div><!-- Closing div w3-dropdown-content -->\n";

@@ -177,17 +177,18 @@ if ($Preferences{Components}{Calendar}) {
 
 # Fill arrays that print lists of documents
 
-my @FirstColumn  = ();
-my @OtherColumns = ();
-my @Spanners     = ();
-
-push @FirstColumn,"<a href=\"$ListAuthors\" class=\"w3-text-teal\">Authors</a>";
-push @FirstColumn,"<a href=\"$ListTopics\" class=\"w3-text-teal\">Topics</a>";
-push @FirstColumn,"<a href=\"$ListGroups\" class=\"w3-text-teal\">Groups</a>";
-push @FirstColumn,"<a href=\"$ListKeywords\" class=\"w3-text-teal\">Keywords</a>";
-unless ($Public && !$PublicAccess{MeetingList}) {
-  push @FirstColumn,"<a href=\"$ListAllMeetings\" class=\"w3-text-teal\">Events</a>";
-}
+# COMMENTED OUT: List section moved to header navigation dropdown
+# my @FirstColumn  = ();
+# my @OtherColumns = ();
+# my @Spanners     = ();
+# 
+# push @FirstColumn,"<a href=\"$ListAuthors\" class=\"w3-text-teal\">Authors</a>";
+# push @FirstColumn,"<a href=\"$ListTopics\" class=\"w3-text-teal\">Topics</a>";
+# push @FirstColumn,"<a href=\"$ListGroups\" class=\"w3-text-teal\">Groups</a>";
+# push @FirstColumn,"<a href=\"$ListKeywords\" class=\"w3-text-teal\">Keywords</a>";
+# unless ($Public && !$PublicAccess{MeetingList}) {
+#   push @FirstColumn,"<a href=\"$ListAllMeetings\" class=\"w3-text-teal\">Events</a>";
+# }
 # if ($UserValidation eq "certificate" || $UserValidation eq "shibboleth" || $UserValidation eq "FNALSSO" ||
 #     (!$Public && $Preferences{Options}{DynamicFullList}{Private}) ||
 #     ( $Public && $Preferences{Options}{DynamicFullList}{Public})) {
@@ -196,34 +197,34 @@ unless ($Public && !$PublicAccess{MeetingList}) {
 #   push @FirstColumn,"<a href=\"$web_root/Static/Lists/$remote_user/FullList.html\" class=\"w3-text-teal\">All documents</a>";
 # }
 
-if ($UseSignoffs && (!$Public || $PublicAccess{MeetingList})) {
-  push @OtherColumns,"<a href=\"$ListManagedDocuments\" class=\"w3-text-teal\">Managed documents</a>";
-}
-
-push @OtherColumns,@{ $ProjectMessages{Homepage}{DocumentLists} };
-push @Spanners,@MultiColumnDocumentLists;
-
-# Print bulleted list for lists of documents
-
-print "<div id=\"DocListMethodsHeader\" class=\"w3-panel w3-margin-left w3-paper w3-round w3-padding w3-border w3-border-gray\">\n";
-print "<strong>List:</strong>\n";
-
-print "<ul id=\"DocListMethods\" class=\"w3-ul\">\n";
-
-foreach my $Item (@FirstColumn) {
-  print "<li>&loz;&nbsp;",$Item,"</li>\n";
-}
-
-foreach my $Item (@OtherColumns) {
-  print "<li>&loz;&nbsp;",$Item,"</li>\n";
-}
-
-foreach my $Spanner (@Spanners) {
-  print "<li>&loz;&nbsp;",$Spanner,"</li>\n";
-}
-
-print "</ul>\n";
-print "</div><!-- Closing div id DocListMethodsHeader -->\n";
+# COMMENTED OUT: List section moved to header navigation dropdown
+# if ($UseSignoffs && (!$Public || $PublicAccess{MeetingList})) {
+#   push @OtherColumns,"<a href=\"$ListManagedDocuments\" class=\"w3-text-teal\">Managed documents</a>";
+# }
+# push @OtherColumns,@{ $ProjectMessages{Homepage}{DocumentLists} };
+# push @Spanners,@MultiColumnDocumentLists;
+# 
+# # Print bulleted list for lists of documents
+# 
+# print "<div id=\"DocListMethodsHeader\" class=\"w3-panel w3-margin-left w3-paper w3-round w3-padding w3-border w3-border-gray\">\n";
+# print "<strong>List:</strong>\n";
+# 
+# print "<ul id=\"DocListMethods\" class=\"w3-ul\">\n";
+# 
+# foreach my $Item (@FirstColumn) {
+#   print "<li>&loz;&nbsp;",$Item,"</li>\n";
+# }
+# 
+# foreach my $Item (@OtherColumns) {
+#   print "<li>&loz;&nbsp;",$Item,"</li>\n";
+# }
+# 
+# foreach my $Spanner (@Spanners) {
+#   print "<li>&loz;&nbsp;",$Spanner,"</li>\n";
+# }
+# 
+# print "</ul>\n";
+# print "</div><!-- Closing div id DocListMethodsHeader -->\n";
 
 # Fill arrays with stuff that goes in main, bold table
 

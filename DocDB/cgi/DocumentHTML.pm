@@ -427,15 +427,15 @@ sub DocumentLink (%) {
 
 sub PrintDocNumber { # And type
   my ($DocRevID) = @_;
-  print "<dt>Document #:</dt>";
-  print "<dd>";
+  print "<div><strong>Document #:</strong><span>&nbsp;&nbsp;&nbsp;";
   print (&FullDocumentID($DocRevisions{$DocRevID}{DOCID}));
   print "-v$DocRevisions{$DocRevID}{Version}";
-  print "</dd>\n";
+  print "</span></div>\n";
 
-  print "<dt>Document type:</dt>";
-  my $type_link = &TypeLink($DocRevisions{$DocRevID}{DocTypeID},"short");
-  print "<dd>$type_link</dd>\n";
+  # COMMENTED OUT: Document type rendering - no longer needed
+  # print "<div><strong>Document type:</strong> ";
+  # my $type_link = &TypeLink($DocRevisions{$DocRevID}{DocTypeID},"short");
+  # print "$type_link</div>\n";
 }
 
 sub FieldListChooser (%) {

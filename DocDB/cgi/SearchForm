@@ -128,7 +128,7 @@ print "</tr>\n";
 
  print "<tr>\n";
  print "<td colspan=\"3\" class=\"w3-padding\">\n";
- 
+
  print "<table class=\"w3-table w3-bordered no-row-lines\">\n";
  print "<tr>\n";
  print "<td class=\"w3-padding\" style=\"vertical-align: middle; width: 33.33%;\">\n"; # Requester
@@ -145,7 +145,7 @@ print "</tr>\n";
  print "</td>\n";
  print "</tr>\n";
  print "</table>\n";
- 
+
  print "</td>\n";
  print "</tr>\n";
 
@@ -155,11 +155,11 @@ print "</tr>\n";
  print "<table class=\"w3-table w3-bordered no-row-lines\">\n";
  print "<tr>\n";
 # print "<td class=\"w3-padding\" style=\"vertical-align: middle;\">\n"; DocTypeMulti();       print "</td>\n";
- DateRangePullDown();
+  DateRangePullDown();
  print "</tr>\n";
  print "</table>\n";
  
- print "</td>\n";
+  print "</td>\n";
  print "</tr>\n";
 
  print "<tr>\n";

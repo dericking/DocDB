@@ -88,14 +88,14 @@ sub SecurityScroll (%) {
 sub SecurityListByID {
   my (@GroupIDs) = @_;
 
-  print "<div id=\"Viewable\">\n";
+  print "<div id=\"Viewable\" class=\"w3-padding\">\n";
   if ($EnhancedSecurity) {
     print "<b>Viewable by:</b><br/>\n";
   } else {
     print "<b>Accessible by:</b><br/>\n";
   }
 
-  print "<ul>\n";
+  print "<ul style=\"margin:0px!important;\">\n";
   if (@GroupIDs) {
     foreach $GroupID (@GroupIDs) {
       print "<li>",SecurityLink({ -groupid => $GroupID, -check => "view", }),"</li>\n";
@@ -114,9 +114,9 @@ sub ModifyListByID {
     return;
   }
 
-  print "<div id=\"Modifiable\">\n";
+  print "<div id=\"Modifiable\" class=\"w3-padding\">\n";
   print "<b>Modifiable by:</b><br/>\n";
-  print "<ul>\n";
+  print "<ul style=\"margin:0px!important;\">\n";
   if (@GroupIDs) {
     foreach $GroupID (@GroupIDs) {
       print "<li>",SecurityLink( {-groupid => $GroupID, -check => "create", } ),"</li>\n";

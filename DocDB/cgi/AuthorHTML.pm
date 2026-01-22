@@ -96,15 +96,13 @@ sub AuthorListByID {
   my ($HTML,$StartHTML,$EndHTML,$StartElement,$EndElement,$StartList,$EndList,$NoneText);
 
   if ($ListFormat eq "dl") {
-    $StartHTML .= '<div id="Authors"><dl>';
-    $StartHTML .= '<dt class="InfoHeader"><span class="InfoHeader">Authors:</span></dt>';
-    $StartHTML .= '</dl>';
+    $StartHTML .= '<div id="Authors"><h4>Authors:</h4>';
     $EndHTML    = '</div>';
     $StartList  = '<ul>';
     $EndList    = '</ul>';
     $StartElement = '<li>';
     $EndElement   = '</li>';
-    $NoneText     = '<div id="Authors"><dl><dt class="InfoHeader"><span class="InfoHeader">Authors:</span></dt>None<br/></dl>';
+    $NoneText     = '<div id="Authors"><h4>Authors:</h4>None';
   } else {  #$ListFormat eq "br"
     $StartHTML  = '<div>';
     $EndHTML    = '</div>';
@@ -131,16 +129,14 @@ sub RequesterByID {
   my ($RequesterID) = @_;
 
   my $AuthorLink   = &AuthorLink($RequesterID);
-  print "<dt>Submitted by:</dt>\n";
-  print "<dd>$AuthorLink</dd>\n";
+  print "<div><strong>Submitted by:</strong><span>&nbsp;&nbsp;&nbsp;$AuthorLink</span></div>\n";
 }
 
 sub SubmitterByID {
   my ($RequesterID) = @_;
 
   my $AuthorLink   = &AuthorLink($RequesterID);
-  print "<dt>Updated by:</dt>\n";
-  print "<dd>$AuthorLink</dd>\n";
+  print "<div><strong>Updated by:</strong><span>&nbsp;&nbsp;&nbsp;$AuthorLink</span></div>\n";
 }
 
 sub AuthorLink ($;%) {

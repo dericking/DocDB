@@ -170,10 +170,86 @@ sub PrintRevisionInfo {
 
   print "<div id=\"RevisionInfo\" class=\"w3-container w3-row\">\n";
 
-  ### Header info
+  ### Column Layout
 
-  print "<div id=\"HeaderRevision3Col\">\n";
+  ### Left Column
 
+  print "<div id=\"LeftColumn3ColWrapper\" class=\"w3-quarter\">\n";
+
+  ### BasicDocInfo module
+  print "<div id=\"BasicDocInfo\" class=\"w3-card w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
+  print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><span style=\"text-decoration:underline;\">Document Information</span></div>\n";
+  print "<div class=\"w3-bar-block\">\n";
+  print "<div class=\"w3-bar-item\">\n";
+   &PrintDocNumber($DocRevID);
+   &RequesterByID($Documents{$DocumentID}{Requester});
+   &SubmitterByID($DocRevisions{$DocRevID}{Submitter});
+   &PrintModTimes;
+  print "</div><!-- Closing div w3-bar-item -->\n";
+  print "</div><!-- Closing div w3-bar-block -->\n";
+  print "</div><!-- Closing div id BasicDocInfo -->\n";
+
+  ### AccessInformation module
+  print "<div id=\"AccessInformation\" class=\"w3-card w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
+  print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><span style=\"text-decoration:underline;\">Document Access</span></div>\n";
+  print "<div class=\"w3-bar-block\">\n";
+  &SecurityListByID(@GroupIDs);
+  &ModifyListByID(@ModifyIDs);
+  print "</div><!-- Closing div w3-bar-block -->\n";
+  print "</div><!-- Closing div id AccessInformation -->\n";
+
+  ### PreviousVersions module
+  unless ($HideVersions) {
+    require "RevisionSQL.pm";
+    require "Sorts.pm";
+    my @RevIDs = reverse sort RevisionByVersion &FetchRevisionsByDocument($DocumentID);
+    if ($#RevIDs > 0) {  # Only show module if there's more than one version
+      print "<div id=\"PreviousVersions\" class=\"w3-card w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
+      print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><span style=\"text-decoration:underline;\">Document Versions</span></div>\n";
+      print "<div class=\"w3-margin-top\"></div>\n";
+      print "<div class=\"w3-bar-block\">\n";
+      &OtherVersionLinks($DocumentID,$Version);
+      print "</div><!-- Closing div w3-bar-block -->\n";
+      print "</div><!-- Closing div id PreviousVersions -->\n";
+    }
+  }
+
+  ### UpdateButtons module
+  if (CanModify($DocumentID) && !$HideButtons) {
+    print "<div id=\"UpdateButtons\" class=\"w3-card w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
+    print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><span style=\"text-decoration:underline;\">Document Actions</span></div>\n";
+    print "<div class=\"w3-bar-block w3-padding-small\">\n";
+    UpdateButton($DocumentID);
+    UpdateDBButton($DocumentID,$Version);
+    if ($Version) {
+      AddFilesButton($DocumentID,$Version);
+    }
+    # COMMENTED OUT: Create Similar Button - no longer needed
+    # CloneButton($DocumentID);
+    print "</div><!-- Closing div w3-bar-block -->\n";
+    print "</div><!-- Closing div id UpdateButtons -->\n";
+  }
+
+  ### DocNotifySignup module
+  unless ($Public || $HideButtons) {
+    print "<div id=\"DocNotifySignup\" class=\"w3-card w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
+    print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><span style=\"text-decoration:underline;\">Document Notifications</span></div>\n";
+    print "<div class=\"w3-bar-block\">\n";
+    require "NotificationHTML.pm";
+    &DocNotifySignup(-docid => $DocumentID);
+    print "</div><!-- Closing div w3-bar-block -->\n";
+    print "</div><!-- Closing div id DocNotifySignup -->\n";
+  }
+
+  print "<div class=\"w3-margin-bottom\"></div>\n";
+
+  print "</div><!-- Closing div id LeftColumn3ColWrapper -->\n";
+
+  ### Main Column
+
+  print "<div id=\"MainColumn3Col\" class=\"w3-threequarter w3-padding\">\n";
+
+  ### Document Title
   print "<div id=\"DocTitle\">\n";
    &PrintTitle($DocRevisions{$DocRevID}{Title});
    if ($UseSignoffs) {
@@ -184,61 +260,6 @@ sub PrintRevisionInfo {
      }
    }
   print "</div><!-- Closing div id DocTitle -->\n";
-  print "</div><!-- Closing div id HeaderRevision3Col -->\n";
-
-  ### Column Layout
-
-  ### Left Column
-
-  print "<div id=\"LeftColumn3ColWrapper\">\n";
-  print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
-  print "<div class=\"w3-bar-block\">\n";
-
-  print "<div id=\"BasicDocInfo\" class=\"w3-bar-item\">\n";
-  print "<dl>\n";
-   &PrintDocNumber($DocRevID);
-   &RequesterByID($Documents{$DocumentID}{Requester});
-   &SubmitterByID($DocRevisions{$DocRevID}{Submitter});
-   &PrintModTimes;
-  print "</dl>\n";
-  print "</div><!-- Closing div id BasicDocInfo -->\n";
-
-  if (CanModify($DocumentID) && !$HideButtons) {
-    print "<div id=\"UpdateButtons\">\n";
-    UpdateButton($DocumentID);
-    UpdateDBButton($DocumentID,$Version);
-    if ($Version) {
-      AddFilesButton($DocumentID,$Version);
-    }
-    CloneButton($DocumentID);
-    print "</div><!-- Closing div id UpdateButtons -->\n";
-  }
-
-  unless ($Public || $HideButtons) {
-    require "NotificationHTML.pm";
-    &DocNotifySignup(-docid => $DocumentID);
-  }
-
-  print "</div><!-- Closing div w3-bar-block -->\n";
-
-  print "</div><!-- Closing div id LeftColumn3Col -->\n";
-  print "</div><!-- Closing div id LeftColumn3ColWrapper -->\n";
-
-  ### Main Column
-
-  print "<div id=\"MainColumn3Col\" class=\"w3-threequarter\">\n";
-
-  ### Right column (wrapped around by middle column)
-
-  print "<div id=\"RightColumn3Col\" class=\"w3-sidebar w3-light-gray w3-bar-block\" style=\"float:right;margin-left:1em\">\n";
-
-  &SecurityListByID(@GroupIDs);
-  &ModifyListByID(@ModifyIDs);
-  unless ($HideVersions) {
-    &OtherVersionLinks($DocumentID,$Version);
-  }
-
-  print "</div><!-- Closing div id RightColumn3Col -->\n";
 
   PrintAbstract($DocRevisions{$DocRevID}{Abstract}); # All are called only here, so changes are OK
   FileListByRevID($DocRevID); # All are called only here, so changes are OK
@@ -273,11 +294,9 @@ sub PrintAbstract ($;$) {
   }
 
   if ($Format eq "div") {
-    print "<div id=\"Abstract\">\n";
-    print "<dl>\n";
-    print "<dt class=\"InfoHeader\"><span class=\"InfoHeader\">Abstract:</span></dt>\n";
-    print "<dd>$Abstract</dd>\n";
-    print "</dl>\n";
+    print "<div id=\"Abstract\" class=\"w3-panel w3-light-gray w3-round-large\">\n";
+    print "<h4>Abstract:</h4>\n";
+    print "<em>$Abstract</em>\n";
     print "</div>\n";
   } elsif ($Format eq "bare") {
     print  $Abstract;
@@ -294,16 +313,15 @@ sub PrintKeywords {
 
   if ($Keywords) {
     print "<div id=\"Keywords\">\n";
-    print "<dl>\n";
-    print "<dt class=\"InfoHeader\"><span class=\"InfoHeader\">Keywords:</span></dt>\n";
-    print "<dd>\n";
+    print "<h4>Keywords:</h4>\n";
+    print "<ul>\n";
     my @Keywords = split /\,*\s+/,$Keywords;
     my $Link;
     foreach my $Keyword (@Keywords) {
       $Link = &KeywordLink($Keyword);
-      print "$Link \n";
+      print "<li>$Link</li>\n";
     }
-    print "</dd></dl>\n";
+    print "</ul>\n";
     print "</div>\n";
   }
 }
@@ -313,12 +331,10 @@ sub PrintRevisionNote {
 
   my ($RevisionNote) = @_;
   if ($RevisionNote) {
-    print "<div id=\"RevisionNote\">\n";
+    print "<div id=\"RevisionNote\" class=\"w3-panel w3-light-gray w3-round-large w3-border\" style=\"border-style:dashed!important;border-width:1px;\">\n";
     $RevisionNote = SmartHTML( {-text => $RevisionNote, -makeURLs => $TRUE, -addLineBreaks => $TRUE} );
-    print "<dl>\n";
-    print "<dt class=\"InfoHeader\"><span class=\"InfoHeader\">Notes and Changes:</span></dt>\n";
-    print "<dd>$RevisionNote</dd>\n";
-    print "</dl>\n";
+    print "<h4>Notes and Changes:</h4>\n";
+    print "<em>$RevisionNote</em>\n";
     print "</div>\n";
   }
 }
@@ -459,18 +475,18 @@ sub PrintModTimes {
   my $ActualDateTime = ConvertToDateTime({-MySQLTimeStamp => $DocRevisions{$DocRevID}{TimeStamp}, });
   my $ActualTime  = DateTimeString({ -DateTime => $ActualDateTime });
 
-  print "<dt>Document Created:</dt>\n<dd>$DocTime</dd>\n";
-  print "<dt>Contents Revised:</dt>\n<dd>$VersionTime</dd>\n";
-  print "<dt>Metadata Revised:</dt>\n<dd>$RevTime</dd>\n";
+  print "<div><strong>Document Created:</strong><span>&nbsp;&nbsp;&nbsp;$DocTime</span></div>\n";
+  print "<div><strong>Contents Revised:</strong><span>&nbsp;&nbsp;&nbsp;$VersionTime</span></div>\n";
+  print "<div><strong>Metadata Revised:</strong><span>&nbsp;&nbsp;&nbsp;$RevTime</span></div>\n";
   if ($ActualTime ne $RevTime) {
-    print "<dt>Actually Revised:</dt>\n<dd>$ActualTime</dd>\n";
+    print "<div><strong>Actually Revised:</strong><span>&nbsp;&nbsp;&nbsp;$ActualTime</span></div>\n";
   }
 
   my $LastApproved = RevisionSignoffDate($DocRevID);
   if ($LastApproved) {
     my $ApprovalDateTime = ConvertToDateTime({-MySQLTimeStamp => $LastApproved, });
     my $ApprovalTime  = DateTimeString({ -DateTime => $ApprovalDateTime });
-    print "<dt>Last Signed:</dt>\n<dd>$ApprovalTime</dd>\n";
+    print "<div><strong>Last Signed:</strong><span>&nbsp;&nbsp;&nbsp;$ApprovalTime</span></div>\n";
   }
 }
 
@@ -482,30 +498,30 @@ sub OtherVersionLinks {
   my $DocRevID = $RevIDs[0];
 
   my $HTML = "";
-  $HTML .= "<div id=\"OtherVersions\">\n";
-  $HTML .= "<p><b>Quick Links:</b>\n";
-  $HTML .= "<br/>";
-  $HTML .= DocumentLink(-docid => $DocumentID, -noversion => $TRUE, -linktext => "Latest Version");
-
-  if (!$Public && $Preferences{Security}{Instances}{Public}) {
-    my @GroupIDs     = GetRevisionSecurityGroups($DocRevID);
-    unless (@GroupIDs) {
-      my $PublicURL = $Preferences{Security}{Instances}{Public}.'/ShowDocument?docid='.$DocumentID;
-      $HTML .= '<br/><a href="'.$PublicURL.'" class="w3-text-teal">Public Version</a>'."\n";
-    }
-  }
-
-  $HTML .= "</p>\n";
+  $HTML .= "<div id=\"OtherVersions\" style=\"padding-top:8px!important;\">\n";
+  # COMMENTED OUT: Quick Links section
+  # $HTML .= "<p><b>Quick Links:</b>\n";
+  # $HTML .= "<br/>";
+  # $HTML .= DocumentLink(-docid => $DocumentID, -noversion => $TRUE, -linktext => "Latest Version");
+  # 
+  # if (!$Public && $Preferences{Security}{Instances}{Public}) {
+  #   my @GroupIDs     = GetRevisionSecurityGroups($DocRevID);
+  #   unless (@GroupIDs) {
+  #     my $PublicURL = $Preferences{Security}{Instances}{Public}.'/ShowDocument?docid='.$DocumentID;
+  #     $HTML .= '<br/><a href="'.$PublicURL.'" class="w3-text-teal">Public Version</a>'."\n";
+  #   }
+  # }
+  # 
+  # $HTML .= "</p>\n";
   print $HTML;
 
   unless ($#RevIDs > 0) {
     print "</div>\n";
     return;
   }
-  print "<b>Other Versions:</b>\n";
+  print "<span class=\"w3-padding\" style=\"font-weight:700;\">Other Versions:</span>\n";
 
-  print "<table id=\"OtherVersionTable\" class=\"w3-table w3-striped w3-bordered\">\n";
-  my $RowClass = "Odd";
+  print "<table id=\"OtherVersionTable\" class=\"w3-table w3-bordered no-row-lines\">\n";
 
   foreach $RevID (@RevIDs) {
     my $Version = $DocRevisions{$RevID}{VERSION};
@@ -513,12 +529,7 @@ sub OtherVersionLinks {
     unless (&CanAccess($DocumentID,$Version)) {next;}
     $link = DocumentLink(-docid => $DocumentID, -version => $Version);
     $date = &EuroDateHM($DocRevisions{$RevID}{DATE});
-    print "<tr class=\"$RowClass\"><td>$link\n";
-    if ($RowClass eq "Odd") {
-      $RowClass = "Even";
-    } else {
-      $RowClass = "Odd";
-    }
+    print "<tr><td>$link\n";
     print "<br/>$date\n";
     if ($UseSignoffs) {
       require "SignoffUtilities.pm";

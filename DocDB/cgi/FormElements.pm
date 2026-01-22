@@ -310,10 +310,10 @@ sub CloneButton {
   $query -> param('docid',$DocumentID);
 
   print $query -> start_form('POST',$DocumentAddForm);
-  print "<div>\n";
+  print "<div class=\"w3-bar-item w3-center w3-padding-small\">\n";
   print $query -> hidden(-name => 'mode',  -default => 'clone');
   print $query -> hidden(-name => 'docid', -default => $DocumentID);
-  print $query -> submit (-value => "Create Similar");
+  print $query -> submit (-value => "Create Similar", -class => "w3-button w3-teal w3-padding-small w3-round w3-border w3-border-black");
   print "\n</div>\n";
   print $query -> end_form;
   print "\n";
@@ -328,10 +328,10 @@ sub UpdateButton {
   $query -> param('docid',$DocumentID);
 
   print $query -> start_form('POST',$DocumentAddForm);
-  print "<div>\n";
+  print "<div class=\"w3-bar-item w3-center w3-padding-small\">\n";
   print $query -> hidden(-name => 'mode',  -default => 'update');
   print $query -> hidden(-name => 'docid', -default => $DocumentID);
-  print $query -> submit (-value => "Update Document");
+  print $query -> submit (-value => "Update Document", -class => "w3-button w3-teal w3-padding-small w3-round w3-border w3-border-black");
   print "\n</div>\n";
   print $query -> end_form;
   print "\n";
@@ -347,11 +347,11 @@ sub UpdateDBButton {
   $query -> param('version',$Version);
 
   print $query -> start_form('POST',$DocumentAddForm);
-  print "<div>\n";
+  print "<div class=\"w3-bar-item w3-center w3-padding-small\">\n";
   print $query -> hidden(-name =>    'mode', -default => 'updatedb');
   print $query -> hidden(-name =>   'docid', -default => $DocumentID);
   print $query -> hidden(-name => 'version', -default => $Version);
-  print $query -> submit (-value => "Update Metadata");
+  print $query -> submit (-value => "Update Metadata", -class => "w3-button w3-teal w3-padding-small w3-round w3-border w3-border-black");
   print "\n</div>\n";
   print $query -> end_form;
   print "\n";
@@ -366,10 +366,10 @@ sub AddFilesButton {
   $query -> param('version',$Version);
 
   print $query -> start_form('POST',$AddFilesForm);
-  print "<div>\n";
+  print "<div class=\"w3-bar-item w3-center w3-padding-small\">\n";
   print $query -> hidden(-name => 'docid',   -default => $DocumentID);
   print $query -> hidden(-name => 'version', -default => $Version);
-  print $query -> submit (-value => "Add Files");
+  print $query -> submit (-value => "Add Files", -class => "w3-button w3-teal w3-padding-small w3-round w3-border w3-border-black");
   print "\n</div>\n";
   print $query -> end_form;
   print "\n";

@@ -34,8 +34,7 @@ sub FileListByRevID {
   my $Version    = $DocRevisions{$DocRevID}{VERSION};
 
   print "<div id=\"Files\">\n";
-  print "<dl>\n";
-  print "<dt class=\"InfoHeader\"><span class=\"InfoHeader\">Files in Document:</span></dt>\n";
+  print "<h4>Files in Document:</h4>\n";
 
   if (@FileIDs) {
     @RootFiles  = ();
@@ -48,23 +47,24 @@ sub FileListByRevID {
       }
     }
     if (@RootFiles) {
-      print "<dd class=\"FileList\">\n";
+      print "<div class=\"FileList\">\n";
       &FileListByFileID(@RootFiles);
-      print "</dd>\n";
+      print "</div>\n";
     }
     if (@OtherFiles) {
-      print "<dd class=\"FileList\"><em>Other Files:</em>\n";
+      print "<div class=\"FileList\"><em>Other Files:</em>\n";
       &FileListByFileID(@OtherFiles);
-      print "</dd>\n";
+      print "</div>\n";
     }
     unless ($Public) {
       my $ArchiveLink = &ArchiveLink($DocumentID,$Version);
-      print "<dd class=\"FileList\"><em>$ArchiveLink</em></dd>\n";
+      print "<ul>\n";
+      print "<li style=\"list-style-type:circle;\">$ArchiveLink</li>\n";
+      print "</ul>\n";
     }
   } else {
-    print "<dd>None</dd>\n";
+    print "None\n";
   }
-  print "</dl>\n";
   print "</div>\n";
 }
 

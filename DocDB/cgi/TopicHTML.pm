@@ -62,14 +62,11 @@ sub TopicListByID {
 
   if ($ListFormat eq "dl") {
     $HTML .= "<div id=\"Topics\">\n";
-    $HTML .= "<dl>\n";
-    $HTML .= "<dt class=\"InfoHeader\"><span class=\"InfoHeader\">Topics:</span></dt>\n";
+    $HTML .= "<h4>Topics:</h4>\n";
     if (@TopicLinks) {
-      $HTML .= "</dl>\n";
       $HTML .= "<ul>\n";
     } else {
-      $HTML .= "<dd>None</dd>\n";
-      $HTML .= "</dl>\n";
+      $HTML .= "None\n";
     }
   } elsif ($ListFormat eq "br") {
     unless (@TopicLinks) {

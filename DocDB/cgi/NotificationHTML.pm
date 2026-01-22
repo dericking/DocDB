@@ -26,26 +26,29 @@ sub DocNotifySignup (%) {
 
   my $NeedUserFields = ($UserValidation ne "certificate" && $UserValidation ne "shibboleth" && $UserValidation ne "FNALSSO");
 
-  print "<div id=\"DocNotifySignup\">\n";
+  print "<div id=\"DocNotifySignup\" class=\"w3-padding-small\">\n";
   print $query -> start_multipart_form('POST',$WatchDocument);
   print "<div class=\"InputWrapper\">\n";
-  if ($NeedUserFields) {
-    print "<hr/>\n";
-  }
+  # COMMENTED OUT: Removed <hr> per user request
+  # if ($NeedUserFields) {
+  #   print "<hr/>\n";
+  # }
   print $query -> hidden(-name => 'docid', -default => $DocumentID, -override => 1);
 
   if ($NeedUserFields) {
-    print "<dl>\n";
-    print "<dt>Username:</dt><dd>\n";
-    print $query -> textfield(-name => 'username', -size => 12, -maxlength => 32);
-    print "</dd>\n";
-    print "<dt>Password:</dt><dd>\n";
-    print $query -> password_field(-name => 'password', -size => 12, -maxlength => 32);
-    print "</dd>\n";
-    print "</dl>\n";
+    print "<div class=\"w3-padding-small\">\n";
+    print "<label><strong>Username:</strong><br/>\n";
+    print $query -> textfield(-name => 'username', -size => 12, -maxlength => 32, -class => "w3-input w3-border w3-round w3-padding-small");
+    print "</label>\n";
+    print "</div>\n";
+    print "<div class=\"w3-padding-small\">\n";
+    print "<label><strong>Password:</strong><br/>\n";
+    print $query -> password_field(-name => 'password', -size => 12, -maxlength => 32, -class => "w3-input w3-border w3-round w3-padding-small");
+    print "</label>\n";
+    print "</div>\n";
   }
-  print "<div class=\"SubmitCell\">\n";
-  print $query -> submit (-value => "Watch Document");
+  print "<div id=\"DocActionSubmitCell\" class=\"w3-padding w3-center\">\n";
+  print $query -> submit (-value => "Watch Document", -class => "w3-button w3-teal w3-round w3-border w3-border-black w3-padding-small");
   print "</div>\n";
   print "</div>\n";
   print $query -> end_multipart_form;

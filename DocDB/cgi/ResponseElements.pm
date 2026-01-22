@@ -32,13 +32,13 @@ require "RevisionHTML.pm";   #FIXME: Remove, move references to correct place
 
 sub PrintTitle {
   my ($Title) = @_;
-  my $HTML = "<h1>";
+  my $HTML = "<h3>";
   if ($Title) {
     $HTML .= SmartHTML( {-text => $Title, } );
   } else {
     $HTML .= "<b>Title:</b> none";
   }
-  $HTML .= "</h1>\n";
+  $HTML .= "</h3>\n";
   print $HTML;
 }
 

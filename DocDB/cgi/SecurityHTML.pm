@@ -79,7 +79,10 @@ sub SecurityScroll (%) {
   print $query -> scrolling_list(-name => $Name, -values => \@GroupIDs,
                                  -labels => \%GroupLabels,
                                  -size => $Size, -multiple => $Multiple,
-                                 -default => \@Default, %Options);
+                                 -default => \@Default,
+                                 -class => "w3-select w3-border",
+                                 -style => "width:100%;",
+                                 %Options);
 };
 
 sub SecurityListByID {

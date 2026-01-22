@@ -28,11 +28,11 @@ sub TalkEntryForm (@) {
   my @SessionOrderIDs = @_;
 
   require "Scripts.pm";
-  print "<table id=\"TalkEntryTable\" class=\"LowPaddedTable Alternating CenteredTable\">\n";
+  print "<div id=\"SessionEntryTalksWrap\" class=\"w3-card w3-border w3-margin-top w3-margin-bottom\">\n";
+  print "<table id=\"TalkEntryTable\" class=\"w3-table w3-bordered no-row-lines\">\n";
   print "<thead>\n";
-  print "<tr>\n";
-  print "<th>",FormElementTitle(-helplink => "sessionorder", -helptext => "Order,",  -nocolon => $TRUE);
-  print        FormElementTitle(-helplink => "talketc",      -helptext => "etc.", -nocolon => $TRUE);
+  print "<tr class=\"w3-light-gray\">\n";
+  print "<th>",FormElementTitle(-helplink => "sessionorder", -helptext => "Order &amp; Opts",  -nocolon => $TRUE);
   print "</th>\n";
   print "<th>",FormElementTitle(-helplink => "talkdocid"    , -helptext => "Doc. #",            -nocolon => $TRUE),"</th>\n";
   print "<th>",FormElementTitle(-helplink => "talkinfo"     , -helptext => "Talk Title &amp; Note", -nocolon => $TRUE),"</th>\n";
@@ -54,11 +54,6 @@ sub TalkEntryForm (@) {
   foreach $SessionOrderID (@SessionOrderIDs) {
 
     ++$TalkOrder;
-    if ($TalkOrder % 2) {
-      $RowClass = "Odd";
-    } else {
-      $RowClass = "Even";
-    }
     $TalkDefaultOrder = $TalkOrder;
     my $EntryTimeStamp;
 
@@ -103,7 +98,7 @@ sub TalkEntryForm (@) {
         $EntryTimeStamp       = $TalkSeparators{$TalkSeparatorID}{TimeStamp};
       }
     }
-    print "<tbody class=\"$RowClass\">\n";
+    print "<tbody style=\"border-top:1px solid #ddd;\">\n";
     print "<tr>\n";
 
     print "<td rowspan=\"2\">\n";
@@ -138,6 +133,7 @@ sub TalkEntryForm (@) {
     print "</tbody>\n";
   }
   print "</table>\n";
+  print "</div><!-- Closing div w3-card -->\n";
 }
 
 sub TalkTitle ($) {
@@ -235,7 +231,7 @@ sub TalkTimePullDown {
 
   $query -> param('talktime', $DefaultTime);
   print $query -> popup_menu (-name => 'talktime', -values => \@hours,
-                              -default => $DefaultTime);
+                              -default => $DefaultTime, -class => "w3-select w3-border w3-padding");
 }
 
 sub TalkAuthors ($) {

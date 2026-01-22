@@ -119,33 +119,62 @@ sub DateTimePulldown (%) { # Note capitalization
     }
   }
 
-  my $ElementTitle = &FormElementTitle(-helplink  => $HelpLink ,
+  my $ElementTitle = "";
+  unless ($HelpText eq "" && $HelpLink eq "") {
+    $ElementTitle = &FormElementTitle(-helplink  => $HelpLink ,
                                        -helptext  => $HelpText ,
                                        -extratext => $ExtraText,
                                        -text      => $Text     ,
                                        -nobreak   => $NoBreak  ,
                                        -required  => $Required );
-  print $ElementTitle,"\n";
+    print $ElementTitle,"\n";
+  }
 
-  unless ($DateOnly) {
-    if ($OneTime) {
-      print $query -> popup_menu (-name => $Name."time", -values => \@Times,   -default => $DefaultHHMM, $Booleans);
+  my $Order = $Params{-order} || "daymonthyear";
+  
+  unless ($TimeOnly) {
+    if ($Order eq "monthdayyear") {
+      print "<span class=\"w3-bar-item\" style=\"padding-left:0!important;\">";
+      print $query -> popup_menu (-name => $Name."month",-values => \@AbrvMonths, -default => $AbrvMonths[$Mon], -class => "w3-select w3-border w3-padding", $Booleans);
+      print "</span>\n";
+      print "<span class=\"w3-bar-item\">";
+      print $query -> popup_menu (-name => $Name."day",-values => \@Days, -default => $Day, -class => "w3-select w3-border w3-padding", $Booleans);
+      print "</span>\n";
+      print "<span class=\"w3-bar-item\">";
+      print $query -> popup_menu (-name => $Name."year",-values => \@Years, -default => $Year, -class => "w3-select w3-border w3-padding", $Booleans);
+      print "</span>\n";
     } else {
-      print $query -> popup_menu (-name => $Name."hour", -values => \@Hours,   -default => $Hour, $Booleans);
-      print "<b> : </b>\n";
-      print $query -> popup_menu (-name => $Name."min",  -values => \@Minutes, -default => $Min, $Booleans);
+      print $query -> popup_menu (-name => $Name."day",-values => \@Days, -default => $Day, -class => "w3-select w3-border", $Booleans);
+      print $query -> popup_menu (-name => $Name."month",-values => \@AbrvMonths, -default => $AbrvMonths[$Mon], -class => "w3-select w3-border", $Booleans);
+      print $query -> popup_menu (-name => $Name."year",-values => \@Years, -default => $Year, -class => "w3-select w3-border", $Booleans);
     }
   }
+  
+  unless ($DateOnly) {
+    if ($OneTime) {
+      my $TimeDefault = $DefaultHHMM;
+      unless ($TimeDefault) {
+        $TimeDefault = "09:00";
+      }
+      if ($Order eq "monthdayyear") {
+        print "<span class=\"w3-bar-item\">";
+        print $query -> popup_menu (-name => $Name."time", -values => \@Times,   -default => $TimeDefault, -class => "w3-select w3-border w3-padding", $Booleans);
+        print "</span>\n";
+      } else {
+        print $query -> popup_menu (-name => $Name."time", -values => \@Times,   -default => $TimeDefault, -class => "w3-select w3-border", $Booleans);
+      }
+    } else {
+      print $query -> popup_menu (-name => $Name."hour", -values => \@Hours,   -default => $Hour, -class => "w3-select w3-border", $Booleans);
+      print "<b> : </b>\n";
+      print $query -> popup_menu (-name => $Name."min",  -values => \@Minutes, -default => $Min, -class => "w3-select w3-border", $Booleans);
+    }
+  }
+  
   unless ($OneLine || $DateOnly || $TimeOnly) {
     print "<br\>\n";
   }
   if ($OneLine) {
     print "&nbsp;\n";
-  }
-  unless ($TimeOnly) {
-    print $query -> popup_menu (-name => $Name."day",-values => \@Days, -default => $Day, $Booleans);
-    print $query -> popup_menu (-name => $Name."month",-values => \@AbrvMonths, -default => $AbrvMonths[$Mon], $Booleans);
-    print $query -> popup_menu (-name => $Name."year",-values => \@Years, -default => $Year, $Booleans);
   }
 }
 
@@ -373,9 +402,9 @@ sub TextField (%) {
                                        -nobreak   => $NoBreak  ,
                                        -required  => $Required ,
                                       );
-  print $ElementTitle,"\n";
+  print "<div style=\"margin-bottom:4px;\">$ElementTitle</div>\n";
   print $query -> textfield (-name => $Name, -default   => $Default,
-                             -size => $Size, -maxlength => $MaxLength, -class => "w3-input w3-border w3-round", %Options,);
+                             -size => $Size, -maxlength => $MaxLength, -class => "w3-input w3-border w3-round", -style => "width:100%;", %Options,);
 }
 
 sub TextArea (%) {
@@ -399,9 +428,9 @@ sub TextArea (%) {
                                        -text      => $Text     ,
                                        -nobreak   => $NoBreak  ,
                                        -required  => $Required );
-  print $ElementTitle,"\n";
+  print "<div style=\"margin-bottom:4px;\">$ElementTitle</div>\n";
   print $query -> textarea (-name    => $Name,    -default   => SmartHTML({-text=>$Default}),
-                            -columns => $Columns, -rows      => $Rows, -class => "w3-input w3-border");
+                            -columns => $Columns, -rows      => $Rows, -class => "w3-input w3-border", -style => "width:100%;");
 }
 
 sub FormElementTitle (%) {
@@ -431,7 +460,7 @@ sub FormElementTitle (%) {
     $Colon = ":";
   }
   unless ($NoBold) {
-    $TitleText .= "<strong>";
+    $TitleText .= "<b>";
   }
   if ($HelpLink) {
     $TitleText .= "<a class=\"Help\" href=\"Javascript:helppopupwindow(\'$DocDBHelp?term=$HelpLink\');\">";
@@ -440,7 +469,7 @@ sub FormElementTitle (%) {
     $TitleText .= "$Text$Colon";
   }
   unless ($NoBold) {
-    $TitleText .= "</strong>";
+    $TitleText .= "</b>";
   }
 
   if ($Required) {

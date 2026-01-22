@@ -398,13 +398,17 @@ sub AuthorScroll (%) {
   if ($Disabled) { # FIXME: Use Booleans
     print $query -> scrolling_list(-name => $Name, -values => \@ActiveIDs,
                                    -labels => \%AuthorLabels,
-                                   -size => 10, -multiple => $Multiple,
-                                   -default => \@Defaults, -disabled);
+                                   -size => $Size, -multiple => $Multiple,
+                                   -default => \@Defaults, -disabled,
+                                   -class => "w3-select w3-border",
+                                   -style => "width:100%;");
   } else {
     print $query -> scrolling_list(-name => $Name, -values => \@ActiveIDs,
                                    -labels => \%AuthorLabels,
-                                   -size => 10, -multiple => $Multiple,
-                                   -default => \@Defaults);
+                                   -size => $Size, -multiple => $Multiple,
+                                   -default => \@Defaults,
+                                   -class => "w3-select w3-border",
+                                   -style => "width:100%;");
   }
 }
 

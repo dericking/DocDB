@@ -504,7 +504,10 @@ sub TopicScroll ($) {
   print $query -> scrolling_list(-name     => $Name, -values => \@TopicIDs,
                                  -size     => $Size, -labels => \%TopicLabels,
                                  -multiple => $Multiple,
-                                 -default  => \@Defaults, %Options);
+                                 -default  => \@Defaults,
+                                 -class    => "w3-select w3-border",
+                                 -style    => "width:100%;",
+                                 %Options);
 }
 
 1;

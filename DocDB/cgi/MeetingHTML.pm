@@ -44,9 +44,9 @@ sub LocationBox (;%) {
   my $ElementTitle = &FormElementTitle(-helplink  => "location",
                                        -helptext  => "Location",
                                        -required  => $Required );
-  print $ElementTitle,"\n";
+  print "<div style=\"margin-bottom:4px;\">$ElementTitle</div>\n";
   print $query -> textfield (-name => 'location', -default => $Default,
-                             -size => 40, -maxlength => 64, -class => "w3-input w3-border w3-round", $Booleans);
+                             -size => 40, -maxlength => 64, -class => "w3-input w3-border w3-round", -style => "width:100%;", $Booleans);
   print "</div>\n";
 };
 
@@ -68,9 +68,9 @@ sub EventURLBox (;%) {
   my $ElementTitle = &FormElementTitle(-helplink  => "confurl",
                                        -helptext  => "URL",
                                        -required  => $Required );
-  print $ElementTitle,"\n";
+  print "<div style=\"margin-bottom:4px;\">$ElementTitle</div>\n";
   print $query -> textfield (-name => 'url', -default => $Default,
-                             -size => 40, -maxlength => 240, -class => "w3-input w3-border w3-round", $Booleans);
+                             -size => 40, -maxlength => 240, -class => "w3-input w3-border w3-round", -style => "width:100%;", $Booleans);
   print "</div>\n";
 };
 
@@ -1212,10 +1212,13 @@ sub EventGroupSelect ($) {
     }
   }
 
-  print FormElementTitle(-helplink => $HelpLink, -helptext => $HelpText, -required => $Required);
+  my $ElementTitle = FormElementTitle(-helplink => $HelpLink, -helptext => $HelpText, -required => $Required);
+  print "<div style=\"margin-bottom:4px;\">$ElementTitle</div>\n";
   print $query -> scrolling_list(-name     => $Name,     -values  => \@EventGroupIDs,
                                  -labels   => \%Labels,  -size    => $Size,
                                  -multiple => $Multiple, -default => \@Defaults,
+                                 -class    => "w3-select w3-border w3-padding",
+                                 -style    => "width:100%;",
                                  %Options);
 }
 

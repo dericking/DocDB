@@ -516,16 +516,16 @@ if ($SingleSession) {
   }
 }
 
-print "<h4>You can make more modifications, modify the agenda, or
-       <a href=\"$DisplayMeeting?conferenceid=$EventID\">Display
+print "<span class=\"w3-content\" style=\"max-width:1200px; display:block; margin:0 auto; padding:16px; margin-bottom:16px; text-align:center;\">You can make more modifications, modify the agenda, or
+       <a href=\"$DisplayMeeting?conferenceid=$EventID\" class=\"w3-text-teal\">Display
        the Event</a>. Click a <span class=\"Help\">highlighted</span> link or
-       read the <a href=\"$DocDBInstructions?set=event\">instructions</a> for
-       help. Required fields are denoted by $RequiredMark.</h4>\n";
+       read the <a href=\"$DocDBInstructions?set=event\" class=\"w3-text-teal\">instructions</a> for
+       help. Required fields are denoted by $RequiredMark.</span>\n";
 
 ### Display form
 
 print $query -> start_multipart_form('POST',"$SessionModify");
-print "<div class=\"SessionEntryForm\">\n";
+print "<div class=\"SessionEntryForm w3-content\" style=\"max-width:1300px;\">\n";
 if ($SingleSession && $Mode eq "new") {
   $query -> param('mode','create');
   print $query -> hidden(-name => 'singlesession', -default => 1);
@@ -543,7 +543,6 @@ if ($SingleSession && $Mode eq "new") {
   print $query -> hidden(-name => 'mode',          -default => 'modify');
 }
 
-print '<table class="HighPaddedTable CenteredTable">';
 if ($SingleSession) {
   my %RequiredEntries = ();
      $RequiredEntries{StartDate}        = $TRUE;
@@ -552,37 +551,85 @@ if ($SingleSession) {
      $RequiredEntries{ShortDescription} = $TRUE;
      $RequiredEntries{EventGroup}       = $TRUE;
 
+  print "<div id=\"SessionEntryDetailsWrap\" class=\"w3-row w3-border w3-card\">\n";
+  print "<div class=\"w3-col w3-padding w3-center w3-light-gray w3-border l12 m12 s12\"><b>New Event Details</b></div>\n";
+  print "<div id=\"SessionEntryWrapLHS\" class=\"w3-col l6 m6 s12\">\n";
+  print "<div id=\"SessionEntryDetails\">\n";
+  print '<table class="HighPaddedTable CenteredTable no-row-lines" style="width:100%;">';
+  
   print "<tr>\n";
-  print "<td>\n";
+  print "<td class=\"w3-padding\">\n";
   EventGroupSelect( {-required => $RequiredEntries{EventGroup}, -helptext => "Event Group",
-                     -default  => [$DefaultEventGroupID], -size => 8 });
+                     -default  => [$DefaultEventGroupID], -size => 1 });
   print "</td>\n";
-  print "<td rowspan=\"2\">\n";
+  print "</tr>\n";
+  print "<tr>\n";
+  print "<td class=\"w3-padding\">\n";
   ShortDescriptionBox(-name      => "shortdesc", -helptext => "Short Description",
                       -required  => $RequiredEntries{ShortDescription},
                       -maxlength => 128, -default => $DefaultShortDescription);
+  print "</td>\n";
+  print "</tr>\n";
+  print "<tr>\n";
+  print "<td class=\"w3-padding\">\n";
   LongDescriptionBox(-required  => $RequiredEntries{LongDescription},
                      -maxlength => 400,  -default => $DefaultLongDescription);
-  print "<div>\n";
-  DateTimePulldown(-name    => "session", -helptext => "Start Date and Time", -helplink    => 'sessioninfo',
+  print "</td>\n";
+  print "</tr>\n";
+  print "<tr>\n";
+  print "<td class=\"w3-padding\">\n";
+  my $DateTimeTitle = FormElementTitle(-helplink => 'sessioninfo', -helptext => 'Start Date and Time', -required => $RequiredEntries{StartDate});
+  print "<div style=\"margin-bottom:4px;\">$DateTimeTitle</div>\n";
+  print "<div class=\"w3-bar\" style=\"width:100%;\">\n";
+  DateTimePulldown(-name    => "session", -helptext => "", -helplink    => '',
                    -oneline => $TRUE,     -onetime  => $TRUE,                 -granularity => 15,
-                   -default => $SessionDefaultDateTime, -required => $RequiredEntries{StartDate} );
-  print "</div><div>\n";
+                   -default => $SessionDefaultDateTime, -required => $RequiredEntries{StartDate}, -nobold => $TRUE, -order => "monthdayyear" );
+  print "</div>\n";
+  print "</td>\n";
+  print "</tr>\n";
+  print "<tr>\n";
+  print "<td class=\"w3-padding\">\n";
   LocationBox(-default  => $DefaultEventLocation);
-  print "</div><div>\n";
+  print "</td>\n";
+  print "</tr>\n";
+  print "<tr>\n";
+  print "<td class=\"w3-padding\">\n";
   TextField(-name      => 'altlocation', -size     => 40,
             -maxlength => 128,           -default  => $DefaultEventAltLocation,
             -helplink  => 'sessioninfo', -helptext => 'Alternate Location');
-  print "</div><div>\n";
+  print "</td>\n";
+  print "</tr>\n";
+  print "<tr>\n";
+  print "<td class=\"w3-padding\">\n";
   EventURLBox(-default  => $DefaultEventURL     );
-  print "</div><div>\n";
+  print "</td>\n";
+  print "</tr>\n";
+  print "<tr>\n";
+  print "<td class=\"w3-padding\">\n";
   TextArea(-name     => 'sessiondescription', -columns => 40, -rows => 4,
            -default  => $SessionDefaultDescription,
            -helplink => 'confpreamble', -helptext => 'Preamble');
-
-  print "</div>\n";
   print "</td>\n";
-  print "<td>\n";
+  print "</tr>\n";
+  print "</table>\n";
+  print "</div><!-- Closing div id SessionEntryDetails -->\n";
+  print "</div><!-- Closing div id SessionEntryWrapLHS -->\n";
+  
+  print "<div id=\"SessionEntryWrapRHS\" class=\"w3-col l6 m6 s12\">\n";
+  print "<div id=\"SessionEntryModsAndTopicsWrap\" class=\"w3-row\">\n";
+  print "<div id=\"SessionEntryModerators\" class=\"w3-col l6 m6 s6 w3-padding\">\n";
+  AuthorScroll(-multiple => $TRUE,        -default  => \@DefaultModeratorIDs,
+               -name     => "moderators", -helptext => "Moderators",
+               -helplink => "moderators", -size => 15);
+  print "</div><!-- Closing div id SessionEntryModerators -->\n";
+  print "<div id=\"SessionEntryTopics\" class=\"w3-col l6 m6 s6 w3-padding\">\n";
+  TopicScroll({ -multiple => $TRUE,         -default => \@DefaultTopicIDs,
+                -helplink => "topics", -itemformat => "short", -size => 15});
+  print "</div><!-- Closing div id SessionEntryTopics -->\n";
+  print "</div><!-- Closing div id SessionEntryModsAndTopicsWrap -->\n";
+  
+  print "<div id=\"SessionEntryViewableAndModifiableWrap\" class=\"w3-row\">\n";
+  print "<div id=\"SessionEntryViewable\" class=\"w3-col l6 m6 s6 w3-padding\">\n";
   SecurityScroll(-addpublic => 'true',
                  -name      => 'meetingviewgroups',
                  -helplink  => 'meetingviewgroups',
@@ -590,29 +637,18 @@ if ($SingleSession) {
                  -multiple  => true,
                  -default   => \@MeetingViewDefaults,
                  -size      => 8);
-  print "</td>\n";
-  print "<td>\n";
+  print "</div><!-- Closing div id SessionEntryViewable -->\n";
+  print "<div id=\"SessionEntryModifiableBy\" class=\"w3-col l6 m6 s6 w3-padding\">\n";
   SecurityScroll(-name      => 'meetingmodifygroups',
                  -helplink  => 'meetingmodifygroups',
                  -helptext  => 'Modifiable by',
                  -multiple  => true,
                  -default   => \@MeetingModifyDefaults,
                  -size      => 8);
-  print "</td>\n";
-  print "</tr>\n";
-  print "<tr>\n";
-
-  print "<td>\n";
-  AuthorScroll(-multiple => $TRUE,        -default  => \@DefaultModeratorIDs,
-               -name     => "moderators", -helptext => "Moderators",
-               -helplink => "moderators",);
-  print "</td>\n";
-
-  print "<td colspan=\"2\">\n";
-  TopicScroll({ -multiple => $TRUE,         -default => \@DefaultTopicIDs,
-                -helplink => "topics", -itemformat => "short"});
-  print "</td>\n";
-  print "</tr>\n";
+  print "</div><!-- Closing div id SessionEntryModifiableBy -->\n";
+  print "</div><!-- Closing div id SessionEntryViewableAndModifiableWrap -->\n";
+  print "</div><!-- Closing div id SessionEntryWrapRHS -->\n";
+  print "</div><!-- Closing div id SessionEntryDetailsWrap -->\n";
 } else {
   print "<tr>\n";
   print "<td>\n";
@@ -665,12 +701,12 @@ if ($SingleSession) {
 }
 print "</table>\n";
 
-print "<p class=\"SubmitCell\">\n";
-print $query -> submit (-value => $ButtonTitle);
+print "<p class=\"SubmitCell w3-center\">\n";
+print $query -> submit (-value => $ButtonTitle, -class => "w3-button w3-teal w3-border w3-border-black w3-round");
 print "</p>\n";
 &TalkEntryForm(@SessionOrderIDs);
-print "<p class=\"SubmitCell\">\n";
-print $query -> submit (-value => $ButtonTitle);
+print "<p class=\"SubmitCell w3-center\">\n";
+print $query -> submit (-value => $ButtonTitle, -class => "w3-button w3-teal w3-border w3-border-black w3-round");
 print "</p>\n";
 
 print "</div>\n";

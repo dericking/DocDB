@@ -69,6 +69,26 @@ if ($UserValidation eq "certificate" && $CertificateStatus ne "verified") {
 
 my $PersonalAccountLink = PersonalAccountLink();
 
+# Get today's sessions
+# TEMPORARY: Using hardcoded date for testing - REMOVE BEFORE COMMITTING
+# my $TodayDate = "2025-06-04";  # Using June 4, 2025 for testing (ShowCalendar?year=2025&month=6&day=4)
+my $TodayDate = SQLNow(-dateonly => $TRUE);  # Get actual current date
+my @TodaySessionIDs = ();
+if ($Preferences{Components}{Calendar}) {
+  require "MeetingSQL.pm";
+  require "MeetingSecurityUtilities.pm";
+  require "Sorts.pm";
+  require "ResponseElements.pm";
+  @TodaySessionIDs = FetchSessionsByDate($TodayDate);
+  # Filter out undefined sessions and only keep accessible sessions (FetchSessionsByDate already calls FetchSessionByID)
+  @TodaySessionIDs = grep { 
+    my $SessionID = $_;
+    $SessionID && exists $Sessions{$SessionID}{ConferenceID} && CanAccessMeeting($Sessions{$SessionID}{ConferenceID});
+  } @TodaySessionIDs;
+  # Sort sessions by time
+  @TodaySessionIDs = sort SessionsByDateTime @TodaySessionIDs;
+}
+
 print "<div id=\"DocDBHomeBody\" class=\"w3-container w3-row\">\n";
 
 ### Header Messages (full width)
@@ -78,48 +98,79 @@ DocDBHomeHeader();
 ### Left Column
 
 print "<div id=\"LeftColumn3ColWrapper\" class=\"w3-quarter\">\n";
-print "<div id=\"LeftColumnUser\" class=\"w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
+print "<div id=\"LeftColumnUser\" class=\"w3-card w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
 print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><span style=\"text-decoration:underline;\">User Information</span></div>\n";
-print "<div class=\"w3-margin-top\"></div>\n";
 print "<div id=\"LeftBarBlock\" class=\"w3-bar-block\">\n";
 if (!$Public or $UserValidation eq "FNALSSO") {  # Public set if not in any groups. Should be able to apply if not in groups
   if ($PersonalAccountLink) {
-    print "<div id=\"LeftBarPersonalAccountLink\" class=\"w3-bar-item\">$PersonalAccountLink</div><!-- Closing div id LeftBarPersonalAccountLink -->\n";
+    print "<div id=\"LeftBarPersonalAccountLink\" class=\"w3-bar-item w3-button\">$PersonalAccountLink</div><!-- Closing div id LeftBarPersonalAccountLink -->\n";
   }
-  print "<div id=\"LeftBarPreferencesLink\" class=\"w3-bar-item\"><a href=\"$SelectPrefs\" class=\"w3-text-teal\">Preferences</a></div><!-- Closing div id LeftBarPreferencesLink -->\n";
+  print "<div id=\"LeftBarPreferencesLink\" class=\"w3-bar-item w3-button\"><a href=\"$SelectPrefs\" class=\"w3-text-teal\" style=\"text-decoration:none;\">Preferences</a></div><!-- Closing div id LeftBarPreferencesLink -->\n";
   if ($UserValidation eq "FNALSSO") {
-    print "<div id=\"LeftBarApplyToGroupsLink\" class=\"w3-bar-item\"><a href=\"$CertificateApplyForm\" class=\"w3-text-teal\">Apply to Groups</a></div><!-- Closing div id LeftBarApplyToGroupsLink -->\n";
+    print "<div id=\"LeftBarApplyToGroupsLink\" class=\"w3-bar-item w3-button\"><a href=\"$CertificateApplyForm\" class=\"w3-text-teal\" style=\"text-decoration:none;\">Apply to Groups</a></div><!-- Closing div id LeftBarApplyToGroupsLink -->\n";
   }
   if ($UserValidation eq "certificate" || $UserValidation eq "shibboleth" || $UserValidation eq "FNALSSO") {
-    print "<div id=\"LeftBarGroupLimitLink\" class=\"w3-bar-item\"><strong>",&GroupLimitLink(),"</strong></div><!-- Closing div id LeftBarGroupLimitLink -->\n";
+    print "<div id=\"LeftBarGroupLimitLink\" class=\"w3-bar-item w3-button\"><strong>",&GroupLimitLink(),"</strong></div><!-- Closing div id LeftBarGroupLimitLink -->\n";
   }
 }
 
 foreach my $Text (@{ $ProjectMessages{Homepage}{LeftColumn} }) {
-  print "<div id=\"LeftBarProjectMessage\" class=\"w3-bar-item\"><strong>$Text</strong></div><!-- Closing div id LeftBarProjectMessage -->\n";
+  print "<div id=\"LeftBarProjectMessage\" class=\"w3-bar-item w3-button\"><strong>$Text</strong></div><!-- Closing div id LeftBarProjectMessage -->\n";
 }
 print "</div><!-- Closing div id LeftBarBlock -->\n";
 
 print "</div><!-- Closing div id LeftColumnUser -->\n";
 
-print "<div id=\"HomepageNavigationChoices\" class=\"w3-paper w3-round w3-padding w3-border w3-border-gray w3-margin-top\">\n";
+### Today's Schedule module
+if ($Preferences{Components}{Calendar} && @TodaySessionIDs) {
+  require "MeetingHTML.pm";
+  require "EventUtilities.pm";
+  require "SQLUtilities.pm";
+  require "ResponseElements.pm";
+  print "<div id=\"TodaysSchedule\" class=\"w3-card w3-paper w3-pale-green w3-border w3-border-gray w3-round w3-margin-top\">\n";
+  print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><i class=\"fa-regular fa-face-smile-beam\"></i>&nbsp;<span style=\"text-decoration:underline;\">Today's Event Schedule</span>&nbsp;<i class=\"fa-regular fa-face-smile-beam\"></i></div>\n";
+  print "<div class=\"w3-bar-block\">\n";
+  foreach my $SessionID (@TodaySessionIDs) {
+    next unless $SessionID && exists $Sessions{$SessionID}{StartTime};
+    my $StartTime = EuroTimeHM($Sessions{$SessionID}{StartTime});
+    my $EndTime = TruncateSeconds(SessionEndTime($SessionID));
+    my $TimeDisplay = $StartTime;
+    if ($EndTime && $EndTime ne $StartTime) {
+      $TimeDisplay .= " &ndash; " . $EndTime;
+    }
+    my $SessionLink = SessionLink(-sessionid => $SessionID, -format => "full");
+    if ($SessionLink) {
+      print "<div class=\"w3-bar-item w3-button w3-hover-white\">\n";
+      print "<i class=\"fa-solid fa-clock\"></i>&nbsp;<strong>$TimeDisplay</strong><br/>\n";
+      print "$SessionLink\n";
+      print "</div>\n";
+    }
+  }
+  print "</div><!-- Closing div w3-bar-block -->\n";
+  print "</div><!-- Closing div id TodaysSchedule -->\n";
+}
+
+print "<div id=\"HomepageNavigationChoices\" class=\"w3-card w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
 print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><span style=\"text-decoration:underline;\">Navigation</span></div>\n";
-print "<div class=\"w3-margin-top\"></div>\n";
+print "<div class=\"w3-bar-block\">\n";
 if (CanCreate()) {
-  print "<div class=\"w3-padding-small\"><i class=\"fa-solid fa-file-pen w3-text-teal\"></i>&nbsp; <a href=\"$ModifyHome\" class=\"w3-text-teal\">Go to ModifyHome</a></div>\n";
+  print "<div class=\"w3-bar-item w3-button\"><a href=\"$ModifyHome\" class=\"w3-text-teal\" style=\"text-decoration:none;\">Modify Homepage</a></div>\n";
 }
 if ($Preferences{Components}{Calendar}) {
-  print "<div class=\"w3-padding-small\"><i class=\"fa-solid fa-calendar w3-text-teal\"></i>&nbsp; <a href=\"$ShowCalendar\" class=\"w3-text-teal\">Show Calendar</a></div>\n";
+  print "<div class=\"w3-bar-item w3-button\"><a href=\"$ShowCalendar\" class=\"w3-text-teal\" style=\"text-decoration:none;\">Show Calendar</a></div>\n";
 }
+print "<div class=\"w3-bar-item w3-button\"><a href=\"$ListAuthors\" class=\"w3-text-teal\" style=\"text-decoration:none;\">Author List</a></div>\n";
+print "<div class=\"w3-bar-item w3-button\"><a href=\"$ListBy?days=30\" class=\"w3-text-teal\" style=\"text-decoration:none;\">Recent Documents</a></div>\n";
+print "</div><!-- Closing div w3-bar-block -->\n";
 print "</div><!-- Closing div id HomepageNavigationChoices -->\n";
 
-print "<div id=\"SearchAndShow\" class=\"w3-paper w3-round w3-padding-small w3-border w3-border-gray w3-margin-top\">\n";
+print "<div id=\"SearchAndShow\" class=\"w3-card w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
 
 print "<div class=\"w3-center\" style=\"font-weight:700;margin-top:4px;\"><span style=\"text-decoration:underline;\">Search and Show</span></div>\n";
-print "<div class=\"w3-margin-top\"></div>\n";
+print "<div class=\"w3-bar-block\">\n";
 
 # SEARCH
-print "<div id=\"HomepageSearchChoice\" class=\"w3-padding-small\">\n";
+print "<div id=\"HomepageSearchChoice\" class=\"w3-bar-item w3-padding\">\n";
 my $SearchDiv  = $query -> start_form('POST',$Search);
    $SearchDiv .= "<div id=\"SearchFormContainer\" class=\"w3-row\">\n";
    $SearchDiv .= "<div class=\"w3-col s12 m10 l10\" style=\"padding-right:10px;\">\n";
@@ -135,7 +186,7 @@ print "$SearchDiv";
 print "</div><!-- Closing div id HomepageSearchChoice -->\n";
 
 # SHOW
-print "<div id=\"HomepageShowChoice\" class=\"w3-margin-top w3-padding-small\">\n";
+print "<div id=\"HomepageShowChoice\" class=\"w3-bar-item w3-padding\">\n";
 my $ShowForm  = $query -> start_form('POST',$ShowDocument);
    $ShowForm .= "<div id=\"ShowFormContainer\" class=\"w3-row\">\n";
    $ShowForm .= "<div class=\"w3-col s12 m5 l5\" style=\"padding-right:10px;\">\n";
@@ -152,12 +203,11 @@ my $ShowForm  = $query -> start_form('POST',$ShowDocument);
 print "$ShowForm";
 print "</div><!-- Closing div id HomepageShowChoice -->\n";
 
-print "<div class=\"w3-margin-top\"></div>\n";
-
-print "<div id=\"HomepageAdvancedLink\" class=\"w3-center w3-padding-small\">\n";
-print "<a href=\"$SearchForm#Advanced\" class=\"w3-text-teal\">Advanced Search</a>\n";
+print "<div id=\"HomepageAdvancedLink\" class=\"w3-bar-item w3-button w3-center\">\n";
+print "<a href=\"$SearchForm#Advanced\" class=\"w3-text-teal\" style=\"text-decoration:none;\">Advanced Search</a>\n";
 print "</div><!-- Closing div id HomepageAdvancedLink -->\n";
 
+print "</div><!-- Closing div w3-bar-block -->\n";
 print "</div><!-- Closing div id SearchAndShow -->\n";
 
 print "</div><!-- Closing div id LeftColumn3ColWrapper -->\n";
@@ -265,23 +315,24 @@ if (CanAdminister()) {
 ### Print table
 
   if (@DocumentIDs) { ### FIXME: Move both kinds of titles into DocumentTable
-    print "<div id=\"DocumentListHeader\" class=\"w3-padding\">\n";
-    print "<h4>\n";
+    my %FieldList = PrepareFieldList(-default => "Default");
+    print "<div id=\"DocumentTableContainer\" class=\"w3-margin-top w3-margin-left\">\n";
+    my $NumberOfDocuments = DocumentTable(-fieldlist => \%FieldList, -docids  => \@DocumentIDs,
+                                          -sortby    => $SortBy,     -reverse => $Reverse,
+                                          -maxdocs   => $HomeMaxDocs);
+    print "</div><!-- Closing div id DocumentTableContainer -->\n";
+    print "<div id=\"MainRecentDocs\" class=\"w3-margin-left\">\n";
     if ($#DocumentIDs >= $HomeMaxDocs) {
-      print "Last $HomeMaxDocs documents modified\n";
+      print "<i>Last $HomeMaxDocs documents modified.</i>\n";
     } else {
-      print "Documents modified in the last $HomeLastDays days\n";
+      print "<i>Documents modified in the last $HomeLastDays days.</i>\n";
     }
-    print "</h4>\n";
-    print "</div><!-- Closing div id DocumentListHeader -->\n";
+    print "</div><!-- Closing div id MainRecentDocs -->\n";
+  } else {
+    print "<div id=\"MainRecentDocs\" class=\"w3-margin-left\">\n";
+    print "<i>No documents have been modified in the past $HomeLastDays days, see more documents <a href=\"$ListBy?days=30\" class=\"w3-text-teal\" style=\"text-decoration:none;\">here</a>.</i>\n";
+    print "</div><!-- Closing div id MainRecentDocs -->\n";
   }
-
-  my %FieldList = PrepareFieldList(-default => "Default");
-  print "<div id=\"DocumentTableContainer\" class=\"w3-container w3-margin-bottom\">\n";
-  my $NumberOfDocuments = DocumentTable(-fieldlist => \%FieldList, -docids  => \@DocumentIDs,
-                                        -sortby    => $SortBy,     -reverse => $Reverse,
-                                        -maxdocs   => $HomeMaxDocs);
-  print "</div><!-- Closing div id DocumentTableContainer -->\n";
 }
 
 ### Right column (wrapped around by middle column)

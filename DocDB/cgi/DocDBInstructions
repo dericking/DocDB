@@ -91,6 +91,7 @@ print "<div id=\"DocDBHomeBody\" class=\"w3-container w3-row\">\n";
 
 ### Left Column
 
+print "<div id=\"LeftColumn3ColWrapper\">\n";
 print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
 print "<div class=\"w3-bar-block\">\n";
 print "<div class=\"w3-round-large w3-margin-right\">\n";
@@ -133,6 +134,7 @@ print "</div><!-- Closing div w3-padding -->\n";
 print "</div><!-- Closing div w3-bar-block -->\n";
 
 print "</div><!-- Closing div id LeftColumn3Col -->\n";
+print "</div><!-- Closing div id LeftColumn3ColWrapper -->\n";
 
 ### Main Column
 

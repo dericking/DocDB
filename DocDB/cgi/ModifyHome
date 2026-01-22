@@ -61,6 +61,7 @@ EndPage(@ErrorStack);
 
 DocDBHomeHeader();
 
+print "<div id=\"LeftColumn3ColWrapper\">\n";
 print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
 print "<div class=\"w3-bar-block\">\n";
 print "<div class=\"w3-bar-item\"><strong><a href=\"$MainPage\" class=\"w3-text-teal\">Main Menu</a></strong></div>\n";
@@ -77,6 +78,7 @@ print "<div class=\"w3-bar-item\"><strong><a href=\"$DocDBHome\" class=\"w3-text
 print "</div><!-- Closing div w3-bar-block -->\n";
 
 print "</div><!-- Closing div id LeftColumn3Col -->\n";
+print "</div><!-- Closing div id LeftColumn3ColWrapper -->\n";
 
 print "<div id=\"MainColumn3Col\" class=\"w3-threequarter\">\n";
 print "<strong>Document Management: ";

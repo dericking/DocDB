@@ -190,6 +190,7 @@ sub PrintRevisionInfo {
 
   ### Left Column
 
+  print "<div id=\"LeftColumn3ColWrapper\">\n";
   print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
   print "<div class=\"w3-bar-block\">\n";
 
@@ -221,6 +222,7 @@ sub PrintRevisionInfo {
   print "</div><!-- Closing div w3-bar-block -->\n";
 
   print "</div><!-- Closing div id LeftColumn3Col -->\n";
+  print "</div><!-- Closing div id LeftColumn3ColWrapper -->\n";
 
   ### Main Column
 

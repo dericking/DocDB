@@ -72,9 +72,9 @@ sub DocumentTable (%) {
   my @Fields = sort FieldsByColumn keys %FieldList;
   %SortFields = ();
 
-  print qq(<table id="DocumentTable" class="w3-table w3-striped w3-bordered w3-border Alternating DocumentList tablesorter">\n);
+  print qq(<table id="DocumentTable" class="w3-table w3-bordered w3-border">\n);
 
-  print "<thead><tr>\n";
+  print "<thead class=\"w3-light-gray\"><tr>\n";
   my $LastRow = 1;
   foreach my $Field (@Fields) {
     if ($Public && $PublicSkipFields{$Field}) {

@@ -148,43 +148,32 @@ my @AllRevisionIDs = FetchRevisionsByEventID($EventID);
 my @AllDocIDs      = RevisionToDocumentIDs({-revisionids => \@AllRevisionIDs});
 my @UnusedDocIDs   = RemoveArray(\@AllDocIDs,@AgendaDocIDs);
 
-print "<div id=\"EventInfo\" class=\"w3-container w3-row\">\n";
+print "<div id=\"MeetingBodyWrapper\" class=\"w3-container\">\n";
 
-### Column Layout
+### Header Section
+print "<div id=\"MeetingHeadWrap\" style=\"display:flex;gap:16px;align-items:flex-start;\">\n";
 
-### Left Column
-
-print "<div id=\"LeftColumn3ColWrapper\">\n";
-print "<div id=\"LeftColumn3Col\" class=\"w3-quarter w3-paper w3-border w3-border-gray w3-round w3-margin-top\">\n";
-print "<div class=\"w3-bar-block\">\n";
+### Left Column: Form Module
+print "<div id=\"MeetingHeadLeftCol\" class=\"\" style=\"flex:0 0 auto;vertical-align:top;width:fit-content;\">\n";
 PrintEventLeftSidebar({ -sessionid   => $SessionID,          -eventid => $EventID,
                         -separatorid => $SessionSeparatorID, -displaymode => $DisplayMode,
                         -nextradocs  => scalar(@UnusedDocIDs),
                      });
-print "</div><!-- Closing div w3-bar-block -->\n";
+print "</div><!-- Closing div id MeetingHeadLeftCol -->\n";
 
-print "</div><!-- Closing div id LeftColumn3Col -->\n";
-print "</div><!-- Closing div id LeftColumn3ColWrapper -->\n";
-
-### Main Column
-
-print "<div id=\"MainColumn3Col\" class=\"w3-threequarter\">\n";
-
-### Right column (wrapped around by middle column)
-
-print "<div id=\"RightColumn3Col\" class=\"w3-sidebar w3-light-gray w3-bar-block\" style=\"float:right;margin-left:1em\">\n";
-push @DebugStack,"Starting to print sidebar";
-PrintEventRightSidebar( {-sessionid => $SessionID, -eventid => $EventID, -separatorid => $SessionSeparatorID, -displaymode => $DisplayMode} );
-print "</div><!-- Closing div id RightColumn3Col -->\n";
-
-### Main column content starts here
-
+### Event Information
+print "<div id=\"MeetingHeadEventInformation\" class=\"\" style=\"flex:1 1 auto;min-width:0;vertical-align:top;\">\n";
 print EventHeader( {-sessionid => $SessionID, -eventid => $EventID, -separatorid => $SessionSeparatorID, -displaymode => $DisplayMode} );
-print "</div><!-- Closing div id MainColumn3Col -->\n";
+print "</div><!-- Closing div id MeetingHeadEventInformation -->\n";
 
-### Footer
+print "</div><!-- Closing div id MeetingHeadWrap -->\n";
 
-print "<div id=\"MeetingFooter\" class=\"w3-center w3-light-gray w3-border-top w3-border-black\">\n"; # Must have to keep NavBar on true bottom
+### Session Table Section (clean break/new line)
+print "<div id=\"EventScheduleMain\" class=\"w3-margin-top w3-margin-bottom\">\n";
+
+### Session Schedule
+
+print "<div id=\"SessionSchedule\" class=\"w3-center w3-border w3-border-black\">\n";
 
 if ($DisplayMode eq "Session" || $DisplayMode eq "SingleSession") { # Display a single session
   PrintSession(-sessionid => $SessionID, -skipheader => $TRUE);
@@ -207,34 +196,30 @@ if ($DisplayMode eq "Session" || $DisplayMode eq "SingleSession") { # Display a 
       }
     }
   } else { # Display links to sessions and info on separators
-    my $SummaryTableHeader  = '<table class="w3-table w3-striped w3-bordered w3-center" id="SessionList">';
-       $SummaryTableHeader .= "<tr><th>Date &amp; Time</th><th>Session</th><th>Session Information</th>\n";
-       $SummaryTableHeader .= "<th>Location</th><th>Topic(s)</th><th>Moderator(s)</th></tr>\n";
+    print '<table class="w3-table w3-bordered w3-center w3-white" id="SessionList">';
+    print "<thead class=\"w3-light-gray\"><tr><th>Date &amp; Time</th><th>Session</th><th>Session Information</th>\n";
+    print "<th>Location</th><th>Topic(s)</th><th>Moderator(s)</th></tr></thead><tbody>\n";
 
-    print $SummaryTableHeader;
-    my $Row = 0;
     foreach $MeetingOrderID (@MeetingOrderIDs) {
-      ++$Row;
-      my $RowClass = ("Even","Odd")[$Row % 2];
       my $SessionID          = $MeetingOrders{$MeetingOrderID}{SessionID};
       my $SessionSeparatorID = $MeetingOrders{$MeetingOrderID}{SessionSeparatorID};
       if ($SessionID) {              # Session info and link to session
         if ($Sessions{$SessionID}{ShowAllTalks} || $Conferences{$EventID}{ShowAllTalks}) {
           FetchSessionByID($SessionID);
-          print SessionInfo($SessionID, {-rowclass => $RowClass} ); # Does own <tr>
-          print "<tr class=\"$RowClass\">".'<td class="EmbedSession" colspan="6">';
+          print SessionInfo($SessionID); # Does own <tr>
+          print "<tr>".'<td id="EmbedSession" class="w3-light-gray" colspan="6" style="margin:0!important;padding:3px!important;">';
           PrintSession(-sessionid => $SessionID, -onlytalks => $TRUE); # Display a single session
           print '</td></tr>';
         } else {
-          print SessionInfo($SessionID, {-rowclass => $RowClass} ); # Does own <tr>
+          print SessionInfo($SessionID); # Does own <tr>
         }
       } elsif ($SessionSeparatorID) {
-        print "<tr class=\"$RowClass\">\n";
+        print "<tr>\n";
         PrintSessionSeparatorInfo($SessionSeparatorID); # SessionSeparator info
         print "</tr>\n";
       }
     }
-    print "</table><hr/>\n";
+    print "</tbody></table>\n";
   }
 
 # Finish off meeting display
@@ -255,8 +240,9 @@ if ($DisplayMode eq "Event" || $DisplayMode eq "SingleSession") {
   }
 }
 
-print "</div><!-- Closing div id MeetingFooter -->\n";
-print "</div><!-- Closing div id EventInfo -->\n";
+print "</div><!-- Closing div id SessionSchedule -->\n";
+print "</div><!-- Closing div id EventScheduleMain -->\n";
+print "</div><!-- Closing div id MeetingBodyWrapper -->\n";
 
 $EndTime  = new Benchmark;
 

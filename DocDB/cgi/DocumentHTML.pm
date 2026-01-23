@@ -72,7 +72,9 @@ sub DocumentTable (%) {
   my @Fields = sort FieldsByColumn keys %FieldList;
   %SortFields = ();
 
-  print qq(<table id="DocumentTable" class="w3-table w3-bordered w3-border">\n);
+  # Session talk breakdown tables use w3-table w3-bordered w3-paper
+  my $TableClass = "w3-table w3-bordered w3-paper";
+  print qq(<table id="DocumentTable" class="$TableClass">\n);
 
   print "<thead class=\"w3-light-gray\"><tr>\n";
   my $LastRow = 1;
@@ -169,15 +171,27 @@ sub DocumentTable (%) {
     }
 
 ### Print fields requested
-    if ($NumberOfDocuments % 2) {
-      $RowClass = "Odd";
+    # For SessionOrder mode (session talk breakdown tables), don't use alternating row colors
+    if ($Mode eq "SessionOrder") {
+      $RowClass = "";
+      if ($Unconfirmed) {
+        $RowClass = "Unconfirmed";
+      }
     } else {
-      $RowClass = "Even";
+      if ($NumberOfDocuments % 2) {
+        $RowClass = "Odd";
+      } else {
+        $RowClass = "Even";
+      }
+      if ($Unconfirmed) {
+        $RowClass .= " Unconfirmed";
+      }
     }
-    if ($Unconfirmed) {
-      $RowClass .= " Unconfirmed";
+    if ($RowClass) {
+      print "<tr class=\"$RowClass\">\n";
+    } else {
+      print "<tr>\n";
     }
-    print "<tr>\n";
     my $LastRow = 1;
     foreach my $Field (@Fields) {
       if ($Public && $PublicSkipFields{$Field}) {

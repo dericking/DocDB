@@ -52,27 +52,35 @@ my ($DefaultText, $DefaultTitle, $ProjectText, $ProjectTitle, $Action);
 
 # Parse XML into hashes, pull out desired text
 
-my $HelpXML = XMLin("DocDBHelp.xml");
+my $HelpXML = XMLin("DocDBHelp.xml", KeyAttr => {entry => 'key'}, ForceArray => ['entry']);
 
-$DefaultText = %{$HelpXML->{entry}{$helpterm}}->{text};
-$DefaultTitle = %{$HelpXML->{entry}{$helpterm}}->{title};
+if (exists $HelpXML->{entry}{$helpterm}) {
+  $DefaultText = $HelpXML->{entry}{$helpterm}{text};
+  $DefaultTitle = $HelpXML->{entry}{$helpterm}{title};
+}
 
 if ($ProjectHelp) {
-  my $ProjectXML = XMLin("ProjectHelp.xml");
+  my $ProjectXML = XMLin("ProjectHelp.xml", KeyAttr => {entry => 'key'}, ForceArray => ['entry']);
 
-  $ProjectText = %{$ProjectXML->{entry}{$helpterm}}->{text};
-  $ProjectTitle = %{$ProjectXML->{entry}{$helpterm}}->{title};
-  $Action = %{$ProjectXML->{entry}{$helpterm}}->{action};
+  if (exists $ProjectXML->{entry}{$helpterm}) {
+    $ProjectText = $ProjectXML->{entry}{$helpterm}{text};
+    $ProjectTitle = $ProjectXML->{entry}{$helpterm}{title};
+    $Action = $ProjectXML->{entry}{$helpterm}{action};
+  }
 }
 
 # Remove line breaks and XML element tags
 
-$DefaultText =~ s/&#10;/ /g;
-$ProjectText =~ s/&#10;/ /g;
-$DefaultText =~ s/<text>//g;
-$ProjectText =~ s/<text>//g;
-$DefaultText =~ s/<\/text>//g;
-$ProjectText =~ s/<\/text>//g;
+if (defined $DefaultText) {
+  $DefaultText =~ s/&#10;/ /g;
+  $DefaultText =~ s/<text>//g;
+  $DefaultText =~ s/<\/text>//g;
+}
+if (defined $ProjectText) {
+  $ProjectText =~ s/&#10;/ /g;
+  $ProjectText =~ s/<text>//g;
+  $ProjectText =~ s/<\/text>//g;
+}
 
 # Print out help for user
 

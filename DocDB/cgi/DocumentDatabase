@@ -70,6 +70,7 @@ if ($UserValidation eq "certificate" && $CertificateStatus ne "verified") {
 my $PersonalAccountLink = PersonalAccountLink();
 
 # Get today's sessions
+require "SQLUtilities.pm";  # Required for SQLNow()
 # TEMPORARY: Using hardcoded date for testing - REMOVE BEFORE COMMITTING
 # my $TodayDate = "2025-06-04";  # Using June 4, 2025 for testing (ShowCalendar?year=2025&month=6&day=4)
 my $TodayDate = SQLNow(-dateonly => $TRUE);  # Get actual current date

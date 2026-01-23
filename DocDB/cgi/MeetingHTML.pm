@@ -1045,7 +1045,7 @@ sub EventsTable {
   print "<div class=\"w3-row\">\n";
   foreach my $EventGroupID (@EventGroupIDsWithEvents) {
     print "<div class=\"w3-col m6 l6 s12\" style=\"padding-left: 8px; padding-right: 8px;\">\n";
-    print "<div class=\"w3-card w3-padding w3-margin-bottom w3-paper w3-border w3-border-light-gray w3-round-large\">\n";
+    print "<div class=\"w3-card w3-padding w3-margin-bottom w3-paper w3-border w3-border-black w3-round-large\">\n";
     EventsByGroup( {-groupid => $EventGroupID, -mode => $Mode, -maxevents => $MaxPerGroup} );
     print "</div><!-- Closing div w3-card -->\n";
     print "</div><!-- Closing div w3-col -->\n";
@@ -1080,24 +1080,15 @@ sub EventsByGroup (%) {
     ($Big,$EBig) = ("",""); # Not used in SingleGroup case, but keep for else branch
     # Wrap single group table in a container div
     print "<div class=\"w3-container w3-margin\">\n";
-    print "<div class=\"w3-panel w3-paper w3-border w3-border-gray w3-round-large w3-padding\">\n";
+    print "<div class=\"w3-paper w3-border w3-border-gray w3-round-large w3-padding\">\n";
     
     # Event group name as heading above the table
     my $ShortGroup = SmartHTML( {-text => $EventGroups{$EventGroupID}{ShortDescription}, } );
     print "<div class=\"w3-cell-row w3-margin-bottom\">\n";
     print "<div class=\"w3-cell\">\n";
-    if ($Mode eq "display") {
-      print "<div class=\"w3-large w3-margin-0\"><strong>$ShortGroup</strong> ";
-      print "<a href=\"$ListBy?eventgroupid=$EventGroupID\" class=\"w3-text-teal\">Click to show all event type documents</a></div>\n";
-    } else {
-      print "<div class=\"w3-large w3-margin-0\"><strong>$ShortGroup</strong></div>\n";
-    }
+    print "<div class=\"w3-margin-0 w3-center\"><span class=\"w3-large\" style=\"font-weight:700;\">$ShortGroup</span></div>\n";
     print "</div>\n";
-    if ($Preferences{Components}{iCal}) {
-      print "<div class=\"w3-cell\" style=\"width: auto;\">\n";
-      print ICalLink({ -eventgroupid => $EventGroupID });
-      print "</div>\n";
-    }
+    # Removed ICalLink - no longer needed
     print "</div><!-- Closing div w3-cell-row -->\n";
     
     # Add table headers for single group display
@@ -1113,36 +1104,20 @@ sub EventsByGroup (%) {
   } else {
     my $TableStyle = "";
     print "<table class=\"w3-table w3-bordered no-row-lines\" style=\"$TableStyle\">";
-    print "<tr><td colspan=\"4\" class=\"w3-padding\" style=\"vertical-align: middle;\">\n";
+    print "<tr><td colspan=\"2\" class=\"w3-padding w3-center\" style=\"vertical-align: middle;\">\n";
     my $ShortGroup = SmartHTML( {-text => $EventGroups{$EventGroupID}{ShortDescription}, } );
-    print "<div class=\"w3-cell-row\">\n";
-    print "<div class=\"w3-cell\">\n";
-    if ($Mode eq "display") {
-      print "<strong>$Big<a href=\"$ListBy?eventgroupid=$EventGroupID\" class=\"w3-text-teal\">$ShortGroup</a>$EBig</strong>\n";
-    } else {
-      print "<strong>$Big$ShortGroup$EBig</strong>\n";
-    }
-    print "</div>\n";
-    if ($Preferences{Components}{iCal}) {
-      print "<div class=\"w3-cell\" style=\"width: auto;\">\n";
-      print ICalLink({ -eventgroupid => $EventGroupID });
-      print "</div>\n";
-    }
-    print "</div><!-- Closing div w3-cell-row -->\n";
+    print "<span class=\"w3-large\" style=\"font-weight:700;\">$Big$ShortGroup$EBig</span>\n";
     print "</td></tr>\n";
   }
   
   my $EventCount = 0;
   my $Truncated = $FALSE;
   foreach my $EventID (@DisplayEventIDs) {
-    my ($MeetingLink,$ICalLink);
+    my $MeetingLink;
     if ($Mode eq "modify") {
       $MeetingLink = ModifyEventLink($EventID);
     } else {
       $MeetingLink = EventLink(-eventid => $EventID);
-    }
-    if ($Preferences{Components}{iCal}) {
-      $ICalLink = ' '.ICalLink({ -eventid => $EventID });
     }
     unless ($MeetingLink) {
       next;
@@ -1153,16 +1128,16 @@ sub EventsByGroup (%) {
     if ($EventCount > $MaxEvents && $MaxEvents) { # Put ...show all... at bottom
       $Truncated = $TRUE;
       my $Colspan = $SingleGroup ? "3" : "2";
-      print "<th colspan=\"$Colspan\" class=\"w3-padding w3-center\" style=\"vertical-align: middle;\">";
+      print "<th colspan=\"$Colspan\" class=\"w3-padding\" style=\"vertical-align: middle;\">";
       if ($Mode eq "display") {
-        print "<a href=\"$ListAllMeetings?eventgroupid=$EventGroupID\" class=\"w3-text-teal\"><strong>Click here for more events and information.</strong></a>\n";
+        print "<li style=\"margin:0!important;\"><a href=\"$ListAllMeetings?eventgroupid=$EventGroupID\" class=\"w3-text-teal\">Click here</a> to see a complete listing of events.</li>\n";
       } else {
-        print "<a href=\"$ListAllMeetings?eventgroupid=$EventGroupID&amp;mode=modify\" class=\"w3-text-teal\"><strong>Click here for more events and information.</strong></a>\n";
+        print "<li style=\"margin:0!important;\"><a href=\"$ListAllMeetings?eventgroupid=$EventGroupID&amp;mode=modify\" class=\"w3-text-teal\">Click here</a> to see a complete listing of events.</li>\n";
       }
       print "</th>";
       last;
     } else { # Print normal entry
-      print "<td class=\"w3-padding\" style=\"vertical-align: middle;\">$MeetingLink$ICalLink</td>\n";
+      print "<td class=\"w3-padding\" style=\"vertical-align: middle;\">$MeetingLink</td>\n";
       print "<td class=\"w3-padding\" style=\"vertical-align: middle;\">",EuroDate($Conferences{$EventID}{StartDate}),"</td>\n";
 
       if ($SingleGroup) { # Add end date for single group display
@@ -1175,12 +1150,19 @@ sub EventsByGroup (%) {
 
   }
   if (!$Truncated && !$SingleGroup) {
-    print '<tr><th colspan="2" class="w3-padding w3-center" style="vertical-align: middle;">';
+    print '<tr><th colspan="2" class="w3-padding" style="vertical-align: middle;">';
     if ($Mode eq "display") {
-      print "<a href=\"$ListAllMeetings?eventgroupid=$EventGroupID\" class=\"w3-text-teal\"><strong>Click here for more information.</strong></a>\n";
+      print "<li style=\"margin:0!important;\"><a href=\"$ListAllMeetings?eventgroupid=$EventGroupID\" class=\"w3-text-teal\">Click here</a> to see a complete listing of events.</li>\n";
     } else {
-      print "<a href=\"$ListAllMeetings?eventgroupid=$EventGroupID&amp;mode=modify\" class=\"w3-text-teal\"><strong>Click here for more information.</strong></a>\n";
+      print "<li style=\"margin:0!important;\"><a href=\"$ListAllMeetings?eventgroupid=$EventGroupID&amp;mode=modify\" class=\"w3-text-teal\">Click here</a> to see a complete listing of events.</li>\n";
     }
+    print "</th></tr>";
+  }
+  
+  # Add row for documents link (always show for non-SingleGroup mode)
+  unless ($SingleGroup) {
+    print '<tr><th colspan="2" class="w3-padding" style="vertical-align: middle;">';
+    print "<li style=\"margin:0!important;\"><a href=\"$ListBy?eventgroupid=$EventGroupID\" class=\"w3-text-teal\">Click here</a> for a list of event group documents.</li>\n";
     print "</th></tr>";
   }
   
@@ -1189,8 +1171,15 @@ sub EventsByGroup (%) {
   }
   print "</table>\n";
   
+  # Add documents link for SingleGroup mode (after the table)
   if ($SingleGroup) {
-    print "</div><!-- Closing div w3-panel -->\n";
+    print "<div class=\"w3-center w3-margin-top\">\n";
+    print "<li style=\"margin:0!important;\"><a href=\"$ListBy?eventgroupid=$EventGroupID\" class=\"w3-text-teal\">Click here</a> for a list of event group documents.</li>\n";
+    print "</div>\n";
+  }
+  
+  if ($SingleGroup) {
+    print "</div><!-- Closing div w3-paper -->\n";
     print "</div><!-- Closing div w3-container w3-margin -->\n";
   }
 }

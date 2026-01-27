@@ -502,7 +502,7 @@ sub TopicScroll ($) {
                                  -size     => $Size, -labels => \%TopicLabels,
                                  -multiple => $Multiple,
                                  -default  => \@Defaults,
-                                 -class    => "w3-select w3-border",
+                                 -class    => "w3-select w3-border w3-round",
                                  -style    => "width:100%;",
                                  %Options);
 }

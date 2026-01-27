@@ -76,12 +76,13 @@ sub SecurityScroll (%) {
     print $BoxTitle;
   }
 
+  my $Style = $Params{-style} || "width:100%;";
   print $query -> scrolling_list(-name => $Name, -values => \@GroupIDs,
                                  -labels => \%GroupLabels,
                                  -size => $Size, -multiple => $Multiple,
                                  -default => \@Default,
-                                 -class => "w3-select w3-border",
-                                 -style => "width:100%;",
+                                 -class => "w3-select w3-border w3-round",
+                                 -style => $Style,
                                  %Options);
 };
 

@@ -231,7 +231,7 @@ sub TalkTimePullDown {
 
   $query -> param('talktime', $DefaultTime);
   print $query -> popup_menu (-name => 'talktime', -values => \@hours,
-                              -default => $DefaultTime, -class => "w3-select w3-border w3-padding");
+                              -default => $DefaultTime, -class => "w3-select w3-border w3-round");
 }
 
 sub TalkAuthors ($) {

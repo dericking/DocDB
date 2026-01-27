@@ -77,7 +77,7 @@ sub TitleSearchBox { # Box and mode selecter for searches on DocumentTitle
   print "<td class=\"w3-padding\">\n";
   print $query -> popup_menu (-name    => 'titlesearchmode',
                               -values  => \%SearchModes,
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td></tr>\n";
 };
 
@@ -94,7 +94,7 @@ sub AbstractSearchBox { # Field and mode selecter for searches on Abstract
   print "<td class=\"w3-padding\">\n";
   print $query -> popup_menu (-name    => 'abstractsearchmode',
                               -values  => \%SearchModes,
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td></tr>\n";
 };
 
@@ -111,7 +111,7 @@ sub KeywordsSearchBox { # Field and mode selecter for searches on Keywords
   print "<td class=\"w3-padding\">\n";
   print $query -> popup_menu (-name    => 'keywordsearchmode',
                               -values  => \%SearchModes,
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td></tr>\n";
 };
 
@@ -128,7 +128,7 @@ sub RevisionNoteSearchBox { # Field and mode selecter for searches on Note
   print "<td class=\"w3-padding\">\n";
   print $query -> popup_menu (-name    => 'revisionnotesearchmode',
                               -values  => \%SearchModes,
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td></tr>\n";
 };
 
@@ -145,7 +145,7 @@ sub PubInfoSearchBox { # Field and mode selecter for searches on PublicationInfo
   print "<td class=\"w3-padding\">\n";
   print $query -> popup_menu (-name    => 'pubinfosearchmode',
                               -values  => \%SearchModes,
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td></tr>\n";
 };
 
@@ -162,7 +162,7 @@ sub FileNameSearchBox { # Field and mode selecter for searches on Files
   print "<td class=\"w3-padding\">\n";
   print $query -> popup_menu (-name    => 'filesearchmode',
                               -values  => \%SearchModes,
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td></tr>\n";
 };
 
@@ -179,7 +179,7 @@ sub DescriptionSearchBox { # Field and mode selecter for searches on Files
   print "<td class=\"w3-padding\">\n";
   print $query -> popup_menu (-name    => 'filedescsearchmode',
                               -values  => \%SearchModes,
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td></tr>\n";
 };
 
@@ -196,7 +196,7 @@ sub ContentSearchBox { # Field and mode selecter for searches on Files
   print "<td class=\"w3-padding\">\n";
   print $query -> popup_menu (-name    => 'filecontsearchmode',
                               -values  => \%SearchModes,
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td></tr>\n";
 };
 
@@ -316,7 +316,7 @@ sub ModeSelect { # Display Mode selecter for searches
   print $query -> popup_menu (-name    => 'mode',
                               -values  => \%Modes,
                               -default => 'date',
-                              -class   => "w3-select w3-border");
+                              -class   => "w3-select w3-border w3-round");
   print "</td>\n";
   print "</tr>\n";
   print "</table>\n";

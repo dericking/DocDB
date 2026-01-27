@@ -394,14 +394,14 @@ sub AuthorScroll (%) {
                                    -labels => \%AuthorLabels,
                                    -size => $Size, -multiple => $Multiple,
                                    -default => \@Defaults, -disabled,
-                                   -class => "w3-select w3-border",
+                                   -class => "w3-select w3-border w3-round",
                                    -style => "width:100%;");
   } else {
     print $query -> scrolling_list(-name => $Name, -values => \@ActiveIDs,
                                    -labels => \%AuthorLabels,
                                    -size => $Size, -multiple => $Multiple,
                                    -default => \@Defaults,
-                                   -class => "w3-select w3-border",
+                                   -class => "w3-select w3-border w3-round",
                                    -style => "width:100%;");
   }
 }
@@ -427,7 +427,7 @@ sub AuthorTextEntry ($;@) {
   print FormElementTitle(-helplink => $HelpLink, -helptext  => $HelpText,
                          -required => $Required, -extratext => $ExtraText, );
   print $query -> textarea (-name    => $Name, -default => $AuthorManDefault,
-                            -columns => 25,    -rows    => 8, -class => "w3-input w3-border");
+                            -columns => 25,    -rows    => 8, -class => "w3-input w3-border w3-round");
 };
 
 sub InstitutionEntryBox (;%) {

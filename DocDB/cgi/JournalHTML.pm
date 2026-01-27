@@ -143,11 +143,11 @@ sub ReferenceForm {
     my $JournalDefault = $RevisionReferences{$ReferenceID}{JournalID};
     my $VolumeDefault  = $RevisionReferences{$ReferenceID}{Volume}   ;
     my $PageDefault    = $RevisionReferences{$ReferenceID}{Page}     ;
-    print "<td><b>Journal: </b>\n";
+    print "<td style=\"padding-left:0px;\"><b>Journal: </b>\n";
     print $query -> popup_menu(-name => "journal", -values => \@JournalIDs,
                                    -labels => \%JournalLabels,
                                    -default => $JournalDefault,
-                                   -class => "w3-select w3-border");
+                                   -class => "w3-select w3-border w3-round");
     print "</td>";
     print "<td><b>Volume:</b> \n";
     print $query -> textfield (-name => 'volume',

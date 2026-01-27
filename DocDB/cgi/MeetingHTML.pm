@@ -1228,7 +1228,7 @@ sub EventGroupSelect ($) {
   print $query -> scrolling_list(-name     => $Name,     -values  => \@EventGroupIDs,
                                  -labels   => \%Labels,  -size    => $Size,
                                  -multiple => $Multiple, -default => \@Defaults,
-                                 -class    => "w3-select w3-border w3-padding",
+                                 -class    => "w3-select w3-border w3-round",
                                  -style    => "width:100%;",
                                  %Options);
 }
@@ -1348,7 +1348,7 @@ sub EventCopyButton (%) {
   print "&nbsp;in&nbsp;\n";
   print "</div>\n";
   print "<div class=\"w3-cell\" style=\"\">\n";
-  print $query -> popup_menu(-name => "offsetdays", -values => \@Offsets, -labels => \%Labels, -default => 7, -class => "w3-select w3-padding-small w3-round w3-border");
+  print $query -> popup_menu(-name => "offsetdays", -values => \@Offsets, -labels => \%Labels, -default => 7, -class => "w3-select w3-round w3-border");
   print "</div>\n";
   print "</div><!-- Closing div w3-cell-row -->\n";
   print $query -> end_form,"\n";

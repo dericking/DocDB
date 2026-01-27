@@ -13,6 +13,8 @@
     accent-color: #004080 !important; /* docdb-color (navy) */
 }
 
+/* Additional accent color for calendar today cell found below. */
+
 /* Calendar layout */
 #CalendarTable {
     width: 100%;
@@ -28,7 +30,12 @@
 
 #CalendarTable td.CalendarCell {
     vertical-align: top;
-  }
+}
+
+/* Calendar today cell style */
+#CalendarTable td.CalendarCell.CalendarToday {
+    border: 3px solid #004080 !important; /* docdb-color */
+}
   
 /* Use instead of <strong> */
 #CalendarTable .u-fw700 { font-weight: 700 !important; }

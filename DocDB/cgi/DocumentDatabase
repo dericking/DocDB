@@ -90,11 +90,9 @@ if ($Preferences{Components}{Calendar}) {
   @TodaySessionIDs = sort SessionsByDateTime @TodaySessionIDs;
 }
 
+### Main body content
+
 print "<div id=\"DocDBHomeBody\" class=\"w3-container w3-row\">\n";
-
-### Header Messages (full width)
-
-DocDBHomeHeader();
 
 ### Left Column
 

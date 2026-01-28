@@ -46,30 +46,34 @@ GetAuthors();
 print $query -> header( -charset => $HTTP_ENCODING );
 DocDBHeader("Add Authors","",-scripts => ["PopUps"]);
 
+print "<div id=\"AuthorAddFormContainer\" class=\"w3-container\">\n";
 print $query -> start_multipart_form('POST',"$AuthorAdd");
 
-
-print "<p><strong>You are about to add an author to the $Project document
-database.</strong> Anyone is allowed to add authors. <strong>Please be
-careful</strong> and make sure to put the authors first name, last name, and
+print "<div class=\"w3-panel w3-paper w3-border w3-border-gray w3-round w3-padding\">\n";
+print "<p><b>You are about to add an author to the $Project document
+database.</b> Anyone is allowed to add authors. <b>Please be
+careful</b> and make sure to put the author's first name, last name, and
 middle initials (with periods) in the right place. If you make a mistake,
-<span class=\"Warning\">DO NOT</span> enter the author again. Contact an
-<a href=\"mailto:$DBWebMasterEmail\">administrator</a> and explain the problem.
-Required fields are denoted by $RequiredMark.  Click any
-<span class=\"Help\">highlighted link</span> for quick help.</p>\n";
+<span class=\"w3-text-red\"><b>DO NOT</b></span> enter the author again. Contact an
+<a href=\"mailto:$DBWebMasterEmail\" class=\"w3-text-docdb-color\">administrator</a> and explain the problem.
+<b>Required fields are denoted by $RequiredMark.</b> Click any
+<a href=\"#\" class=\"w3-text-docdb-color\">highlighted link</a> for quick help.</p>\n";
 
-print "<table class=\"CenteredTable HighPaddedTable\">\n";
+print "<table class=\"w3-table w3-bordered no-row-lines\">\n";
 print "<tr>\n";
-print "<td>\n"; InstitutionSelect(-required => $TRUE); print "</td>\n";
-print "<td>\n"; NameEntryBox();      print "</td>\n";
+print "<td class=\"w3-padding\">\n"; InstitutionSelect(-required => $TRUE); print "</td>\n";
+print "<td class=\"w3-padding\">\n"; NameEntryBox();      print "</td>\n";
 print "</tr>\n";
-print "<tr><td class=\"SubmitCell\" colspan=\"2\">";
-print $query -> submit (-value => "Add Author");
+print "<tr><td class=\"w3-padding\" colspan=\"2\">";
+print $query -> submit (-class => "w3-button w3-docdb-color w3-border w3-border-black w3-round", -value => "Add Author");
 print "</td></tr></table>\n";
+print "</div><!-- Closing div w3-panel -->\n";
 print $query -> end_multipart_form;
 
 print "<h3>Existing Authors:</h3>\n";
 
 AuthorsTable();
+
+print "</div><!-- Closing div id AuthorAddFormContainer -->\n";
 
 DocDBFooter($DBWebMasterEmail,$DBWebMasterName);

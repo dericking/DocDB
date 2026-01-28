@@ -258,10 +258,12 @@ sub InstitutionSelect (;%) { # Scrolling selectable list for institutions
   if ($Disabled) {
     print $query -> scrolling_list(-name => "inst", -values => \@InstIDs,
                                    -labels => \%InstLabels,  -size => 10,
+                                   -class => "w3-select w3-border w3-round-large",
                                    -disabled);
   } else {
     print $query -> scrolling_list(-name => "inst", -values => \@InstIDs,
-                                   -labels => \%InstLabels,  -size => 10);
+                                   -labels => \%InstLabels,  -size => 10,
+                                   -class => "w3-select w3-border w3-round-large");
   }
 };
 
@@ -283,14 +285,18 @@ sub NameEntryBox (;%) {
                                       -required  => $TRUE);
   print $ElementTitle,"\n";
   print $query -> textfield (-name => 'first',
-                             -size => 20, -maxlength => 32,$Booleans);
+                             -size => 20, -maxlength => 32,
+                             -class => "w3-input w3-border w3-round",
+                             $Booleans);
   print "</td></tr>\n";
   print "<tr><td>\n";
   $ElementTitle = FormElementTitle(-helplink  => "authorentry",
                                    -helptext  => "Middle Initial(s)");
   print $ElementTitle,"\n";
   print $query -> textfield (-name => 'middle',
-                             -size => 10, -maxlength => 16,$Booleans);
+                             -size => 10, -maxlength => 16,
+                             -class => "w3-input w3-border w3-round",
+                             $Booleans);
   print "</td></tr>\n";
   print "<tr><td>\n";
   $ElementTitle = FormElementTitle(-helplink  => "authorentry",
@@ -298,7 +304,9 @@ sub NameEntryBox (;%) {
                                    -required  => $TRUE);
   print $ElementTitle,"\n";
   print $query -> textfield (-name => 'lastname',
-                             -size => 20, -maxlength => 32,$Booleans);
+                             -size => 20, -maxlength => 32,
+                             -class => "w3-input w3-border w3-round",
+                             $Booleans);
   print "</td>\n";
   print "</tr></table>\n";
 }
